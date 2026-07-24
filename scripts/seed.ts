@@ -17,6 +17,11 @@
  * (pruning from a possibly-partial checkout would be a data-loss hazard);
  * remove entries explicitly via the API's DELETE.
  * Requires Node >= 23.6 (runs TypeScript natively; see package.json engines).
+ *
+ * Deliberately covers ONLY docs + changelog: these are the two legacy
+ * repo-authored types being migrated. Future registry types are API-native
+ * (no repo markdown exists to import), so this script does not iterate the
+ * registry.
  */
 import fs from 'node:fs';
 import path from 'node:path';
