@@ -26,7 +26,7 @@ async function fetchEntries<T>(type: ContentType<T>): Promise<T[]> {
     const snap = await getDb().collection(type.collection).get();
     const entries: T[] = [];
     for (const doc of snap.docs) {
-      const parsed = type.schema.safeParse(doc.data());
+      const parsed = type.storedSchema.safeParse(doc.data());
       if (parsed.success) {
         entries.push(parsed.data);
       } else {

@@ -8,12 +8,26 @@ import { z } from 'zod';
  * else needs code.
  */
 
-/** Fields every content type shares. `updatedAt` is server-stamped on write. */
-const base = z.object({
+/**
+ * Fields every content type shares. `updatedAt` is server-stamped on write.
+ * Strict objects: PUT bodies with unknown/misspelled fields are rejected
+ * instead of silently dropped (this API is automation-facing).
+ */
+const base = z.strictObject({
   slug: z.string().regex(/^[a-z0-9][a-z0-9-]*$/, 'lowercase letters, digits and dashes'),
   title: z.string().min(1),
   bodyMd: z.string(),
 });
+
+/** YYYY-MM-DD that is also a real calendar date. */
+const calendarDate = z
+  .string()
+  .regex(/^\d{4}-\d{2}-\d{2}$/, 'YYYY-MM-DD')
+  .refine((value) => {
+    const [y, m, d] = value.split('-').map(Number);
+    const date = new Date(Date.UTC(y, m - 1, d));
+    return date.getUTCFullYear() === y && date.getUTCMonth() === m - 1 && date.getUTCDate() === d;
+  }, 'not a real calendar date');
 
 const docsSchema = base.extend({
   /** Sidebar position; entries without one sort last (matches the old frontmatter contract). */
@@ -22,7 +36,7 @@ const docsSchema = base.extend({
 });
 
 const changelogSchema = base.extend({
-  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'YYYY-MM-DD'),
+  date: calendarDate,
   summary: z.string().optional(),
 });
 
@@ -36,8 +50,10 @@ export interface ContentType<T = Record<string, unknown>> {
   collection: string;
   /** Public URL base the entries render under. */
   urlBase: string;
-  /** PUT-body schema; stored docs additionally carry `updatedAt` (ISO string). */
+  /** PUT-body schema (strict — unknown fields rejected). */
   schema: z.ZodType<T>;
+  /** Read-path schema: the PUT shape plus the server-stamped `updatedAt`. */
+  storedSchema: z.ZodType<T>;
   /** Document id for an entry — the `[id]` segment of the content API. */
   idFor: (entry: T) => string;
   /** Presentation order (applied in-memory; reads are whole-collection, no indexes). */
@@ -51,6 +67,7 @@ const docsType: ContentType<DocsEntry> = {
   collection: 'marketing_docs',
   urlBase: '/docs',
   schema: docsSchema,
+  storedSchema: docsSchema.extend({ updatedAt: z.string().optional() }),
   idFor: (e) => e.slug,
   compare: (a, b) => (a.order === b.order ? a.title.localeCompare(b.title) : a.order - b.order),
   flags: { sitemap: true, llmsTxt: true, rss: false },
@@ -61,6 +78,7 @@ const changelogType: ContentType<ChangelogEntry> = {
   collection: 'marketing_changelog',
   urlBase: '/changelog',
   schema: changelogSchema,
+  storedSchema: changelogSchema.extend({ updatedAt: z.string().optional() }),
   idFor: (e) => `${e.date}-${e.slug}`,
   compare: (a, b) => (a.date === b.date ? a.slug.localeCompare(b.slug) : b.date.localeCompare(a.date)),
   flags: { sitemap: true, llmsTxt: true, rss: true },

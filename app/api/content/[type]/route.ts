@@ -15,7 +15,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ type: s
   const snap = await getDb().collection(type.collection).get();
   const items = snap.docs
     .map((d) => d.data())
-    .filter((d) => type.schema.safeParse(d).success)
+    .filter((d) => type.storedSchema.safeParse(d).success)
     .sort((a, b) => type.compare(a, b));
   return NextResponse.json({ items });
 }

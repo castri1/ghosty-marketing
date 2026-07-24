@@ -8,9 +8,13 @@
  *   MARKETING_CONTENT_TOKEN=… node scripts/seed.ts [path-to-ghosty-checkout]
  *   env: GHOSTY_REPO (fallback for the arg), MARKETING_URL (default http://localhost:3000)
  *
- * Idempotent: PUT is an upsert, so re-running converges to the same state.
- * Run by the operator in OPS O1 against the live service (see ghosty
- * runbook 13); usable any time against a local dev server.
+ * Idempotent for what it touches: PUT is an upsert, so re-running re-writes
+ * the same entries. It deliberately NEVER deletes destination entries absent
+ * from the checkout — pruning live content based on a possibly-partial local
+ * checkout would be a data-loss hazard; remove entries explicitly via the
+ * API's DELETE. Run by the operator in OPS O1 against the live service (see
+ * ghosty runbook 13); usable any time against a local dev server.
+ * Requires Node >= 23.6 (runs TypeScript natively; see package.json engines).
  */
 import fs from 'node:fs';
 import path from 'node:path';
