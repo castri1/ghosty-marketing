@@ -29,6 +29,10 @@ sign-in/join CTA here links there absolutely.
 
 - `npm install` / `npm run dev` — local dev at http://localhost:3000.
 - `npm run build` — production build (`output: 'standalone'`); `npm run typecheck` — tsc.
+- Production serving = `node .next/standalone/server.js`, and the build output alone is
+  incomplete: `public/` and `.next/static` must be copied into `.next/standalone/` (see the
+  note in `next.config.mjs`) — the M4 deploy image does this. `npm start` (`next start`) is a
+  local convenience only; it is not the standalone production path.
 - `NEXT_PUBLIC_CONSOLE_URL` (default `https://console.getghosty.dev`) — console CTA target,
   inlined at build time (`lib/console-url.ts`).
 - Commit straight to `main` (solo, pre-cutover). No CI/deploy yet — that lands in M4; the
