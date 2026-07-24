@@ -8,12 +8,14 @@
  *   MARKETING_CONTENT_TOKEN=… node scripts/seed.ts [path-to-ghosty-checkout]
  *   env: GHOSTY_REPO (fallback for the arg), MARKETING_URL (default http://localhost:3000)
  *
- * Idempotent for what it touches: PUT is an upsert, so re-running re-writes
- * the same entries. It deliberately NEVER deletes destination entries absent
- * from the checkout — pruning live content based on a possibly-partial local
- * checkout would be a data-loss hazard; remove entries explicitly via the
- * API's DELETE. Run by the operator in OPS O1 against the live service (see
- * ghosty runbook 13); usable any time against a local dev server.
+ * This is the INITIAL-IMPORT tool (operator-run in OPS O1, before any
+ * API-authored content exists; see ghosty runbook 13) — after the import,
+ * publishing is API-only. PUT is a last-write-wins upsert: re-running against
+ * a store that has since been edited through the API OVERWRITES those edits
+ * with the checkout's version — don't re-run casually post-cutover. It
+ * deliberately NEVER deletes destination entries absent from the checkout
+ * (pruning from a possibly-partial checkout would be a data-loss hazard);
+ * remove entries explicitly via the API's DELETE.
  * Requires Node >= 23.6 (runs TypeScript natively; see package.json engines).
  */
 import fs from 'node:fs';
@@ -23,6 +25,15 @@ import { parseFrontmatter } from '../lib/frontmatter.ts';
 const repo = process.argv[2] ?? process.env.GHOSTY_REPO;
 const target = (process.env.MARKETING_URL ?? 'http://localhost:3000').replace(/\/+$/, '');
 const token = process.env.MARKETING_CONTENT_TOKEN;
+
+// The bearer token is the content system's only write credential — never
+// send it over plaintext HTTP to a non-loopback host.
+const targetUrl = new URL(target);
+const loopback = ['localhost', '127.0.0.1', '[::1]'].includes(targetUrl.hostname);
+if (targetUrl.protocol !== 'https:' && !loopback) {
+  console.error(`MARKETING_URL must be https (got ${target}) — plain http is only allowed for localhost`);
+  process.exit(1);
+}
 
 if (!repo || !fs.existsSync(repo)) {
   console.error('usage: MARKETING_CONTENT_TOKEN=… node scripts/seed.ts <path-to-ghosty-checkout>');

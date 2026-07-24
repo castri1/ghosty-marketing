@@ -123,9 +123,11 @@ sanitization before shipping that path.
   the platform secret store, wired in M4).
 - Seed: `MARKETING_CONTENT_TOKEN=… npm run seed -- ~/projects/claude-cli/ghosty` (env
   `MARKETING_URL` targets a non-local server; PUT = upsert, so re-runs re-write the same
-  entries — the seed never deletes; remove entries via the API's DELETE). Needs Node ≥ 23.6
-  (native TypeScript; declared in `engines`). The operator runs this against the live service
-  in OPS O1.
+  entries — the seed never deletes; remove entries via the API's DELETE). It is the
+  **initial-import tool**: last-write-wins, so re-running after content has been edited
+  through the API overwrites those edits — post-cutover, publish via the API instead.
+  Non-loopback targets must be https. Needs Node ≥ 23.6 (native TypeScript; declared in
+  `engines`). The operator runs this against the live service in OPS O1.
 - `npm run build` — production build (`output: 'standalone'`); `npm run typecheck` — tsc.
 - Production serving = `node .next/standalone/server.js`, and the build output alone is
   incomplete: `public/` and `.next/static` must be copied into `.next/standalone/` (see the

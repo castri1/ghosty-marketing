@@ -29,7 +29,10 @@ export async function GET(_req: Request, { params }: Params) {
 
   const doc = await getDb().collection(type.collection).doc(id).get();
   if (!doc.exists) return NextResponse.json({ error: 'not found' }, { status: 404 });
-  return NextResponse.json(doc.data());
+  // Same contract as the list endpoint: malformed stored entries don't exist.
+  const parsed = type.storedSchema.safeParse(doc.data());
+  if (!parsed.success) return NextResponse.json({ error: 'not found' }, { status: 404 });
+  return NextResponse.json(parsed.data);
 }
 
 export async function PUT(req: Request, { params }: Params) {

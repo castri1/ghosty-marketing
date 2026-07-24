@@ -1,6 +1,12 @@
 import { unstable_cache } from 'next/cache';
 import { marked } from 'marked';
-import { CONTENT_TYPES, type ChangelogEntry, type ContentType, type DocsEntry } from './content-types';
+import {
+  CONTENT_TYPES,
+  requireContentType,
+  type ChangelogEntry,
+  type ContentType,
+  type DocsEntry,
+} from './content-types';
 import { getDb } from './firestore';
 
 /**
@@ -86,8 +92,8 @@ export interface DocPage {
   html: string;
 }
 
-const docsType = CONTENT_TYPES[0];
-const changelogType = CONTENT_TYPES[1];
+const docsType = requireContentType<DocsEntry>('docs');
+const changelogType = requireContentType<ChangelogEntry>('changelog');
 
 /** All docs topics, sidebar order. */
 export async function getDocPages(): Promise<DocPage[]> {

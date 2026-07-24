@@ -92,3 +92,10 @@ export function findContentType(key: string): ContentType | undefined {
   const types = CONTENT_TYPES as readonly unknown[] as readonly ContentType[];
   return types.find((t) => t.key === key);
 }
+
+/** Key-based lookup for typed consumers that know their entry shape. */
+export function requireContentType<T>(key: string): ContentType<T> {
+  const type = findContentType(key);
+  if (!type) throw new Error(`unregistered content type: ${key}`);
+  return type as unknown as ContentType<T>;
+}
