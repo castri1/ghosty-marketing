@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
 import { GhostMark } from '@/components/GhostMark';
 import { consoleUrl } from '@/lib/console-url';
-import { formatReleaseDate, releases } from '@/lib/content';
+import { formatReleaseDate, getReleases } from '@/lib/content';
+
+export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: 'Changelog — Ghosty',
@@ -9,8 +11,9 @@ export const metadata: Metadata = {
     'What shipped on the Ghosty platform: new capabilities, improvements, and fixes, release by release.',
 };
 
-/** Public release notes — renders fixtures/releases/*.md newest-first. */
-export default function Changelog() {
+/** Public release notes — renders the changelog registry entries newest-first. */
+export default async function Changelog() {
+  const releases = await getReleases();
   return (
     <>
       <header className="docs-hero">

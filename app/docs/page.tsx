@@ -2,7 +2,9 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { GhostMark } from '@/components/GhostMark';
 import { consoleUrl } from '@/lib/console-url';
-import { docPages } from '@/lib/content';
+import { getDocPages } from '@/lib/content';
+
+export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: 'Docs — Ghosty',
@@ -11,7 +13,8 @@ export const metadata: Metadata = {
 };
 
 /** Docs / quickstart — ported from the console's marketing/Docs.tsx. */
-export default function Docs() {
+export default async function Docs() {
+  const docPages = await getDocPages();
   return (
     <>
       <header className="docs-hero">
@@ -316,7 +319,7 @@ export default function Docs() {
         </p>
       </section>
 
-      {/* ── GUIDES (fixtures/site/*.md) ───────────── */}
+      {/* ── GUIDES (docs registry entries) ────────── */}
       {docPages.length > 0 && (
         <section id="guides">
           <p className="section-label">Guides — every capability, explained</p>

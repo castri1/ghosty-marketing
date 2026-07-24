@@ -1,71 +1,78 @@
-import fs from 'node:fs';
-import path from 'node:path';
+import { unstable_cache } from 'next/cache';
 import { marked } from 'marked';
+import { CONTENT_TYPES, type ChangelogEntry, type ContentType, type DocsEntry } from './content-types';
+import { getDb } from './firestore';
 
 /**
- * Fixture-markdown loaders for the marketing surfaces, ported from the
- * console's src/marketing/content.ts (CAS-93):
+ * Registry-driven cached readers for the marketing pages (CAS-96 — replaced
+ * the CAS-93 fixture loaders; the shapes pages consume are unchanged).
  *
- *   fixtures/releases/YYYY-MM-DD-<slug>.md  →  getghosty.dev/changelog
- *   fixtures/site/<topic>.md                →  getghosty.dev/docs/<topic>
+ * Caching: each type's list is an `unstable_cache` entry tagged with the
+ * type key. Writes through the content API call `revalidateTag(key)`, so
+ * pages refresh immediately after a publish; the 300s revalidate here (and
+ * `export const revalidate = 300` on the pages) is the backstop.
  *
- * The console bundled the same files via Vite raw glob imports; here they are
- * read from the repo's fixtures/ at build time (all pages are static). M2
- * replaces this file with the Firestore content registry — keep the parser
- * and rendering identical so that swap is invisible.
+ * Build-time posture: reads swallow store-unavailable errors and return [] —
+ * `next build` needs no database credentials (pages prerender empty and fill
+ * at runtime via ISR). See CLAUDE.md.
  *
- * Content is repo-authored (trusted), so rendering with marked +
- * dangerouslySetInnerHTML is deliberate — no sanitizer needed.
+ * Content is writable ONLY through the bearer-token content API (trusted
+ * authors), which is the sole reason rendering with marked +
+ * dangerouslySetInnerHTML downstream is acceptable — keep that invariant.
  */
 
-function readDir(dir: string): Record<string, string> {
-  const abs = path.join(process.cwd(), dir);
-  const out: Record<string, string> = {};
-  for (const name of fs.readdirSync(abs)) {
-    if (!name.endsWith('.md')) continue;
-    out[name] = fs.readFileSync(path.join(abs, name), 'utf8');
+async function fetchEntries<T>(type: ContentType<T>): Promise<T[]> {
+  try {
+    const snap = await getDb().collection(type.collection).get();
+    const entries: T[] = [];
+    for (const doc of snap.docs) {
+      const parsed = type.schema.safeParse(doc.data());
+      if (parsed.success) {
+        entries.push(parsed.data);
+      } else {
+        console.warn(`[content] skipping malformed ${type.key} entry ${doc.id}`);
+      }
+    }
+    return entries.sort(type.compare);
+  } catch (err) {
+    console.warn(
+      `[content] ${type.key} read unavailable (${err instanceof Error ? err.message : String(err)}) — serving empty`,
+    );
+    return [];
   }
-  return out;
 }
 
-const releaseFiles = readDir('fixtures/releases');
-const siteFiles = readDir('fixtures/site');
+const readers = new Map(
+  CONTENT_TYPES.map((t) => [
+    t.key,
+    unstable_cache(() => fetchEntries(t as ContentType<unknown>), ['content-list', t.key], {
+      tags: [t.key],
+      revalidate: 300,
+    }),
+  ]),
+);
 
-interface Parsed {
-  meta: Record<string, string>;
-  body: string;
-}
-
-/** Minimal `--- key: value ---` frontmatter parser (flat string values only). */
-function parseFrontmatter(raw: string): Parsed {
-  const match = /^---\r?\n([\s\S]*?)\r?\n---\r?\n?/.exec(raw);
-  if (!match) return { meta: {}, body: raw };
-  const meta: Record<string, string> = {};
-  for (const line of match[1].split(/\r?\n/)) {
-    const idx = line.indexOf(':');
-    if (idx === -1) continue;
-    const key = line.slice(0, idx).trim();
-    const value = line
-      .slice(idx + 1)
-      .trim()
-      .replace(/^["']|["']$/g, '');
-    if (key) meta[key] = value;
-  }
-  return { meta, body: raw.slice(match[0].length) };
+/** Sorted, schema-valid entries of a registry type (cached; see header). */
+export function listContent<T>(type: ContentType<T>): Promise<T[]> {
+  const read = readers.get(type.key);
+  if (!read) throw new Error(`unregistered content type: ${type.key}`);
+  return read() as Promise<T[]>;
 }
 
 /** marked.parse is sync unless async extensions are registered (none are). */
-function render(markdown: string): string {
+export function render(markdown: string): string {
   return marked.parse(markdown) as string;
 }
 
+// ── Page-facing shapes (unchanged from the CAS-93 port) ──────────────────
+
 export interface ReleaseEntry {
-  /** URL-safe id, e.g. "integrations" from 2026-07-14-integrations.md. */
+  /** URL-safe id, e.g. "integrations" from the 2026-07-14-integrations entry. */
   slug: string;
-  /** YYYY-MM-DD from the filename prefix. */
+  /** YYYY-MM-DD. */
   date: string;
   title: string;
-  /** Optional one-liner (frontmatter `summary`) — shown under the title. */
+  /** Optional one-liner — shown under the title. */
   summary?: string;
   html: string;
 }
@@ -79,44 +86,35 @@ export interface DocPage {
   html: string;
 }
 
-const RELEASE_FILE = /^(\d{4}-\d{2}-\d{2})-(.+)\.md$/;
-
-/** All changelog entries, newest first. */
-export const releases: ReleaseEntry[] = Object.entries(releaseFiles)
-  .map(([name, raw]): ReleaseEntry | null => {
-    const file = RELEASE_FILE.exec(name);
-    if (!file) return null; // README.md and anything not date-prefixed
-    const { meta, body } = parseFrontmatter(raw);
-    return {
-      slug: file[2],
-      date: meta.date || file[1],
-      title: meta.title || file[2],
-      ...(meta.summary ? { summary: meta.summary } : {}),
-      html: render(body),
-    };
-  })
-  .filter((e): e is ReleaseEntry => e !== null)
-  .sort((a, b) => (a.date === b.date ? a.slug.localeCompare(b.slug) : b.date.localeCompare(a.date)));
+const docsType = CONTENT_TYPES[0];
+const changelogType = CONTENT_TYPES[1];
 
 /** All docs topics, sidebar order. */
-export const docPages: DocPage[] = Object.entries(siteFiles)
-  .map(([name, raw]): DocPage | null => {
-    if (name.toUpperCase() === 'README.MD') return null;
-    const { meta, body } = parseFrontmatter(raw);
-    const slug = name.replace(/\.md$/, '');
-    return {
-      slug,
-      title: meta.title || slug,
-      ...(meta.description ? { description: meta.description } : {}),
-      order: meta.order && Number.isFinite(Number(meta.order)) ? Number(meta.order) : 999,
-      html: render(body),
-    };
-  })
-  .filter((p): p is DocPage => p !== null)
-  .sort((a, b) => (a.order === b.order ? a.title.localeCompare(b.title) : a.order - b.order));
+export async function getDocPages(): Promise<DocPage[]> {
+  const entries = await listContent<DocsEntry>(docsType);
+  return entries.map((e) => ({
+    slug: e.slug,
+    title: e.title,
+    ...(e.description ? { description: e.description } : {}),
+    order: e.order,
+    html: render(e.bodyMd),
+  }));
+}
 
-export function findDocPage(slug: string): DocPage | undefined {
-  return docPages.find((p) => p.slug === slug);
+export async function findDocPage(slug: string): Promise<DocPage | undefined> {
+  return (await getDocPages()).find((p) => p.slug === slug);
+}
+
+/** All changelog entries, newest first. */
+export async function getReleases(): Promise<ReleaseEntry[]> {
+  const entries = await listContent<ChangelogEntry>(changelogType);
+  return entries.map((e) => ({
+    slug: e.slug,
+    date: e.date,
+    title: e.title,
+    ...(e.summary ? { summary: e.summary } : {}),
+    html: render(e.bodyMd),
+  }));
 }
 
 /** "2026-07-14" → "July 14, 2026" (UTC-safe: no Date parsing of bare dates). */
