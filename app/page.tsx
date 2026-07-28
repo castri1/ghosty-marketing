@@ -1,4 +1,13 @@
+import type { Metadata } from 'next';
 import { consoleUrl } from '@/lib/console-url';
+import { pageMeta } from '@/lib/site';
+
+export const metadata: Metadata = pageMeta({
+  title: 'Ghosty — Build software around your work',
+  description:
+    'Describe the software your work needs, shape it with the AI assistant you already like, and put it to work with Ghosty.',
+  path: '/',
+});
 
 /** A deliberately simple beta page: what Ghosty is, that it's in beta, how to join. */
 export default function Home() {

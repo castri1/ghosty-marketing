@@ -11,7 +11,12 @@ sign-in/join CTA here links there absolutely.
 - `app/` — Next.js App Router pages: `/` (home), `/docs`, `/docs/[slug]`, `/changelog`,
   `/privacy`, `/terms`, plus the content API under `app/api/content/`. `layout.tsx` is the
   shared shell (nav + footer + the `.mkt` scope wrapper), ported from the console's
-  `MarketingLayout.tsx`.
+  `MarketingLayout.tsx`. SEO/agent surfaces (CAS-97): `app/sitemap.ts`, `app/robots.ts`,
+  `app/llms.txt/`, `app/raw/[type]/[id]/` (raw markdown), `app/feed/[type]/` (RSS),
+  `app/health/`.
+- `lib/site.ts` — `SITE_URL` (canonical origin `https://getghosty.dev`, override with
+  `NEXT_PUBLIC_SITE_URL`, inlined at build time) + `pageMeta()`, the helper every page's
+  metadata goes through (title/description/canonical/OpenGraph/Twitter, uniform).
 - `lib/content-types.ts` — **the content-type registry** (CAS-96). Every generic surface
   (API, cached readers, seed — and M3's sitemap/llms.txt/RSS) iterates this one file.
 - `lib/content.ts` — registry-driven cached readers + the `marked` renderer the pages use.
@@ -79,10 +84,14 @@ sanitization before shipping that path.
 
 ### How to add a content type
 
-1. Add a registry entry in `lib/content-types.ts`: key, collection (`marketing_<key>`),
-   `urlBase`, zod schema extending the shared base, `idFor`, `compare`, and the
-   `{sitemap, llmsTxt, rss}` flags. The API, caching, seed shape — and M3's sitemap/llms.txt/
-   RSS — pick it up from the registry with zero surface code.
+1. Add a registry entry in `lib/content-types.ts`: key, `label` (human plural name —
+   llms.txt section heading, RSS channel title), collection (`marketing_<key>`), `urlBase`,
+   zod schema extending the shared base, `idFor`, `pathFor` (canonical public path of an
+   entry — a standalone page like docs' `/docs/<slug>`, or a list-page fragment like
+   changelog's `/changelog#<slug>`), `compare`, and the `{sitemap, llmsTxt, rss}` flags.
+   The API, caching, seed shape, sitemap, llms.txt, raw-markdown URLs, and RSS all pick it
+   up from the registry with **zero surface code** — the flags alone control inclusion (see
+   "SEO + agent surface" below).
 2. Create `app/<urlBase>/page.tsx` + `app/<urlBase>/[slug]/page.tsx` composing the default
    templates. List page:
 
@@ -111,6 +120,41 @@ sanitization before shipping that path.
   "fix" the try/catch in `lib/content.ts` — M4's Docker build depends on it.
 - After publishing, pages reflect the change on the next request (tag invalidation); worst
   case 300s if an invalidation is missed.
+
+## SEO + agent surface (CAS-97)
+
+Every list-like public surface is **registry-driven**: it iterates `lib/content-types.ts`,
+and a type's `{sitemap, llmsTxt, rss}` flags control inclusion — adding/flagging a type
+changes these surfaces with no per-surface code.
+
+- **Page metadata**: every page builds `metadata`/`generateMetadata` via `pageMeta()` in
+  `lib/site.ts` — title, description, canonical on `SITE_URL`, OpenGraph + Twitter card
+  (`/og.png`, resolved absolute via `metadataBase` in `app/layout.tsx`). Docs detail pages
+  use the entry's `description` field. New pages must do the same. Meta descriptions are
+  user/agent-visible → vendor-free language; page copy stays verbatim (house rules).
+- **`/sitemap.xml`** (`app/sitemap.ts`): static pages + every entry of every `sitemap: true`
+  type. Entries whose `pathFor` is a list-page fragment (changelog) are skipped — fragments
+  aren't valid sitemap URLs; the list page covers them. `lastModified` from `updatedAt`.
+- **`/robots.txt`** (`app/robots.ts`): allow all + sitemap pointer.
+- **`/llms.txt`** (`app/llms.txt/route.ts`): markdown site index per the llms.txt
+  convention — one section per `llmsTxt: true` type, each entry as title + canonical URL +
+  raw-markdown URL.
+- **Raw markdown**: `GET <urlBase>/<id>.md` → the entry's `bodyMd` as `text/markdown`
+  (docs: `/docs/webhooks.md`; changelog: `/changelog/2026-08-01-faster-builds.md` — the id,
+  not the slug). One generic rewrite in `next.config.mjs` (`/:base/:id.md` → `/raw/:base/:id`);
+  the handler resolves the type by urlBase segment and 404s anything unregistered. All
+  registry types get this (their content is public anyway via the content API).
+- **RSS**: `GET /<key>.xml` → RSS 2.0 feed of a `rss: true` date-sorted type (needs a `date`
+  field), via the `/:key.xml` → `/feed/:key` rewrite — `/changelog.xml` today; a future
+  articles/news type inherits it by flipping the flag. Types without the flag → 404. Real
+  routes (`/sitemap.xml`) win over the rewrite (afterFiles).
+- **`/health`**: force-dynamic 200 `ok`, no store access — the platform's smoke target for
+  this service after the apex cutover (ghosty repo runbook 13).
+- **`public/og.png`**: static 1200×630 house-brand card (light slate + emerald, DM Sans).
+  Regenerate by screenshotting a 1200×630 HTML mock in headless Chrome if the brand changes.
+- The content-reading surfaces (sitemap, llms.txt, raw md, RSS) read through the cached
+  `listContent` readers with `revalidate = 300` and inherit tag invalidation — a publish
+  refreshes them like the pages, and they serve empty (not error) on credential-less builds.
 
 ## Dev
 

@@ -46,6 +46,8 @@ export type ChangelogEntry = z.infer<typeof changelogSchema>;
 export interface ContentType<T = Record<string, unknown>> {
   /** Registry key — also the API path segment and the cache tag. */
   key: string;
+  /** Human-readable plural name — llms.txt section headings, RSS channel titles. */
+  label: string;
   /** Firestore collection the entries live in. */
   collection: string;
   /** Public URL base the entries render under. */
@@ -56,6 +58,16 @@ export interface ContentType<T = Record<string, unknown>> {
   storedSchema: z.ZodType<T>;
   /** Document id for an entry — the `[id]` segment of the content API. */
   idFor: (entry: T) => string;
+  /**
+   * Canonical public path where an entry is read. Types with standalone
+   * entry pages return them (docs: `/docs/<slug>`); types whose entries
+   * render on the list page return a fragment (changelog:
+   * `/changelog#<slug>`). Fragment paths are kept out of the sitemap
+   * (fragments aren't valid there — the list page covers them) but are the
+   * canonical link in llms.txt and RSS. The raw-markdown path is always
+   * derived: `<urlBase>/<idFor(entry)>.md`.
+   */
+  pathFor: (entry: T) => string;
   /** Presentation order (applied in-memory; reads are whole-collection, no indexes). */
   compare: (a: T, b: T) => number;
   /** Which generic public surfaces include this type (consumed in M3). */
@@ -64,22 +76,26 @@ export interface ContentType<T = Record<string, unknown>> {
 
 const docsType: ContentType<DocsEntry> = {
   key: 'docs',
+  label: 'Docs',
   collection: 'marketing_docs',
   urlBase: '/docs',
   schema: docsSchema,
   storedSchema: docsSchema.extend({ updatedAt: z.iso.datetime().optional() }),
   idFor: (e) => e.slug,
+  pathFor: (e) => `/docs/${e.slug}`,
   compare: (a, b) => (a.order === b.order ? a.title.localeCompare(b.title) : a.order - b.order),
   flags: { sitemap: true, llmsTxt: true, rss: false },
 };
 
 const changelogType: ContentType<ChangelogEntry> = {
   key: 'changelog',
+  label: 'Changelog',
   collection: 'marketing_changelog',
   urlBase: '/changelog',
   schema: changelogSchema,
   storedSchema: changelogSchema.extend({ updatedAt: z.iso.datetime().optional() }),
   idFor: (e) => `${e.date}-${e.slug}`,
+  pathFor: (e) => `/changelog#${e.slug}`,
   compare: (a, b) => (a.date === b.date ? a.slug.localeCompare(b.slug) : b.date.localeCompare(a.date)),
   flags: { sitemap: true, llmsTxt: true, rss: true },
 };
@@ -91,6 +107,14 @@ export function findContentType(key: string): ContentType | undefined {
   // only use schema/idFor/compare through the ContentType interface.
   const types = CONTENT_TYPES as readonly unknown[] as readonly ContentType[];
   return types.find((t) => t.key === key);
+}
+
+/** Lookup by URL base segment (`docs` → the `/docs` type) — used by the
+ * rewrite-backed raw-markdown route, where the path segment is the urlBase,
+ * not the key. */
+export function findContentTypeByBase(baseSegment: string): ContentType | undefined {
+  const types = CONTENT_TYPES as readonly unknown[] as readonly ContentType[];
+  return types.find((t) => t.urlBase === `/${baseSegment}`);
 }
 
 /** Key-based lookup for typed consumers that know their entry shape. */

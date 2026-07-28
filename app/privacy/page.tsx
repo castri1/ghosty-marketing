@@ -1,8 +1,12 @@
 import type { Metadata } from 'next';
+import { pageMeta } from '@/lib/site';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: 'Privacy Policy — Ghosty',
-};
+  description:
+    'How Ghosty collects, uses, and protects information across the platform, the CLI, and the websites under getghosty.dev.',
+  path: '/privacy',
+});
 
 /** Privacy Policy — ported as-is from the console's marketing/Privacy.tsx. */
 export default function Privacy() {

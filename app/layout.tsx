@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import Link from 'next/link';
 import { GhostMark } from '@/components/GhostMark';
 import { consoleUrl } from '@/lib/console-url';
+import { SITE_URL } from '@/lib/site';
 import '@/styles/preflight.css';
 import '@/styles/marketing.css';
 
@@ -11,6 +12,9 @@ const FAVICON =
   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 56 66'%3E%3Cpath d='M28 0C12.536 0 0 12.536 0 28v30a7 7 0 0 0 14 0 7 7 0 0 0 14 0 7 7 0 0 0 14 0 7 7 0 0 0 14 0V28C56 12.536 43.464 0 28 0Z' fill='%23059669'/%3E%3Crect x='17.5' y='24' width='7' height='15' rx='2' fill='%23ffffff'/%3E%3Crect x='31.5' y='24' width='7' height='15' rx='2' fill='%23ffffff'/%3E%3C/svg%3E";
 
 export const metadata: Metadata = {
+  // metadataBase resolves relative OG/Twitter image paths (/og.png) to
+  // absolute URLs; per-page tags come from pageMeta() in lib/site.ts.
+  metadataBase: new URL(SITE_URL),
   title: 'Ghosty — Build software around your work',
   description:
     'Describe the software your work needs, shape it with the AI assistant you already like, and put it to work with Ghosty.',

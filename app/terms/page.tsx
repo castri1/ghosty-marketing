@@ -1,8 +1,12 @@
 import type { Metadata } from 'next';
+import { pageMeta } from '@/lib/site';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: 'Terms of Service — Ghosty',
-};
+  description:
+    'The terms that govern use of the Ghosty platform, command-line tool, and websites under getghosty.dev.',
+  path: '/terms',
+});
 
 /** Terms of Service — ported as-is from the console's marketing/Terms.tsx. */
 export default function Terms() {

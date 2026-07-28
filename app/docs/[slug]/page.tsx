@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { findDocPage, getDocPages } from '@/lib/content';
+import { pageMeta } from '@/lib/site';
 
 export const revalidate = 300;
 
@@ -19,10 +20,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const page = await findDocPage(slug);
   if (!page) return { title: 'Docs — Ghosty' };
-  return {
+  return pageMeta({
     title: `${page.title} — Ghosty docs`,
-    ...(page.description ? { description: page.description } : {}),
-  };
+    description: page.description ?? `${page.title} on the Ghosty platform, explained.`,
+    path: `/docs/${page.slug}`,
+  });
 }
 
 /** One docs topic — renders the registry entry with the topic sidebar. */

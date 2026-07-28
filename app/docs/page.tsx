@@ -3,14 +3,16 @@ import Link from 'next/link';
 import { GhostMark } from '@/components/GhostMark';
 import { consoleUrl } from '@/lib/console-url';
 import { getDocPages } from '@/lib/content';
+import { pageMeta } from '@/lib/site';
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: 'Docs — Ghosty',
   description:
     'Get started with Ghosty: set up your company, install the CLI, and ship your first app. Plus guides for every platform capability.',
-};
+  path: '/docs',
+});
 
 /** Docs / quickstart — ported from the console's marketing/Docs.tsx. */
 export default async function Docs() {

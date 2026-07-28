@@ -2,14 +2,16 @@ import type { Metadata } from 'next';
 import { GhostMark } from '@/components/GhostMark';
 import { consoleUrl } from '@/lib/console-url';
 import { formatReleaseDate, getReleases } from '@/lib/content';
+import { pageMeta } from '@/lib/site';
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: 'Changelog — Ghosty',
   description:
     'What shipped on the Ghosty platform: new capabilities, improvements, and fixes, release by release.',
-};
+  path: '/changelog',
+});
 
 /** Public release notes — renders the changelog registry entries newest-first. */
 export default async function Changelog() {
