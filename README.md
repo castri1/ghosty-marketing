@@ -39,7 +39,12 @@ DEPLOYER_SA=github-deployer@ghosty-central.iam.gserviceaccount.com
 
 ### 1. Runtime service account
 
-`roles/datastore.user` on central (reads/writes the `marketing_*` content collections):
+`roles/datastore.user` on central (reads/writes the `marketing_*` content collections).
+Posture note: this role is project-wide — the content store IAM model cannot scope to
+collections, and the marketing content deliberately lives in the central database alongside
+the platform's collections (approved marketing-split design; see the `marketing` service spec
+in the ghosty repo's `infra/central/README.md`). The service's only write path into that
+store is the bearer-token content API.
 
 ```bash
 gcloud iam service-accounts create marketing-runtime \
@@ -116,18 +121,21 @@ gcloud iam service-accounts add-iam-policy-binding "$RUNTIME_SA" \
 
 ### 5. Extend WIF trust to this repo
 
-The provider's attribute condition currently trusts only `castri1/ghosty`. Inspect it first,
-then extend it — if the live condition carries extra clauses (e.g. a ref pin), **preserve
-them** and only widen the repository clause:
+The provider's attribute condition currently trusts only `castri1/ghosty` (pinned to
+`refs/heads/main` — see ghosty `docs/deploy-speed.md` §10). **Inspect the live condition
+first and preserve every existing clause** — the update below must be the live condition
+with only the repository clause widened, never a replacement that drops a pin:
 
 ```bash
 gcloud iam workload-identity-pools providers describe github-oidc \
   --project="$PROJECT" --location=global --workload-identity-pool=github \
   --format='value(attributeCondition)'
 
+# Adjust to match what describe printed; expected shape (keeps the main-only ref pin —
+# both repos deploy exclusively from main):
 gcloud iam workload-identity-pools providers update-oidc github-oidc \
   --project="$PROJECT" --location=global --workload-identity-pool=github \
-  --attribute-condition="assertion.repository in ['castri1/ghosty', 'castri1/ghosty-marketing']"
+  --attribute-condition="assertion.repository in ['castri1/ghosty', 'castri1/ghosty-marketing'] && assertion.ref == 'refs/heads/main'"
 ```
 
 Allow this repo's workflow identity to impersonate the deployer SA:
