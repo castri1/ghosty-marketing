@@ -23,8 +23,13 @@ export async function GET() {
     `- Docs: ${siteUrl('/docs')}`,
     `- Changelog: ${siteUrl('/changelog')}`,
     '',
-    'Every entry below links its web page and its raw-markdown version (append `.md` to the entry URL).',
+    'Every entry below links its web page and lists its raw-markdown URL.',
   ];
+
+  // Titles/notes are trusted-author content, but keep the index structurally
+  // sound: single line, and no unescaped brackets inside link text.
+  const inline = (s: string) => s.replace(/\s+/g, ' ').trim();
+  const linkText = (s: string) => inline(s).replace(/\[/g, '\\[').replace(/\]/g, '\\]');
 
   const types = CONTENT_TYPES as readonly unknown[] as readonly ContentType[];
   for (const type of types.filter((t) => t.flags.llmsTxt)) {
@@ -40,7 +45,7 @@ export async function GET() {
       const note = description ?? summary;
       const rawUrl = siteUrl(`${type.urlBase}/${type.idFor(entry)}.md`);
       lines.push(
-        `- [${title}](${siteUrl(type.pathFor(entry))})${note ? `: ${note}` : ''} — raw markdown: ${rawUrl}`,
+        `- [${linkText(title)}](${siteUrl(type.pathFor(entry))})${note ? `: ${inline(note)}` : ''} — raw markdown: ${rawUrl}`,
       );
     }
   }
