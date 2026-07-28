@@ -1,0 +1,23 @@
+# keep the build context minimal — only app source reaches `COPY . .`
+node_modules
+.next
+out
+.git
+.github
+
+# local-only files
+.env*.local
+.DS_Store
+*.tsbuildinfo
+*.log
+
+# not needed inside the image
+Dockerfile
+.dockerignore
+README.md
+CLAUDE.md
+
+# google-github-actions/auth writes its credentials file into the workspace
+# during CI — it must NEVER enter the build context (same pitfall encoded in
+# the ghosty monorepo's root .dockerignore).
+gha-creds-*.json

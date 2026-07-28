@@ -1,0 +1,109 @@
+# Push-to-main CD for the marketing site: build the Next.js standalone image
+# on the GitHub runner (small image — Depot isn't needed here), push it to
+# Artifact Registry, roll the `marketing` Cloud Run service.
+#
+# Zero GitHub secrets: GCP auth is keyless (Workload Identity Federation →
+# github-deployer@ghosty-central), mirroring the ghosty monorepo's
+# deploy-platform.yml. This workflow can only succeed AFTER the operator has
+# run the one-time bootstrap in README.md ("Service bootstrap") — extend WIF
+# trust to this repo, create the runtime SA + secret, first manual deploy.
+# Until then, runs simply fail at the auth step — expected and harmless.
+#
+# Image-ref contract (matches the platform):
+#   us-east1-docker.pkg.dev/ghosty-central/platform/marketing:<git-short-sha>
+# sha tags only — never `latest` (house deploy convention, runbook 06).
+name: deploy-marketing
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write # WIF
+
+concurrency:
+  group: deploy-marketing # queue pushes; never cancel a mid-flight rollout
+  cancel-in-progress: false
+
+env:
+  AR_BASE: us-east1-docker.pkg.dev/ghosty-central/platform
+  GCP_PROJECT: ghosty-central
+  RUN_REGION: us-east1
+  RUN_SERVICE: marketing
+  RUNTIME_SA: marketing-runtime@ghosty-central.iam.gserviceaccount.com
+  WIF_PROVIDER: projects/210793865131/locations/global/workloadIdentityPools/github/providers/github-oidc
+  DEPLOYER_SA: github-deployer@ghosty-central.iam.gserviceaccount.com
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: meta
+        run: echo "sha=$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
+
+      - id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ env.WIF_PROVIDER }}
+          service_account: ${{ env.DEPLOYER_SA }}
+          token_format: access_token
+
+      - uses: docker/login-action@v3
+        with:
+          registry: us-east1-docker.pkg.dev
+          username: oauth2accesstoken
+          password: ${{ steps.auth.outputs.access_token }}
+
+      - uses: docker/setup-buildx-action@v3
+
+      # provenance off = plain manifest, same contract as the platform images.
+      # Path context (not git context) so .dockerignore applies — it excludes
+      # the gha-creds-*.json the auth step wrote into the workspace.
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: linux/amd64
+          provenance: false
+          push: true
+          tags: ${{ env.AR_BASE }}/marketing:${{ steps.meta.outputs.sha }}
+
+      - name: Deploy marketing service
+        run: |
+          # Flags are re-asserted on every deploy on purpose — the service
+          # config is fully described here, not accreted across revisions.
+          # (--allow-unauthenticated is NOT set here: public access is a
+          # persistent IAM binding created once in the bootstrap; --quiet
+          # keeps gcloud from prompting about it and leaves IAM untouched.)
+          gcloud run deploy "$RUN_SERVICE" \
+            --project="$GCP_PROJECT" --region="$RUN_REGION" \
+            --image="$AR_BASE/marketing:${{ steps.meta.outputs.sha }}" \
+            --service-account="$RUNTIME_SA" \
+            --min-instances=1 \
+            --set-secrets=MARKETING_CONTENT_TOKEN=marketing-content-token:latest \
+            --quiet >/dev/null
+          echo "deployed $AR_BASE/marketing:${{ steps.meta.outputs.sha }}"
+
+      - name: Smoke
+        run: |
+          # Pre-cutover smoke: the service's own run.app URL. The /health
+          # route ships with M3 (CAS-97).
+          # TODO(post-cutover): after OPS O3 flips the apex to marketing
+          # (ghosty repo docs/runbooks/13-marketing-split.md, phase D),
+          # switch this to: SMOKE_URL="https://getghosty.dev"
+          SMOKE_URL="$(gcloud run services describe "$RUN_SERVICE" \
+            --project="$GCP_PROJECT" --region="$RUN_REGION" \
+            --format='value(status.url)')"
+          for _ in $(seq 1 12); do # retry up to 60s for the new revision
+            if curl -fsS -o /dev/null --max-time 5 "$SMOKE_URL/health"; then
+              echo "smoke OK: $SMOKE_URL/health"
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "smoke FAILED: $SMOKE_URL/health" >&2
+          exit 1
