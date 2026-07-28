@@ -23,8 +23,12 @@ permissions:
   contents: read
   id-token: write # WIF
 
+# Never cancels a mid-flight rollout. NOTE: GitHub keeps only ONE pending run
+# per group — rapid pushes coalesce to the newest commit ("latest wins" among
+# pending; an intermediate sha may never deploy). Fine for this site: every
+# deploy ships the full current main.
 concurrency:
-  group: deploy-marketing # queue pushes; never cancel a mid-flight rollout
+  group: deploy-marketing
   cancel-in-progress: false
 
 env:

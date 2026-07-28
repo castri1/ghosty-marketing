@@ -74,6 +74,10 @@ gcloud secrets add-iam-policy-binding marketing-content-token \
 Keep `$TOKEN` in the shell — it is the `MARKETING_CONTENT_TOKEN` the seed step (runbook 13,
 A2) and every `/rollout` publish use.
 
+Rotation note: the service reads the secret's `latest` version at instance startup, so after
+adding a new version, redeploy (or push to `main`) so all instances pick it up together —
+until then old and new instances can hold different tokens.
+
 ### 3. First manual deploy (creates the service)
 
 The CI deployer only gets **resource-scoped** grants (step 4), so the service must exist
