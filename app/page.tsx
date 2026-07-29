@@ -9,6 +9,10 @@ export const metadata: Metadata = pageMeta({
   path: '/',
 });
 
+// Bounded CDN TTL: without this, Next's static default emits s-maxage=31536000 and the
+// apex CDN (USE_ORIGIN_HEADERS) can serve year-old copy after a deploy (CAS-127).
+export const revalidate = 3600;
+
 /** A deliberately simple beta page: what Ghosty is, that it's in beta, how to join. */
 export default function Home() {
   return (

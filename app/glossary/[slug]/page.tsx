@@ -14,6 +14,9 @@ export function generateStaticParams() {
 
 export const dynamicParams = false;
 
+// Bounded CDN TTL — see app/page.tsx (CAS-127).
+export const revalidate = 3600;
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const entry = getGlossaryEntry(slug);

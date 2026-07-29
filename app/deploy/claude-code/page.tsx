@@ -83,6 +83,9 @@ export const metadata: Metadata = pageMeta({
   path: '/deploy/claude-code',
 });
 
+// Bounded CDN TTL — see app/page.tsx (CAS-127).
+export const revalidate = 3600;
+
 /** Pillar guide for the "deploy a Claude Code app" question, answer-first. */
 export default function DeployClaudeCode() {
   const jsonLd = [

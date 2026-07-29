@@ -10,6 +10,9 @@ export const metadata: Metadata = pageMeta({
   path: '/glossary',
 });
 
+// Bounded CDN TTL — see app/page.tsx (CAS-127).
+export const revalidate = 3600;
+
 /** Glossary index — answer-first definitions, one page per term. */
 export default function Glossary() {
   return (

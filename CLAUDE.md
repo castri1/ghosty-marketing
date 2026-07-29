@@ -138,6 +138,21 @@ sanitization before shipping that path.
   before the deploy is green.
 - After publishing, pages reflect the change on the next request (tag invalidation); worst
   case 300s if an invalidation is missed.
+- **Static pages carry an explicit bounded CDN TTL** (CAS-127): the apex CDN runs in
+  `USE_ORIGIN_HEADERS` mode, and Next's default for non-ISR prerenders is
+  `cache-control: s-maxage=31536000` — a year-stale CDN copy after any deploy that changes
+  them. Every fully-static page (`/`, `/privacy`, `/terms`, `/glossary`, `/glossary/[slug]`,
+  `/deploy/*`) therefore sets `export const revalidate = 3600` so the origin emits
+  `s-maxage=3600` (copy changes appear within an hour). **New static pages must do the
+  same** — a page with no `revalidate` and no store read silently reverts to the year
+  default. Content pages keep `revalidate = 300`. Metadata routes (`robots.ts`,
+  `app/sitemap.ts`) are unaffected: Next serves them with `max-age=0, must-revalidate`
+  regardless of `revalidate`, so the CDN never long-caches them.
+  One-off gotcha: changing origin headers does NOT purge entries the CDN already cached
+  under the old year TTL — after first deploying such a header change, an operator must run
+  a one-time invalidation, e.g.
+  `gcloud compute url-maps invalidate-cdn-cache ghosty-web --project=ghosty-central --path "/" --path "/privacy" --path "/terms"`
+  (operator-only; workers never run it).
 
 ## SEO + agent surface (CAS-97)
 

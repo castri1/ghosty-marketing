@@ -8,6 +8,9 @@ export const metadata: Metadata = pageMeta({
   path: '/privacy',
 });
 
+// Bounded CDN TTL — see app/page.tsx (CAS-127).
+export const revalidate = 3600;
+
 /** Privacy Policy — ported as-is from the console's marketing/Privacy.tsx. */
 export default function Privacy() {
   return (
