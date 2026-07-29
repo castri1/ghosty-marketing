@@ -143,7 +143,10 @@ sanitization before shipping that path.
   `cache-control: s-maxage=31536000` — a year-stale CDN copy after any deploy that changes
   them. Every fully-static page (`/`, `/privacy`, `/terms`, `/glossary`, `/glossary/[slug]`,
   `/deploy/*`) therefore sets `export const revalidate = 3600` so the origin emits
-  `s-maxage=3600` (copy changes appear within an hour). **New static pages must do the
+  `s-maxage=3600` — copy changes converge in about an hour (requests right after expiry may
+  still get a stale copy while the CDN revalidates in the background; the
+  `stale-while-revalidate` bound below caps that at one day even if the origin is
+  unreachable). **New static pages must do the
   same** — a page with no `revalidate` and no store read silently reverts to the year
   default. Content pages keep `revalidate = 300`. `expireTime: 86400` in `next.config.mjs`
   bounds the `stale-while-revalidate` window every ISR page advertises (Next's default is
