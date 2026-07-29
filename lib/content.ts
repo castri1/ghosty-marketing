@@ -48,10 +48,22 @@ async function fetchEntries<T>(type: ContentType<T>): Promise<T[]> {
   }
 }
 
+/**
+ * Boot-unique cache-key part (CAS-126): the credential-less build bakes EMPTY
+ * data-cache entries into `.next`, and an ISR page re-render that reads such
+ * an entry re-caches an empty page for another 300s. Salting the key with a
+ * per-process id means a runtime server never reads entries written by the
+ * build (or by a previous boot) — a cache miss triggers a fresh store fetch
+ * instead. Tags are unchanged, so `revalidateTag` keeps working. The on-boot
+ * revalidation in `instrumentation.ts` handles the page layer; this handles
+ * the data layer even if that boot call is delayed.
+ */
+const BOOT_ID = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+
 const readers = new Map(
   CONTENT_TYPES.map((t) => [
     t.key,
-    unstable_cache(() => fetchEntries(t as ContentType<unknown>), ['content-list', t.key], {
+    unstable_cache(() => fetchEntries(t as ContentType<unknown>), ['content-list', t.key, BOOT_ID], {
       tags: [t.key],
       revalidate: 300,
     }),

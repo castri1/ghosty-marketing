@@ -129,10 +129,13 @@ sanitization before shipping that path.
   own `MARKETING_CONTENT_TOKEN`) when a server instance boots, then warm-fetches each
   type's list page — indexes reflect the store within seconds of boot. Per-instance by
   design (a CI-called revalidate would heal only one instance and would need the deployer
-  to hold the token). No token in env → skipped with a warning (publishing is disabled
-  then anyway). The deploy workflow's smoke step asserts convergence: the first
-  `/api/content/{docs,changelog}` item must appear on `/docs` / `/changelog` before the
-  deploy is green.
+  to hold the token). Defense in depth: the `unstable_cache` key in `lib/content.ts` is
+  salted with a boot-unique id, so a runtime server never reads the build's (or a prior
+  boot's) baked data entries — even if the boot call is delayed (or the token is missing:
+  skipped with a warning), any page re-render fetches fresh and staleness is capped at one
+  300s ISR window instead of two. The deploy workflow's smoke step asserts convergence:
+  the first `/api/content/{docs,changelog}` item must appear on `/docs` / `/changelog`
+  before the deploy is green.
 - After publishing, pages reflect the change on the next request (tag invalidation); worst
   case 300s if an invalidation is missed.
 

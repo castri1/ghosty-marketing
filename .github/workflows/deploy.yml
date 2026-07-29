@@ -122,7 +122,9 @@ jobs:
           # items yet) passes trivially.
           converge() { # $1 = page path, $2 = marker that proves store content rendered
             for _ in $(seq 1 18); do # up to 90s for the boot revalidation
-              if curl -fsS --max-time 10 "$SMOKE_URL$1" | grep -qF "$2"; then
+              # no `grep -q`: -q exits on first match and can SIGPIPE curl,
+              # which would fail the pipeline under pipefail shells.
+              if curl -fsS --max-time 10 "$SMOKE_URL$1" | grep -F "$2" >/dev/null; then
                 echo "content OK: $SMOKE_URL$1 contains $2"
                 return 0
               fi
