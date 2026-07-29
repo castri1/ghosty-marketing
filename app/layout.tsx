@@ -75,6 +75,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               <div className="links">
                 <Link href="/docs">Docs</Link>
                 <Link href="/changelog">Changelog</Link>
+                <Link href="/blog">Blog</Link>
+                <Link href="/glossary">Glossary</Link>
                 <Link href="/privacy">Privacy Policy</Link>
                 <Link href="/terms">Terms of Service</Link>
                 <a href="mailto:hello@getghosty.dev">Contact</a>

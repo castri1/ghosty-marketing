@@ -6,7 +6,20 @@ import { siteUrl } from '@/lib/site';
 export const revalidate = 300;
 
 /** Static pages that are not registry-driven. */
-const STATIC_PATHS = ['/', '/docs', '/changelog', '/privacy', '/terms'];
+const STATIC_PATHS = [
+  '/',
+  '/docs',
+  '/changelog',
+  '/privacy',
+  '/terms',
+  '/deploy/claude-code',
+  '/deploy/codex',
+  '/glossary',
+  '/glossary/shadow-ai',
+  '/glossary/vibe-coding',
+  '/glossary/byoc',
+  '/glossary/mcp-server',
+];
 
 /**
  * Registry-driven sitemap: the static pages plus every entry of every

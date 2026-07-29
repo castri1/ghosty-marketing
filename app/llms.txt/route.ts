@@ -22,6 +22,10 @@ export async function GET() {
     `- Console (sign in / sign up): ${consoleUrl('/')}`,
     `- Docs: ${siteUrl('/docs')}`,
     `- Changelog: ${siteUrl('/changelog')}`,
+    `- Blog: ${siteUrl('/blog')}`,
+    `- How to deploy an app built with Claude Code: ${siteUrl('/deploy/claude-code')}`,
+    `- How to deploy an app built with Codex: ${siteUrl('/deploy/codex')}`,
+    `- Glossary (shadow AI, vibe coding, BYOC, MCP server): ${siteUrl('/glossary')}`,
     '',
     'Every entry below links its web page and lists its raw-markdown URL.',
   ];

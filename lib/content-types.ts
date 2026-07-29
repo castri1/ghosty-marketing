@@ -40,8 +40,23 @@ const changelogSchema = base.extend({
   summary: z.string().optional(),
 });
 
+/** Q&A pair rendered as an on-page FAQ and emitted as FAQPage JSON-LD. */
+const blogFaqItem = z.strictObject({
+  q: z.string().min(1),
+  a: z.string().min(1),
+});
+
+const blogSchema = base.extend({
+  date: calendarDate,
+  /** Meta description + list blurb (agent-visible; keep it under ~160 chars). */
+  description: z.string().min(1),
+  tags: z.array(z.string()).default([]),
+  faq: z.array(blogFaqItem).default([]),
+});
+
 export type DocsEntry = z.infer<typeof docsSchema>;
 export type ChangelogEntry = z.infer<typeof changelogSchema>;
+export type BlogEntry = z.infer<typeof blogSchema>;
 
 export interface ContentType<T = Record<string, unknown>> {
   /** Registry key — also the API path segment and the cache tag. */
@@ -100,7 +115,20 @@ const changelogType: ContentType<ChangelogEntry> = {
   flags: { sitemap: true, llmsTxt: true, rss: true },
 };
 
-export const CONTENT_TYPES = [docsType, changelogType] as const;
+const blogType: ContentType<BlogEntry> = {
+  key: 'blog',
+  label: 'Blog',
+  collection: 'marketing_blog',
+  urlBase: '/blog',
+  schema: blogSchema,
+  storedSchema: blogSchema.extend({ updatedAt: z.iso.datetime().optional() }),
+  idFor: (e) => e.slug,
+  pathFor: (e) => `/blog/${e.slug}`,
+  compare: (a, b) => (a.date === b.date ? a.slug.localeCompare(b.slug) : b.date.localeCompare(a.date)),
+  flags: { sitemap: true, llmsTxt: true, rss: true },
+};
+
+export const CONTENT_TYPES = [docsType, changelogType, blogType] as const;
 
 export function findContentType(key: string): ContentType | undefined {
   // Erase the per-type generics for the generic surfaces (API routes) — they

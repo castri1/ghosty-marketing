@@ -3,6 +3,7 @@ import { marked } from 'marked';
 import {
   CONTENT_TYPES,
   requireContentType,
+  type BlogEntry,
   type ChangelogEntry,
   type ContentType,
   type DocsEntry,
@@ -106,6 +107,7 @@ export interface DocPage {
 
 const docsType = requireContentType<DocsEntry>('docs');
 const changelogType = requireContentType<ChangelogEntry>('changelog');
+const blogType = requireContentType<BlogEntry>('blog');
 
 /** All docs topics, sidebar order. */
 export async function getDocPages(): Promise<DocPage[]> {
@@ -133,6 +135,41 @@ export async function getReleases(): Promise<ReleaseEntry[]> {
     ...(e.summary ? { summary: e.summary } : {}),
     html: render(e.bodyMd),
   }));
+}
+
+export interface BlogPost {
+  slug: string;
+  /** YYYY-MM-DD publish date. */
+  date: string;
+  title: string;
+  /** Meta description + list blurb. */
+  description: string;
+  tags: string[];
+  faq: { q: string; a: string }[];
+  html: string;
+  /** Server-stamped ISO datetime of the last write, when present. */
+  updatedAt?: string;
+}
+
+/** All blog posts, newest first. */
+export async function getBlogPosts(): Promise<BlogPost[]> {
+  const entries = await listContent<BlogEntry>(blogType);
+  return entries.map((e) => ({
+    slug: e.slug,
+    date: e.date,
+    title: e.title,
+    description: e.description,
+    tags: e.tags,
+    faq: e.faq,
+    html: render(e.bodyMd),
+    ...((e as BlogEntry & { updatedAt?: string }).updatedAt
+      ? { updatedAt: (e as BlogEntry & { updatedAt?: string }).updatedAt }
+      : {}),
+  }));
+}
+
+export async function findBlogPost(slug: string): Promise<BlogPost | undefined> {
+  return (await getBlogPosts()).find((p) => p.slug === slug);
 }
 
 /** "2026-07-14" → "July 14, 2026" (UTC-safe: no Date parsing of bare dates). */
