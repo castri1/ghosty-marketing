@@ -145,14 +145,19 @@ sanitization before shipping that path.
   `/deploy/*`) therefore sets `export const revalidate = 3600` so the origin emits
   `s-maxage=3600` (copy changes appear within an hour). **New static pages must do the
   same** — a page with no `revalidate` and no store read silently reverts to the year
-  default. Content pages keep `revalidate = 300`. Metadata routes (`robots.ts`,
-  `app/sitemap.ts`) are unaffected: Next serves them with `max-age=0, must-revalidate`
-  regardless of `revalidate`, so the CDN never long-caches them.
-  One-off gotcha: changing origin headers does NOT purge entries the CDN already cached
-  under the old year TTL — after first deploying such a header change, an operator must run
-  a one-time invalidation, e.g.
-  `gcloud compute url-maps invalidate-cdn-cache ghosty-web --project=ghosty-central --path "/" --path "/privacy" --path "/terms"`
-  (operator-only; workers never run it).
+  default. Content pages keep `revalidate = 300`. `expireTime: 86400` in `next.config.mjs`
+  bounds the `stale-while-revalidate` window every ISR page advertises (Next's default is
+  ~1 year; 1 day matches the CDN's own serve-while-stale cap). Metadata routes
+  (`robots.ts`, `app/sitemap.ts`) are unaffected: Next serves them with
+  `max-age=0, must-revalidate` regardless of `revalidate`, so the CDN never long-caches
+  them.
+  One-off gotcha: changing origin cache headers does NOT purge entries the CDN already
+  cached under the old TTL — after first deploying such a header change, an operator must
+  run a one-time invalidation:
+  `gcloud compute url-maps invalidate-cdn-cache ghosty-web --project=ghosty-central --path "/*"`
+  (`--path` is a scalar flag — repeating it does NOT invalidate multiple paths; `/*` purges
+  everything, which is safe: pages repopulate on next request with their bounded TTLs.
+  Operator-only; workers never run it).
 
 ## SEO + agent surface (CAS-97)
 

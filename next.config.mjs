@@ -7,6 +7,11 @@ const nextConfig = {
   //   cp -r public .next/standalone/public
   //   cp -r .next/static .next/standalone/.next/static
   output: 'standalone',
+  // Bound the stale-while-revalidate window ISR pages advertise (default is
+  // ~1 year). With the apex CDN honoring origin headers, a huge swr would let
+  // it serve stale copies long after s-maxage expires; 1 day matches Cloud
+  // CDN's own serve-while-stale cap (CAS-127 codex review).
+  expireTime: 86400,
   // Registry-generic agent-surface rewrites (CAS-97). Both are afterFiles:
   // real routes (sitemap.xml, robots.txt, llms.txt, public/ files) match
   // first, and the handlers 404 anything not in lib/content-types.ts — so
