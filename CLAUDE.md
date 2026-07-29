@@ -49,6 +49,9 @@ are managed through the content API. There is no repo-committed content.
   mismatch), and `:id` must equal the type's canonical id for the body (docs: `slug`;
   changelog: `YYYY-MM-DD-<slug>`). `updatedAt` is server-stamped — don't send it.
 - `DELETE /api/content/:type/:id` — same auth; 404 when absent.
+- `POST /api/revalidate` — same auth; invalidates every registry type's cache tag
+  (CAS-126). Exists for the on-boot self-call in `instrumentation.ts` (below); also an
+  operator "refresh everything" escape hatch.
 
 API reads hit the store directly (always fresh). Page reads go through `unstable_cache`
 tagged with the type key; every successful write calls `revalidateTag`, so pages update
@@ -118,6 +121,18 @@ sanitization before shipping that path.
 - Readers swallow store-unavailable errors and return empty: **`next build` needs no database
   credentials** (pages prerender empty; ISR + `revalidateTag` fill them at runtime). Don't
   "fix" the try/catch in `lib/content.ts` — M4's Docker build depends on it.
+- **On-boot revalidation** (CAS-126): because the build is credential-less, the deploy image
+  bakes an *empty* prerender + data cache into `.next` — without correction, every fresh
+  server instance (deploy, scale-out, cold start) serves empty index pages for up to
+  ~2×300s (page ISR re-renders against the data cache's own stale `[]` entry). Fix:
+  `instrumentation.ts` self-calls `POST /api/revalidate` (background retry loop, instance's
+  own `MARKETING_CONTENT_TOKEN`) when a server instance boots, then warm-fetches each
+  type's list page — indexes reflect the store within seconds of boot. Per-instance by
+  design (a CI-called revalidate would heal only one instance and would need the deployer
+  to hold the token). No token in env → skipped with a warning (publishing is disabled
+  then anyway). The deploy workflow's smoke step asserts convergence: the first
+  `/api/content/{docs,changelog}` item must appear on `/docs` / `/changelog` before the
+  deploy is green.
 - After publishing, pages reflect the change on the next request (tag invalidation); worst
   case 300s if an invalidation is missed.
 

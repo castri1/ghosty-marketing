@@ -105,9 +105,37 @@ jobs:
           for _ in $(seq 1 12); do # retry up to 60s for the new revision
             if curl -fsS -o /dev/null --max-time 5 "$SMOKE_URL/health"; then
               echo "smoke OK: $SMOKE_URL/health"
-              exit 0
+              health_ok=1
+              break
             fi
             sleep 5
           done
-          echo "smoke FAILED: $SMOKE_URL/health" >&2
-          exit 1
+          if [ -z "${health_ok:-}" ]; then
+            echo "smoke FAILED: $SMOKE_URL/health" >&2
+            exit 1
+          fi
+
+          # Content convergence (CAS-126): the new revision boot-revalidates
+          # its baked-in empty build cache (instrumentation.ts), so index
+          # pages must reflect the store immediately — no ~10-min ISR window.
+          # These curls double as the per-instance warm-up. Empty store (no
+          # items yet) passes trivially.
+          converge() { # $1 = page path, $2 = marker that proves store content rendered
+            for _ in $(seq 1 18); do # up to 90s for the boot revalidation
+              if curl -fsS --max-time 10 "$SMOKE_URL$1" | grep -qF "$2"; then
+                echo "content OK: $SMOKE_URL$1 contains $2"
+                return 0
+              fi
+              sleep 5
+            done
+            echo "content STALE: $SMOKE_URL$1 missing $2" >&2
+            return 1
+          }
+          docs_slug=$(curl -fsS --max-time 10 "$SMOKE_URL/api/content/docs" | jq -r '.items[0].slug // empty')
+          if [ -n "$docs_slug" ]; then
+            converge /docs "href=\"/docs/$docs_slug\"" || exit 1
+          fi
+          clog_slug=$(curl -fsS --max-time 10 "$SMOKE_URL/api/content/changelog" | jq -r '.items[0].slug // empty')
+          if [ -n "$clog_slug" ]; then
+            converge /changelog "id=\"$clog_slug\"" || exit 1
+          fi
