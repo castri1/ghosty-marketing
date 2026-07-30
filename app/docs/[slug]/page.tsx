@@ -19,10 +19,10 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const page = await findDocPage(slug);
-  if (!page) return { title: 'Docs — Ghosty' };
+  if (!page) return { title: 'Docs — White Ghost' };
   return pageMeta({
-    title: `${page.title} — Ghosty docs`,
-    description: page.description ?? `${page.title} on the Ghosty platform, explained.`,
+    title: `${page.title} — White Ghost docs`,
+    description: page.description ?? `${page.title} on the White Ghost platform, explained.`,
     path: `/docs/${page.slug}`,
   });
 }

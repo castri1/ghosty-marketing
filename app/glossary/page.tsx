@@ -4,7 +4,7 @@ import { GLOSSARY } from '@/lib/glossary';
 import { pageMeta } from '@/lib/site';
 
 export const metadata: Metadata = pageMeta({
-  title: 'Glossary — Ghosty',
+  title: 'Glossary — White Ghost',
   description:
     'Plain-language definitions of the terms around building and deploying software with AI: shadow AI, vibe coding, BYOC, MCP servers.',
   path: '/glossary',

@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 import { pageMeta } from '@/lib/site';
 
 export const metadata: Metadata = pageMeta({
-  title: 'Terms of Service — Ghosty',
+  title: 'Terms of Service — White Ghost',
   description:
-    'The terms that govern use of the Ghosty platform, command-line tool, and websites under getghosty.dev.',
+    'The terms that govern use of the White Ghost platform, command-line tool, and websites under getghosty.dev.',
   path: '/terms',
 });
 
@@ -16,7 +16,7 @@ export default function Terms() {
       <p className="meta">Effective June 11, 2026</p>
 
       <p>
-        These Terms of Service (&quot;Terms&quot;) govern access to and use of the Ghosty
+        These Terms of Service (&quot;Terms&quot;) govern access to and use of the White Ghost
         platform, command-line tool, and websites operated under <strong>getghosty.dev</strong>{' '}
         (the &quot;Service&quot;) by the company that registers for the Service (the
         &quot;Customer&quot;) and the individual users it authorizes (&quot;Users&quot;). By
@@ -25,9 +25,9 @@ export default function Terms() {
 
       <h2>1. The Service</h2>
       <p>
-        Ghosty provides a managed platform on which Customers&apos; authorized Users can build,
+        White Ghost provides a managed platform on which Customers&apos; authorized Users can build,
         deploy, and operate internal applications inside a dedicated, isolated cloud environment
-        that Ghosty provisions and operates on the Customer&apos;s behalf.
+        that White Ghost provisions and operates on the Customer&apos;s behalf.
       </p>
 
       <h2>2. Accounts and access</h2>
@@ -54,7 +54,7 @@ export default function Terms() {
           the Customer.
         </li>
         <li>
-          The Customer grants Ghosty the rights necessary to host, build, deploy, and operate
+          The Customer grants White Ghost the rights necessary to host, build, deploy, and operate
           this code and data solely to provide the Service.
         </li>
       </ul>
@@ -101,7 +101,7 @@ export default function Terms() {
 
       <h2>8. Intellectual property</h2>
       <p>
-        Ghosty retains all rights in the Service, including its software, templates, and
+        White Ghost retains all rights in the Service, including its software, templates, and
         documentation. Scaffolded application code generated into the Customer&apos;s
         repositories is licensed to the Customer without restriction.
       </p>

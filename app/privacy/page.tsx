@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 import { pageMeta } from '@/lib/site';
 
 export const metadata: Metadata = pageMeta({
-  title: 'Privacy Policy — Ghosty',
+  title: 'Privacy Policy — White Ghost',
   description:
-    'How Ghosty collects, uses, and protects information across the platform, the CLI, and the websites under getghosty.dev.',
+    'How White Ghost collects, uses, and protects information across the platform, the CLI, and the websites under getghosty.dev.',
   path: '/privacy',
 });
 
@@ -16,15 +16,15 @@ export default function Privacy() {
       <p className="meta">Effective July 21, 2026</p>
 
       <p>
-        This Privacy Policy describes how Ghosty (&quot;Ghosty&quot;, &quot;we&quot;,
-        &quot;us&quot;) collects, uses, and protects information when you use the Ghosty
-        platform, the Ghosty command-line tool, and the websites we operate under{' '}
+        This Privacy Policy describes how White Ghost (&quot;White Ghost&quot;, &quot;we&quot;,
+        &quot;us&quot;) collects, uses, and protects information when you use the White Ghost
+        platform, the White Ghost command-line tool, and the websites we operate under{' '}
         <strong>getghosty.dev</strong> (together, the &quot;Service&quot;).
       </p>
 
       <h2>Who we are</h2>
       <p>
-        Ghosty is a deployment platform that lets companies give their employees a safe, isolated
+        White Ghost is a deployment platform that lets companies give their employees a safe, isolated
         environment to build and ship internal applications. Each customer company operates in
         its own dedicated cloud environment.
       </p>
@@ -47,7 +47,7 @@ export default function Privacy() {
         <li>
           <strong>GitHub organization metadata.</strong> When a company connects its GitHub
           organization, we store the organization name and the installation identifier of the
-          Ghosty GitHub App. Application source code remains in the company&apos;s own GitHub
+          White Ghost GitHub App. Application source code remains in the company&apos;s own GitHub
           organization.
         </li>
         <li>
@@ -80,7 +80,7 @@ export default function Privacy() {
 
       <h2>Google user data</h2>
       <p>
-        Ghosty&apos;s use and transfer of information received from Google APIs adheres to the{' '}
+        White Ghost&apos;s use and transfer of information received from Google APIs adheres to the{' '}
         <a href="https://developers.google.com/terms/api-services-user-data-policy" rel="noopener">
           Google API Services User Data Policy
         </a>
@@ -116,7 +116,7 @@ export default function Privacy() {
         </li>
         <li>
           <strong>Legal.</strong> We may disclose information if required by law or to protect
-          the rights, safety, and security of Ghosty, our customers, or the public.
+          the rights, safety, and security of White Ghost, our customers, or the public.
         </li>
       </ul>
       <p>We do not sell personal information.</p>

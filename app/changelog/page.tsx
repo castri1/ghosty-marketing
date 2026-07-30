@@ -7,9 +7,9 @@ import { pageMeta } from '@/lib/site';
 export const revalidate = 300;
 
 export const metadata: Metadata = pageMeta({
-  title: 'Changelog — Ghosty',
+  title: 'Changelog — White Ghost',
   description:
-    'What shipped on the Ghosty platform: new capabilities, improvements, and fixes, release by release.',
+    'What shipped on the White Ghost platform: new capabilities, improvements, and fixes, release by release.',
   path: '/changelog',
 });
 
@@ -51,7 +51,7 @@ export default async function Changelog() {
       <section className="closing">
         <GhostMark className="ghost-mark" />
         <h2>Want these in your console?</h2>
-        <p>Everything above is live for every Ghosty app, automatically.</p>
+        <p>Everything above is live for every White Ghost app, automatically.</p>
         <a className="btn" href={consoleUrl('/signup')}>
           Sign up — it&apos;s free
         </a>

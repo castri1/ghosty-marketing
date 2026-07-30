@@ -5,7 +5,7 @@ import { pageMeta, siteUrl } from '@/lib/site';
 
 const TITLE = 'How to deploy an app built with Claude Code';
 const DESCRIPTION =
-  'Claude Code writes normal web apps, so you have real options: developer platforms, artifact links, or a managed platform like Ghosty. How to choose and ship.';
+  'Claude Code writes normal web apps, so you have real options: developer platforms, artifact links, or a managed platform like White Ghost. How to choose and ship.';
 
 const STEPS = [
   {
@@ -37,7 +37,7 @@ const FAQ = [
   },
   {
     q: 'Do viewers need a Claude account to open my app?',
-    a: 'No. Apps deployed with Ghosty live on a normal URL with access rules you choose: public, invite only, workspace members, or the app’s own sign-in. Viewers never need an account on any AI platform.',
+    a: 'No. Apps deployed with White Ghost live on a normal URL with access rules you choose: public, invite only, workspace members, or the app’s own sign-in. Viewers never need an account on any AI platform.',
   },
   {
     q: 'Is an app made with Claude Code a special kind of app?',
@@ -45,7 +45,7 @@ const FAQ = [
   },
   {
     q: 'What happens to the database and files?',
-    a: 'Ghosty provisions managed storage per app, isolated per company, and integrations are proxied by the platform so provider keys never live in the repo.',
+    a: 'White Ghost provisions managed storage per app, isolated per company, and integrations are proxied by the platform so provider keys never live in the repo.',
   },
   {
     q: 'Can I leave later?',
@@ -71,14 +71,14 @@ const OPTIONS = [
     tradeoff: 'Same assembly, plus infrastructure to operate',
   },
   {
-    option: 'Ghosty',
+    option: 'White Ghost',
     bestFor: 'Builders and teams shipping real apps with the AI assistant they already have',
     tradeoff: 'Managed platform: less infrastructure control than assembling your own stack',
   },
 ];
 
 export const metadata: Metadata = pageMeta({
-  title: `${TITLE} — Ghosty`,
+  title: `${TITLE} — White Ghost`,
   description: DESCRIPTION,
   path: '/deploy/claude-code',
 });
@@ -111,7 +111,7 @@ export default function DeployClaudeCode() {
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Ghosty', item: siteUrl('/') },
+        { '@type': 'ListItem', position: 1, name: 'White Ghost', item: siteUrl('/') },
         { '@type': 'ListItem', position: 2, name: TITLE, item: siteUrl('/deploy/claude-code') },
       ],
     },
@@ -133,7 +133,7 @@ export default function DeployClaudeCode() {
         <p className="lede">
           Claude Code writes normal web applications, so you have real options: a developer
           platform you assemble yourself, a temporary artifact link, or a managed platform. With
-          Ghosty the whole flow is one CLI that Claude Code can drive for you, and the app goes
+          White Ghost the whole flow is one CLI that Claude Code can drive for you, and the app goes
           live with access controls built in.
         </p>
 

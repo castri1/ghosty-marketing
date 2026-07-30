@@ -3,23 +3,23 @@ import { consoleUrl } from '@/lib/console-url';
 import { pageMeta } from '@/lib/site';
 
 export const metadata: Metadata = pageMeta({
-  title: 'Ghosty — Build software around your work',
+  title: 'White Ghost — Build software around your work',
   description:
-    'Describe the software your work needs, shape it with the AI assistant you already like, and put it to work with Ghosty.',
+    'Describe the software your work needs, shape it with the AI assistant you already like, and put it to work with White Ghost.',
   path: '/',
 });
 
-/** A deliberately simple beta page: what Ghosty is, that it's in beta, how to join. */
+/** A deliberately simple beta page: what White Ghost is, that it's in beta, how to join. */
 export default function Home() {
   return (
     <main className="beta-home">
       <header className="beta-hero">
         <div className="beta-hero-copy">
-          <p className="eyebrow">Ghosty beta is open</p>
+          <p className="eyebrow">White Ghost beta is open</p>
           <h1>What could your software change?</h1>
           <p className="lede">
             Turn the work that matters into an app people can actually use. Build with the
-            assistant you already like, then put it to work with Ghosty.
+            assistant you already like, then put it to work with White Ghost.
           </p>
           <div className="hero-actions">
             <a className="btn" href={consoleUrl('/signup')}>
@@ -35,7 +35,7 @@ export default function Home() {
         <figure className="beta-video">
           <video autoPlay loop muted playsInline preload="metadata">
             <source src="/videos/natural-language-build.mp4" type="video/mp4" />
-            A short Ghosty product demo.
+            A short White Ghost product demo.
           </video>
           <figcaption>From a plain-language request to a working app.</figcaption>
         </figure>

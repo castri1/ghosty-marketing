@@ -30,7 +30,7 @@ export const GLOSSARY: GlossaryEntry[] = [
       },
       {
         heading: 'Why it matters',
-        body: 'Every invisible tool is company data in an unmanaged place: no access control, no audit trail, no offboarding when someone leaves. Banning the tools rarely works because they genuinely help people do their jobs. The alternative is giving builders a governed place to deploy, so the company sees every app that exists, who built it, and who can reach it. That is the gap Ghosty exists to close.',
+        body: 'Every invisible tool is company data in an unmanaged place: no access control, no audit trail, no offboarding when someone leaves. Banning the tools rarely works because they genuinely help people do their jobs. The alternative is giving builders a governed place to deploy, so the company sees every app that exists, who built it, and who can reach it. That is the gap White Ghost exists to close.',
       },
     ],
     related: ['vibe-coding', 'byoc'],
@@ -48,7 +48,7 @@ export const GLOSSARY: GlossaryEntry[] = [
       },
       {
         heading: 'The part nobody solved: what happens after',
-        body: 'Vibe coding gets you a working app on your laptop. It does not get you hosting, a database, access control, or updates your teammates can receive. That last mile is exactly where vibe-coded apps die or become shadow AI. A deployment platform closes the gap: with Ghosty, the same assistant that built the app can publish it with one CLI, onto a URL with access rules you choose.',
+        body: 'Vibe coding gets you a working app on your laptop. It does not get you hosting, a database, access control, or updates your teammates can receive. That last mile is exactly where vibe-coded apps die or become shadow AI. A deployment platform closes the gap: with White Ghost, the same assistant that built the app can publish it with one CLI, onto a URL with access rules you choose.',
       },
     ],
     related: ['shadow-ai', 'mcp-server'],
@@ -62,7 +62,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     sections: [
       {
         heading: 'Why it matters economically',
-        body: 'Platforms that resell AI generation charge you twice: for the platform and for the tokens. A BYOC platform runs on the AI subscription you already pay for, so there is no second AI bill and no lock-in to a weaker embedded model. This is a founding principle of Ghosty: build with the assistant you already like, publish with the platform.',
+        body: 'Platforms that resell AI generation charge you twice: for the platform and for the tokens. A BYOC platform runs on the AI subscription you already pay for, so there is no second AI bill and no lock-in to a weaker embedded model. This is a founding principle of White Ghost: build with the assistant you already like, publish with the platform.',
       },
       {
         heading: 'What to look for',
@@ -84,7 +84,7 @@ export const GLOSSARY: GlossaryEntry[] = [
       },
       {
         heading: 'Why it matters for deployment',
-        body: 'When a platform ships an official MCP server, the assistant does not just recommend the platform: it can operate it. Deploying becomes something the assistant does for you in the conversation. Today the ghosty CLI plays that role for Ghosty (agent-friendly, --json everywhere); an official MCP connector is the natural next step for the same channel.',
+        body: 'When a platform ships an official MCP server, the assistant does not just recommend the platform: it can operate it. Deploying becomes something the assistant does for you in the conversation. Today the ghosty CLI plays that role for White Ghost (agent-friendly, --json everywhere); an official MCP connector is the natural next step for the same channel.',
       },
     ],
     related: ['byoc', 'vibe-coding'],

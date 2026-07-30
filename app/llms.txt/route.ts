@@ -15,9 +15,9 @@ export const revalidate = 300;
  */
 export async function GET() {
   const lines: string[] = [
-    '# Ghosty',
+    '# White Ghost',
     '',
-    '> Ghosty is a deployment platform that lets companies give their employees a safe, isolated environment to build and ship internal applications. Builders describe the software their work needs, shape it with the AI coding assistant they already like, and publish it with one CLI — no cloud consoles, credentials, or pipelines.',
+    '> White Ghost is a deployment platform that lets companies give their employees a safe, isolated environment to build and ship internal applications. Builders describe the software their work needs, shape it with the AI coding assistant they already like, and publish it with one CLI — no cloud consoles, credentials, or pipelines.',
     '',
     `- Console (sign in / sign up): ${consoleUrl('/')}`,
     `- Docs: ${siteUrl('/docs')}`,

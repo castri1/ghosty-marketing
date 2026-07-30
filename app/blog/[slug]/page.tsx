@@ -21,9 +21,9 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const post = await findBlogPost(slug);
-  if (!post) return { title: 'Blog — Ghosty' };
+  if (!post) return { title: 'Blog — White Ghost' };
   return pageMeta({
-    title: `${post.title} — Ghosty`,
+    title: `${post.title} — White Ghost`,
     description: post.description,
     path: `/blog/${post.slug}`,
   });
@@ -43,8 +43,8 @@ export default async function BlogPostPage({ params }: Props) {
     url: siteUrl(`/blog/${post.slug}`),
     datePublished: post.date,
     dateModified: post.updatedAt ?? post.date,
-    author: { '@type': 'Organization', name: 'Ghosty', url: siteUrl('/') },
-    publisher: { '@type': 'Organization', name: 'Ghosty', url: siteUrl('/') },
+    author: { '@type': 'Organization', name: 'White Ghost', url: siteUrl('/') },
+    publisher: { '@type': 'Organization', name: 'White Ghost', url: siteUrl('/') },
     ...(post.tags.length > 0 ? { keywords: post.tags.join(', ') } : {}),
   };
 
@@ -99,7 +99,7 @@ export default async function BlogPostPage({ params }: Props) {
       <section className="closing">
         <GhostMark className="ghost-mark" />
         <h2>Ready to put your app to work?</h2>
-        <p>Describe it, shape it with your assistant, and publish it with Ghosty.</p>
+        <p>Describe it, shape it with your assistant, and publish it with White Ghost.</p>
         <a className="btn" href={consoleUrl('/signup')}>
           Join the beta
         </a>

@@ -8,9 +8,9 @@ import { pageMeta } from '@/lib/site';
 export const revalidate = 300;
 
 export const metadata: Metadata = pageMeta({
-  title: 'Docs — Ghosty',
+  title: 'Docs — White Ghost',
   description:
-    'Get started with Ghosty: set up your company, install the CLI, and ship your first app. Plus guides for every platform capability.',
+    'Get started with White Ghost: set up your company, install the CLI, and ship your first app. Plus guides for every platform capability.',
   path: '/docs',
 });
 
@@ -22,7 +22,7 @@ export default async function Docs() {
       <header className="docs-hero">
         <p className="kicker reveal">Quickstart</p>
         <h1 className="reveal d1">
-          Get started with <em>Ghosty.</em>
+          Get started with <em>White Ghost.</em>
         </h1>
         <p className="lede reveal d2">
           Two paths, depending on where you sit. Admins set the company up once in the control
@@ -50,7 +50,7 @@ export default async function Docs() {
 
         <p className="docs-intro">
           Setup happens once, in the <a href="https://ct.getghosty.dev">control tower</a>. You
-          describe your company, point us at your GitHub organization, and submit. Ghosty then
+          describe your company, point us at your GitHub organization, and submit. White Ghost then
           provisions a dedicated environment for you — your own cloud project, database, domains,
           and CI/CD. Provisioning is reviewed by us before it goes live, so this isn&apos;t
           instant; you&apos;ll watch the status move in your dashboard and your company goes live
@@ -81,7 +81,7 @@ export default async function Docs() {
               <h3>Choose your branding</h3>
               <p>
                 Set the product name your employees will see, a primary color, and an optional
-                logo. This is how Ghosty shows up inside your company.
+                logo. This is how White Ghost shows up inside your company.
               </p>
             </div>
           </div>
@@ -89,8 +89,8 @@ export default async function Docs() {
             <div>
               <h3>Connect your GitHub organization</h3>
               <p>
-                Install the Ghosty GitHub App into your org. Your application source code stays in{' '}
-                <strong>your own GitHub organization</strong> — Ghosty creates and manages
+                Install the White Ghost GitHub App into your org. Your application source code stays in{' '}
+                <strong>your own GitHub organization</strong> — White Ghost creates and manages
                 repositories there, but never takes custody of your code.
               </p>
             </div>
@@ -111,7 +111,7 @@ export default async function Docs() {
             <div>
               <h3>Submit and watch it provision</h3>
               <p>
-                Submit your company for provisioning. Ghosty stands up an isolated environment —
+                Submit your company for provisioning. White Ghost stands up an isolated environment —
                 its own cloud project, database, domains, and CI/CD. Track the status in your
                 dashboard; when it&apos;s active, your company is live at{' '}
                 <code>{'{slug}.getghosty.dev'}</code>.

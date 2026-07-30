@@ -17,9 +17,9 @@ export const dynamicParams = false;
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const entry = getGlossaryEntry(slug);
-  if (!entry) return { title: 'Glossary — Ghosty' };
+  if (!entry) return { title: 'Glossary — White Ghost' };
   return pageMeta({
-    title: `${entry.question} — Ghosty`,
+    title: `${entry.question} — White Ghost`,
     description: entry.definition.slice(0, 158),
     path: `/glossary/${entry.slug}`,
   });
@@ -44,7 +44,7 @@ export default async function GlossaryEntryPage({ params }: Props) {
       url: siteUrl(`/glossary/${entry.slug}`),
       inDefinedTermSet: {
         '@type': 'DefinedTermSet',
-        name: 'Ghosty glossary',
+        name: 'White Ghost glossary',
         url: siteUrl('/glossary'),
       },
     },

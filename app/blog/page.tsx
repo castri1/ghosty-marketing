@@ -8,7 +8,7 @@ import { pageMeta } from '@/lib/site';
 export const revalidate = 300;
 
 export const metadata: Metadata = pageMeta({
-  title: 'Blog — Ghosty',
+  title: 'Blog — White Ghost',
   description:
     'Practical guides on deploying and sharing the apps, dashboards, and tools you build with AI coding assistants.',
   path: '/blog',
@@ -53,7 +53,7 @@ export default async function Blog() {
       <section className="closing">
         <GhostMark className="ghost-mark" />
         <h2>Ready to put your app to work?</h2>
-        <p>Describe it, shape it with your assistant, and publish it with Ghosty.</p>
+        <p>Describe it, shape it with your assistant, and publish it with White Ghost.</p>
         <a className="btn" href={consoleUrl('/signup')}>
           Join the beta
         </a>

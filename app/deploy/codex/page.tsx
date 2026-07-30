@@ -5,7 +5,7 @@ import { pageMeta, siteUrl } from '@/lib/site';
 
 const TITLE = 'How to deploy an app built with Codex';
 const DESCRIPTION =
-  'Codex writes normal code. ChatGPT Sites hosts it on OpenAI hosting. For an app in your own repo with access rules you choose, deploy it with Ghosty.';
+  'Codex writes normal code. ChatGPT Sites hosts it on OpenAI hosting. For an app in your own repo with access rules you choose, deploy it with White Ghost.';
 
 const STEPS = [
   {
@@ -33,10 +33,10 @@ const STEPS = [
 const FAQ = [
   {
     q: 'Can a Codex site be shared publicly?',
-    a: 'Yes, since ChatGPT Sites went GA in July 2026: paid subscribers can publish publicly viewable sites. The remaining difference is control: with Ghosty the app lives in your own GitHub organization and you choose between public, invite only, workspace members, or the app’s own sign-in, without the app depending on a ChatGPT plan.',
+    a: 'Yes, since ChatGPT Sites went GA in July 2026: paid subscribers can publish publicly viewable sites. The remaining difference is control: with White Ghost the app lives in your own GitHub organization and you choose between public, invite only, workspace members, or the app’s own sign-in, without the app depending on a ChatGPT plan.',
   },
   {
-    q: 'Does Ghosty work with Codex, or only with Claude?',
+    q: 'Does White Ghost work with Codex, or only with Claude?',
     a: 'It is assistant-agnostic. The apps are normal repositories and the ghosty CLI is plain command-line tooling with --json output, so Codex CLI, Claude Code, Cursor, OpenCode, and other assistants can all drive it.',
   },
   {
@@ -67,14 +67,14 @@ const OPTIONS = [
     tradeoff: 'Same assembly, plus infrastructure to operate',
   },
   {
-    option: 'Ghosty',
+    option: 'White Ghost',
     bestFor: 'Apps anyone you choose can open, no AI account required, in a repo you own',
     tradeoff: 'Managed platform: less infrastructure control than assembling your own stack',
   },
 ];
 
 export const metadata: Metadata = pageMeta({
-  title: `${TITLE} — Ghosty`,
+  title: `${TITLE} — White Ghost`,
   description: DESCRIPTION,
   path: '/deploy/codex',
 });
@@ -107,7 +107,7 @@ export default function DeployCodex() {
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Ghosty', item: siteUrl('/') },
+        { '@type': 'ListItem', position: 1, name: 'White Ghost', item: siteUrl('/') },
         { '@type': 'ListItem', position: 2, name: TITLE, item: siteUrl('/deploy/codex') },
       ],
     },
@@ -130,7 +130,7 @@ export default function DeployCodex() {
           Codex writes normal code, so it can live anywhere. ChatGPT Sites will host it publicly,
           but creation requires a paid plan, the app lives with OpenAI, and access gating beyond
           public-or-workspace is limited. If you want the app in your own repository, on a
-          permanent URL, with access rules you choose, deploy it with Ghosty: one CLI that Codex
+          permanent URL, with access rules you choose, deploy it with White Ghost: one CLI that Codex
           can drive for you.
         </p>
 

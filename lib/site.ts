@@ -32,7 +32,7 @@ export function pageMeta(opts: { title: string; description: string; path: strin
       title,
       description,
       url,
-      siteName: 'Ghosty',
+      siteName: 'White Ghost',
       type: 'website',
       images: ['/og.png'],
     },
