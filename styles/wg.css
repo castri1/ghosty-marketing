@@ -1,0 +1,170 @@
+/*
+ * White Ghost visual system for the ported design-lab components (home and
+ * marketing pages). Ported from the lab's app/globals.css (ADR-012 light
+ * system). Tailwind v4 is imported WITHOUT its preflight: styles/preflight.css
+ * (vendored, global) already provides the same reset, and utilities are
+ * imported unlayered on purpose so they win over it by normal specificity.
+ * Fonts come from the Google Fonts <link> in app/layout.tsx, hence the family
+ * names here instead of next/font variables.
+ */
+@import "tailwindcss/theme.css";
+@import "tailwindcss/utilities.css";
+
+@theme {
+  --font-sans: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Helvetica, Arial, sans-serif;
+
+  /* WHITE GHOST theme (sistema claro oficial, ADR-012 29-jul-2026) */
+  --color-paper: #f7f8f3; /* fondo principal */
+  --color-surface: #ffffff; /* cards, superficies elevadas */
+  --color-mist: #ebf5ef; /* bloques suaves, chips, fondos secundarios */
+  --color-line: #d4dcd6; /* bordes y hairlines */
+  --color-ink: #10251c; /* texto principal, contorno y ojos del fantasma */
+  --color-muted: #4d6258; /* texto secundario */
+  --color-emerald: #059669; /* EL acento: CTAs, kickers, enfasis */
+  --color-fern: #4e8e73; /* acento atenuado */
+  --color-amber: #9b6a19; /* advertencias (uso escaso) */
+
+  /* Aliases legado (mint-on-dark) del lab: red de seguridad para clases no
+     migradas; el codigo nuevo usa los tokens de arriba. */
+  --color-pitch: #10251c;
+  --color-soot: #ffffff;
+  --color-seam: #d4dcd6;
+  --color-mint: #059669;
+  --color-cream: #ebf5ef;
+  --color-moss: #4d6258;
+  --color-sand: #d4dcd6;
+  --color-bark: #4d6258;
+
+  --font-display: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Helvetica, Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: color-mix(in srgb, var(--color-emerald) 22%, transparent);
+}
+
+/* Atmosfera (fondos globales del sistema claro) */
+.wg-atmosphere {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(900px 600px at 85% -10%, rgb(5 150 105 / 0.07), transparent 60%),
+    radial-gradient(700px 500px at -10% 35%, rgb(232 196 124 / 0.05), transparent 60%),
+    var(--color-paper);
+}
+.wg-atmosphere::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--color-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-line) 1px, transparent 1px);
+  background-size: 72px 72px;
+  opacity: 0.14;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black, transparent 75%);
+}
+
+/* Content pages (.mkt shell) sit under the fixed lab nav: clear it. Beats
+   marketing.css's `.shell { padding: 0 28px }` by specificity, not by chunk
+   order (Next's CSS chunk order is not guaranteed across modules). */
+.mkt .shell {
+  padding-top: 76px;
+}
+
+/* WHITE GHOST helpers */
+
+/* Tiny mono label, terminal style */
+.px-label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+}
+
+/* Infinite marquee strip */
+@keyframes wg-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.animate-marquee {
+  animation: wg-marquee 30s linear infinite;
+}
+
+/* Terminal block-cursor blink */
+@keyframes wg-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+.animate-blink {
+  animation: wg-blink 1.1s steps(1) infinite;
+}
+
+/* Gentle idle bob for the ghost mark — applied wherever the logo appears so
+   the brand always feels a little alive. Subtle on purpose. */
+@keyframes wg-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12%);
+  }
+}
+.wg-float {
+  animation: wg-float 3s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Parpadeo de ojos del fantasma (segundo gesto de personaje) */
+@keyframes wg-eyes {
+  0%,
+  91%,
+  100% {
+    transform: scaleY(1);
+  }
+  95% {
+    transform: scaleY(0.08);
+  }
+}
+.wg-eyes rect,
+.wg-eyes .wg-eye {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: wg-eyes 4.4s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .animate-marquee,
+  .animate-blink,
+  .wg-float,
+  .wg-eyes rect,
+  .wg-eyes .wg-eye {
+    animation: none;
+  }
+}

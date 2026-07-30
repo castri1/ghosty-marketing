@@ -1,11 +1,12 @@
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
-import Link from 'next/link';
-import { GhostMark } from '@/components/GhostMark';
-import { consoleUrl } from '@/lib/console-url';
+import { AltNav } from '@/components/wg/AltNav';
+import { AltFooter } from '@/components/wg/AltFooter';
+import { copy } from '@/lib/wg-copy';
 import { SITE_URL } from '@/lib/site';
 import '@/styles/preflight.css';
 import '@/styles/marketing.css';
+import '@/styles/wg.css';
 
 /** The official White Ghost mark, as a data-URI favicon. */
 const FAVICON =
@@ -26,10 +27,13 @@ export const viewport: Viewport = {
 };
 
 /**
- * Shared, light editorial shell for all public White Ghost pages — nav + footer
- * ported from the console's MarketingLayout. The `.mkt` wrapper scopes the
- * verbatim-ported marketing CSS. The site is anonymous: sign-in CTAs are
- * absolute links into the console (lib/console-url.ts).
+ * Shared shell for all public White Ghost pages. The chrome (fixed nav +
+ * footer) is the design-lab system, ported verbatim (components/wg, copy in
+ * lib/wg-copy.ts) and deliberately rendered OUTSIDE any `.mkt` scope so the
+ * console-ported element rules in styles/marketing.css cannot reach it.
+ * Content pages re-enter `.mkt` via app/(content)/layout.tsx. The site is
+ * anonymous: sign-in CTAs are absolute links into the console
+ * (lib/console-url.ts).
  */
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
@@ -45,46 +49,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         />
       </head>
       <body>
-        <div className="mkt">
-          <div className="mkt-atmosphere" />
-          <div className="shell">
-            <nav className="mkt-nav" aria-label="Primary navigation">
-              <Link className="wordmark" href="/">
-                <GhostMark className="ghost-mark mark-favicon" />
-                <span>White Ghost</span>
-              </Link>
-              <div className="nav-links">
-                <a href="/#how" className="hide-sm">How it works</a>
-                <a href="/#access" className="hide-sm">Beta access</a>
-                <Link href="/docs" className="hide-sm">Docs</Link>
-                <a href={consoleUrl('/login')}>Sign in</a>
-                <a className="btn btn-small" href={consoleUrl('/signup')}>Join beta</a>
-              </div>
-            </nav>
-
-            {children}
-
-            <footer className="mkt-footer">
-              <div>
-                <Link className="wordmark footer-wordmark" href="/">
-                  <GhostMark className="ghost-mark mark-favicon" />
-                  <span>White Ghost</span>
-                </Link>
-                <p>Build software around the way your work actually happens.</p>
-              </div>
-              <div className="links">
-                <Link href="/docs">Docs</Link>
-                <Link href="/changelog">Changelog</Link>
-                <Link href="/blog">Blog</Link>
-                <Link href="/glossary">Glossary</Link>
-                <Link href="/privacy">Privacy Policy</Link>
-                <Link href="/terms">Terms of Service</Link>
-                <a href="mailto:hello@getghosty.dev">Contact</a>
-              </div>
-              <span className="copyright">© 2026 White Ghost</span>
-            </footer>
-          </div>
-        </div>
+        <div className="wg-atmosphere" />
+        <AltNav locale="en" dict={copy.nav} switcher={copy.localeSwitcher} />
+        {children}
+        <AltFooter locale="en" dict={copy.footer} switcher={copy.localeSwitcher} />
       </body>
     </html>
   );

@@ -8,6 +8,16 @@ export const revalidate = 300;
 /** Static pages that are not registry-driven. */
 const STATIC_PATHS = [
   '/',
+  '/about',
+  '/security',
+  '/story',
+  '/use-cases',
+  '/use-cases/commercial',
+  '/use-cases/finance',
+  '/use-cases/operations',
+  '/compare',
+  '/compare/stack',
+  '/compare/vercel',
   '/docs',
   '/changelog',
   '/privacy',
