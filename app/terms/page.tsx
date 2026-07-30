@@ -8,6 +8,9 @@ export const metadata: Metadata = pageMeta({
   path: '/terms',
 });
 
+// Bounded CDN TTL — see app/page.tsx (CAS-127).
+export const revalidate = 3600;
+
 /** Terms of Service — ported as-is from the console's marketing/Terms.tsx. */
 export default function Terms() {
   return (

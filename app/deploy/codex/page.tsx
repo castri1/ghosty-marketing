@@ -79,6 +79,9 @@ export const metadata: Metadata = pageMeta({
   path: '/deploy/codex',
 });
 
+// Bounded CDN TTL — see app/page.tsx (CAS-127).
+export const revalidate = 3600;
+
 /** Pillar guide for the "deploy a Codex app" question, answer-first. */
 export default function DeployCodex() {
   const jsonLd = [
