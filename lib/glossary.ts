@@ -89,6 +89,78 @@ export const GLOSSARY: GlossaryEntry[] = [
     ],
     related: ['byoc', 'vibe-coding'],
   },
+  {
+    slug: 'pull-request-preview',
+    term: 'Pull request preview',
+    question: 'What is a pull request preview?',
+    definition:
+      'A pull request preview is a live, temporary URL where a proposed change runs before it is merged. Instead of reading a diff or trusting a screenshot, a reviewer opens the link and uses the changed app directly.',
+    sections: [
+      {
+        heading: 'Why it matters for AI-built apps',
+        body: 'When an AI assistant writes the change, the person steering often does not read the code. A preview shifts the review to the only place they can actually judge: the running app. On White Ghost every open pull request gets its preview URL automatically, updated on each push, and the URL expires when the pull request closes.',
+      },
+      {
+        heading: 'What a preview is not',
+        body: 'A preview is not a second production environment. On White Ghost it runs against the app’s development database rather than production data, and the URL is public: anyone with the link can open it, so it is shared deliberately. Production only changes when the merge lands and the normal build ships it.',
+      },
+    ],
+    related: ['rollback', 'vibe-coding'],
+  },
+  {
+    slug: 'oauth-device-flow',
+    term: 'OAuth device flow',
+    question: 'What is OAuth device flow?',
+    definition:
+      'OAuth device flow is a way for a tool without its own browser, like a CLI or an agent, to sign in: the tool shows a short code, the person approves it once in their browser, and the tool receives its credentials without ever seeing a password.',
+    sections: [
+      {
+        heading: 'Why agents need it',
+        body: 'An AI coding assistant driving a command line cannot click through a login page, and it should never handle a password. Device flow splits the work: the human approves once, the tool authenticates from then on. It is the sign-in pattern that makes agent-driven tooling possible at all.',
+      },
+      {
+        heading: 'Where you meet it',
+        body: 'The ghosty CLI signs in to White Ghost with a device flow. That is what lets Claude Code, Codex CLI, or any other assistant install the CLI, log in with one human approval, and then create and deploy apps end to end, with every command returning machine-readable JSON.',
+      },
+    ],
+    related: ['mcp-server', 'byoc'],
+  },
+  {
+    slug: 'scale-to-zero',
+    term: 'Scale to zero',
+    question: 'What is scale to zero?',
+    definition:
+      'Scale to zero means an app releases its computing resources when nobody is using it and starts again on the next request. The trade-off is the cold start: the first request after a quiet period takes longer while the app wakes up.',
+    sections: [
+      {
+        heading: 'Why platforms do it',
+        body: 'Most internal tools and side projects are idle most of the day. Keeping a server running for an app nobody is using wastes resources and money. Scaling to zero lets a platform host many mostly-idle apps sustainably, then scale each one up automatically when traffic arrives.',
+      },
+      {
+        heading: 'What it means for your app',
+        body: 'Apps deployed on White Ghost scale to zero when idle and autoscale with traffic. In practice: no babysitting and no capacity planning, in exchange for a cold start on the first request after inactivity. For dashboards, internal tools, and shared apps, that trade is almost always worth it.',
+      },
+    ],
+    related: ['rollback', 'pull-request-preview'],
+  },
+  {
+    slug: 'rollback',
+    term: 'Rollback (deployment)',
+    question: 'What is a deployment rollback?',
+    definition:
+      'A rollback returns an app to a previous version after a bad deploy. Instead of debugging in production while users wait, you restore the last version that worked, then fix the problem calmly.',
+    sections: [
+      {
+        heading: 'Why it changes how you ship',
+        body: 'Knowing you can undo a deploy in one step is what makes shipping often feel safe, and that matters double when an AI assistant writes the changes. The safety net is not reviewing every line: it is a preview before the merge and a rollback after it.',
+      },
+      {
+        heading: 'How it works on White Ghost',
+        body: 'Two ways back: run ghosty rollback from the command line (an assistant can run it for you), or open the app’s Deploys tab and press Redeploy on any previous build. Every build in the history keeps its commit, timing, and log, so you can also see what changed between the good version and the bad one.',
+      },
+    ],
+    related: ['pull-request-preview', 'scale-to-zero'],
+  },
 ];
 
 export function getGlossaryEntry(slug: string): GlossaryEntry | undefined {

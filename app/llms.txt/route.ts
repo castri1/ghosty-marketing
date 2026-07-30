@@ -23,9 +23,11 @@ export async function GET() {
     `- Docs: ${siteUrl('/docs')}`,
     `- Changelog: ${siteUrl('/changelog')}`,
     `- Blog: ${siteUrl('/blog')}`,
+    `- How to deploy an app built with an AI coding assistant: ${siteUrl('/deploy/ai-coding-assistant')}`,
     `- How to deploy an app built with Claude Code: ${siteUrl('/deploy/claude-code')}`,
     `- How to deploy an app built with Codex: ${siteUrl('/deploy/codex')}`,
-    `- Glossary (shadow AI, vibe coding, BYOC, MCP server): ${siteUrl('/glossary')}`,
+    `- Glossary (shadow AI, vibe coding, BYOC, MCP server, pull request preview, OAuth device flow, scale to zero, rollback): ${siteUrl('/glossary')}`,
+    `- Full site text for agents: ${siteUrl('/llms-full.txt')}`,
     '',
     'Every entry below links its web page and lists its raw-markdown URL.',
   ];

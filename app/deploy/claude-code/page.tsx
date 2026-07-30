@@ -26,18 +26,22 @@ const STEPS = [
   },
   {
     name: 'Ship',
-    text: 'git push triggers the build and rollout; run ghosty deploy to watch until the new version is live on its own URL, with access controls built in.',
+    text: 'git push triggers the build and rollout; real builds of a full app measure around a minute. Run ghosty deploy to watch until the new version is live on its own URL, with access controls built in.',
   },
 ];
 
 const FAQ = [
   {
     q: 'Can Claude Code deploy the app by itself?',
-    a: 'Yes. The ghosty CLI is designed to be driven by an agent: every command supports --json and long-running commands end with a parseable ready line. You can ask Claude Code to install, initialize, and ship without leaving the conversation.',
+    a: 'Yes. The ghosty CLI is designed to be driven by an agent: it signs in with a device flow you approve once, every command supports --json, and long-running commands end with a parseable ready line. You can ask Claude Code to install, initialize, and ship without leaving the conversation.',
   },
   {
     q: 'Do viewers need a Claude account to open my app?',
-    a: 'No. Apps deployed with White Ghost live on a normal URL with access rules you choose: public, invite only, workspace members, or the app’s own sign-in. Viewers never need an account on any AI platform.',
+    a: 'No. Apps deployed with White Ghost live on a normal URL with access rules you choose: public, a shared invite code, workspace members, or the app’s own sign-in. Viewers never need an account on any AI platform.',
+  },
+  {
+    q: 'What if a deploy breaks something?',
+    a: 'Run ghosty rollback, or open the Deploys tab and press Redeploy on any previous build. Every build in the history keeps its commit, timing, and log.',
   },
   {
     q: 'Is an app made with Claude Code a special kind of app?',
@@ -45,7 +49,7 @@ const FAQ = [
   },
   {
     q: 'What happens to the database and files?',
-    a: 'White Ghost provisions managed storage per app, isolated per company, and integrations are proxied by the platform so provider keys never live in the repo.',
+    a: 'Every app gets a managed PostgreSQL database, and file storage you can enable per app, with signed download links that expire. Integration credentials are injected securely by the platform, so provider keys never live in the repo.',
   },
   {
     q: 'Can I leave later?',
@@ -156,6 +160,24 @@ export default function DeployClaudeCode() {
               Install the ghosty CLI, initialize this project with ghosty init, and ship it. Use
               --json output.
             </code>
+          </p>
+
+          <h2>Or start from the console and send the work to Claude Code</h2>
+          <p>
+            The bridge runs in both directions. The Overview of every app has an "Open in Claude
+            Code" button, plus "Copy the instructions": a ready-made prompt that carries the app
+            URL and the repository URL, so the assistant picks the work up with full context. You
+            do not have to explain the project to it.
+          </p>
+
+          <h2>What you get after shipping</h2>
+          <p>
+            Deploying is not the end of the flow. Each app comes with a deploy history (every
+            build keeps its commit, timing, and log, with a Redeploy button), a live log feed,
+            analytics with requests and errors per day over 7 or 30 day windows, and a live
+            preview URL for every open pull request, updated on each push. Secrets are applied
+            without a redeploy, scheduled jobs can call your endpoints on a timer, and a custom
+            domain comes with SSL issued and renewed automatically.
           </p>
 
           <h2>Where can a Claude Code app live? The honest map</h2>

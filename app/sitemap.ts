@@ -12,6 +12,7 @@ const STATIC_PATHS = [
   '/changelog',
   '/privacy',
   '/terms',
+  '/deploy/ai-coding-assistant',
   '/deploy/claude-code',
   '/deploy/codex',
   '/glossary',
@@ -19,6 +20,10 @@ const STATIC_PATHS = [
   '/glossary/vibe-coding',
   '/glossary/byoc',
   '/glossary/mcp-server',
+  '/glossary/pull-request-preview',
+  '/glossary/oauth-device-flow',
+  '/glossary/scale-to-zero',
+  '/glossary/rollback',
 ];
 
 /**

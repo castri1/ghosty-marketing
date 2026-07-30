@@ -26,14 +26,14 @@ const STEPS = [
   },
   {
     name: 'Ship',
-    text: 'git push triggers the build and rollout; run ghosty deploy to watch until the new version is live on its own URL, with access controls built in.',
+    text: 'git push triggers the build and rollout; real builds of a full app measure around a minute. Run ghosty deploy to watch until the new version is live on its own URL, with access controls built in.',
   },
 ];
 
 const FAQ = [
   {
     q: 'Can a Codex site be shared publicly?',
-    a: 'Yes, since ChatGPT Sites went GA in July 2026: paid subscribers can publish publicly viewable sites. The remaining difference is control: with White Ghost the app lives in your own GitHub organization and you choose between public, invite only, workspace members, or the app’s own sign-in, without the app depending on a ChatGPT plan.',
+    a: 'Yes, since ChatGPT Sites went GA in July 2026: paid subscribers can publish publicly viewable sites. The remaining difference is control: with White Ghost the app lives in your own GitHub organization and you choose between public, a shared invite code, workspace members, or the app’s own sign-in, without the app depending on a ChatGPT plan.',
   },
   {
     q: 'Does White Ghost work with Codex, or only with Claude?',
@@ -153,6 +153,25 @@ export default function DeployCodex() {
               Install the ghosty CLI, initialize this project with ghosty init, and ship it. Use
               --json output.
             </code>
+          </p>
+
+          <h2>Or start from the console and send the work to Codex</h2>
+          <p>
+            The bridge runs in both directions. The Overview of every app has an "Open in Codex"
+            button (and one for Claude Code), plus "Copy the instructions": a ready-made prompt
+            that carries the app URL and the repository URL, so the assistant picks the work up
+            with full context. You do not have to explain the project to it.
+          </p>
+
+          <h2>What you get after shipping</h2>
+          <p>
+            Deploying is not the end of the flow. Each app comes with a deploy history (every
+            build keeps its commit, timing, and log, with a Redeploy button), a live log feed,
+            analytics with requests and errors per day over 7 or 30 day windows, and a live
+            preview URL for every open pull request, updated on each push. Secrets are applied
+            without a redeploy, scheduled jobs can call your endpoints on a timer, and a custom
+            domain comes with SSL issued and renewed automatically. If a deploy breaks, ghosty
+            rollback or the Redeploy button takes you back.
           </p>
 
           <h2>Where can a Codex app live? The honest map</h2>
