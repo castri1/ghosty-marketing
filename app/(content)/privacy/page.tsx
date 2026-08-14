@@ -4,7 +4,7 @@ import { pageMeta } from '@/lib/site';
 export const metadata: Metadata = pageMeta({
   title: 'Privacy Policy — White Ghost',
   description:
-    'How White Ghost collects, uses, and protects information across the platform, the CLI, and the websites under getghosty.dev.',
+    'How White Ghost collects, uses, and protects information across the platform, the CLI, and the websites under whiteghost.ai.',
   path: '/privacy',
 });
 
@@ -22,7 +22,7 @@ export default function Privacy() {
         This Privacy Policy describes how White Ghost (&quot;White Ghost&quot;, &quot;we&quot;,
         &quot;us&quot;) collects, uses, and protects information when you use the White Ghost
         platform, the White Ghost command-line tool, and the websites we operate under{' '}
-        <strong>getghosty.dev</strong> (together, the &quot;Service&quot;).
+        <strong>whiteghost.ai</strong> (together, the &quot;Service&quot;).
       </p>
 
       <h2>Who we are</h2>
@@ -58,11 +58,11 @@ export default function Privacy() {
           timestamps) used for security and reliability.
         </li>
         <li>
-          <strong>Product analytics.</strong> We use PostHog to understand how getghosty.dev is
+          <strong>Product analytics.</strong> We use PostHog to understand how whiteghost.ai is
           used — the pages you visit, the features you use, and session replays of console
           activity. Replays mask everything you type, and we never track the applications you
           build or the data inside them. If you&apos;d like your activity excluded, email{' '}
-          <a href="mailto:hello@getghosty.dev">hello@getghosty.dev</a>.
+          <a href="mailto:hello@whiteghost.ai">hello@whiteghost.ai</a>.
         </li>
       </ul>
 
@@ -130,7 +130,7 @@ export default function Privacy() {
         provide the Service to your company. When a company offboards, its environment —
         including databases, secrets, and logs — is deleted. You may request deletion of your
         personal data at any time by emailing{' '}
-        <a href="mailto:hello@getghosty.dev">hello@getghosty.dev</a>; we will respond within 30
+        <a href="mailto:hello@whiteghost.ai">hello@whiteghost.ai</a>; we will respond within 30
         days.
       </p>
 
@@ -157,7 +157,7 @@ export default function Privacy() {
       <h2>Contact</h2>
       <p>
         Questions about this policy or your data:{' '}
-        <a href="mailto:hello@getghosty.dev">hello@getghosty.dev</a>.
+        <a href="mailto:hello@whiteghost.ai">hello@whiteghost.ai</a>.
       </p>
     </main>
   );

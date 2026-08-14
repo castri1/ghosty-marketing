@@ -30,7 +30,7 @@ const ORGANIZATION_JSON_LD = {
   alternateName: 'Ghosty',
   url: SITE_URL,
   logo: `${SITE_URL}/logo-mark-512.png`,
-  email: 'hello@getghosty.dev',
+  email: 'hello@whiteghost.ai',
 };
 
 const SOFTWARE_APPLICATION_JSON_LD = {

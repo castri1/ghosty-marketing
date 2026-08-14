@@ -1,9 +1,10 @@
 # ghosty-marketing
 
-The Ghosty **marketing site** — the public pages on the apex `getghosty.dev`: home, docs,
+The Ghosty **marketing site** — the public pages on the apex `whiteghost.ai`: home, docs,
 changelog, privacy, terms. Split out of the ghosty monorepo's console (CAS-93, 2026-07-24) so
 marketing iterates independently of console deploys and gets real SEO (server-rendered HTML).
-The One Console lives at `console.getghosty.dev` (ghosty monorepo, `apps/console`); every
+The legacy apex `getghosty.dev` 301s here after the domain-migration cutover (CAS-203/206).
+The One Console lives at `console.whiteghost.ai` (ghosty monorepo, `apps/console`); every
 sign-in/join CTA here links there absolutely.
 
 ## Repo map
@@ -14,7 +15,7 @@ sign-in/join CTA here links there absolutely.
   `MarketingLayout.tsx`. SEO/agent surfaces (CAS-97): `app/sitemap.ts`, `app/robots.ts`,
   `app/llms.txt/`, `app/raw/[type]/[id]/` (raw markdown), `app/feed/[type]/` (RSS),
   `app/health/`.
-- `lib/site.ts` — `SITE_URL` (canonical origin `https://getghosty.dev`, override with
+- `lib/site.ts` — `SITE_URL` (canonical origin `https://whiteghost.ai`, override with
   `NEXT_PUBLIC_SITE_URL`, inlined at build time) + `pageMeta()`, the helper every page's
   metadata goes through (title/description/canonical/OpenGraph/Twitter, uniform).
 - `lib/content-types.ts` — **the content-type registry** (CAS-96). Every generic surface
@@ -60,12 +61,12 @@ immediately — the 300s ISR revalidate on pages is only the backstop.
 Publish examples (the `/rollout` path):
 
 ```bash
-curl -X PUT "https://getghosty.dev/api/content/changelog/2026-08-01-faster-builds" \
+curl -X PUT "https://whiteghost.ai/api/content/changelog/2026-08-01-faster-builds" \
   -H "Authorization: Bearer $MARKETING_CONTENT_TOKEN" -H "content-type: application/json" \
   -d '{"slug":"faster-builds","date":"2026-08-01","title":"Faster builds",
        "summary":"Builds now start in seconds.","bodyMd":"Build starts dropped from…"}'
 
-curl -X PUT "https://getghosty.dev/api/content/docs/webhooks" \
+curl -X PUT "https://whiteghost.ai/api/content/docs/webhooks" \
   -H "Authorization: Bearer $MARKETING_CONTENT_TOKEN" -H "content-type: application/json" \
   -d '{"slug":"webhooks","title":"Webhooks","description":"Receive events from services.",
        "order":70,"bodyMd":"…markdown body…"}'
@@ -218,7 +219,7 @@ changes these surfaces with no per-surface code.
   incomplete: `public/` and `.next/static` must be copied into `.next/standalone/` (see the
   note in `next.config.mjs`) — the M4 deploy image does this. `npm start` (`next start`) is a
   local convenience only; it is not the standalone production path.
-- `NEXT_PUBLIC_CONSOLE_URL` (default `https://console.getghosty.dev`) — console CTA target,
+- `NEXT_PUBLIC_CONSOLE_URL` (default `https://console.whiteghost.ai`) — console CTA target,
   inlined at build time (`lib/console-url.ts`).
 - Commit straight to `main` (solo, pre-cutover). No CI/deploy yet — that lands in M4; the
   service goes live on the apex in the OPS cutover (runbook 13 in the ghosty repo).

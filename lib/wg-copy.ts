@@ -128,7 +128,7 @@ export const copy = {
         heading: "Company",
         links: [
           { label: "About", href: "/about" },
-          { label: "Contact", href: "mailto:hello@getghosty.dev" },
+          { label: "Contact", href: "mailto:hello@whiteghost.ai" },
           { label: "Privacy", href: "/privacy" },
           { label: "Terms", href: "/terms" },
         ],
@@ -630,7 +630,7 @@ export const copy = {
         { heading: "What we collect", body: "The contact details you give us (such as your email and company name) and basic usage data to operate the service." },
         { heading: "How we use it", body: "To give you access, run the service, and communicate with you. We don't sell your information or use it to train models." },
         { heading: "Your company information", body: "What your team builds and the data it connects live isolated per company and are yours. You can export and take them." },
-        { heading: "Contact", body: "Privacy questions? Write to hello@getghosty.dev." },
+        { heading: "Contact", body: "Privacy questions? Write to hello@whiteghost.ai." },
       ],
     },
     terms: {
@@ -641,7 +641,7 @@ export const copy = {
         { heading: "The service", body: "White Ghost is an environment to launch and manage apps and agents your team builds with the AI your company already pays for." },
         { heading: "Your account and content", body: "You're responsible for your account and what your team builds. Your code and data are yours." },
         { heading: "Availability", body: "We're early-stage; the service may change as we build it with you." },
-        { heading: "Contact", body: "Questions? Write to hello@getghosty.dev." },
+        { heading: "Contact", body: "Questions? Write to hello@whiteghost.ai." },
       ],
     },
   },

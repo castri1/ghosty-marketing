@@ -1,6 +1,6 @@
 # ghosty-marketing
 
-The Ghosty marketing site — public pages on the apex `getghosty.dev` (home, docs, changelog,
+The Ghosty marketing site — public pages on the apex `whiteghost.ai` (home, docs, changelog,
 privacy, terms), served by the Cloud Run service `marketing` in `ghosty-central`. Architecture,
 content system, and dev workflow live in [CLAUDE.md](./CLAUDE.md); this file covers **build,
 deploy, and the one-time service bootstrap**.

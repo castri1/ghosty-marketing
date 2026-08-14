@@ -49,12 +49,12 @@ export default async function Docs() {
         <p className="section-label">For companies — the admin setup</p>
 
         <p className="docs-intro">
-          Setup happens once, in the <a href="https://ct.getghosty.dev">control tower</a>. You
+          Setup happens once, in the <a href="https://ct.whiteghost.ai">control tower</a>. You
           describe your company, point us at your GitHub organization, and submit. White Ghost then
           provisions a dedicated environment for you — your own cloud project, database, domains,
           and CI/CD. Provisioning is reviewed by us before it goes live, so this isn&apos;t
           instant; you&apos;ll watch the status move in your dashboard and your company goes live
-          at <code>{'{slug}.getghosty.dev'}</code> when it&apos;s active.
+          at <code>{'{slug}.whiteghost.ai'}</code> when it&apos;s active.
         </p>
 
         <div className="steps">
@@ -62,7 +62,7 @@ export default async function Docs() {
             <div>
               <h3>Sign in to the control tower</h3>
               <p>
-                Go to <a href="https://ct.getghosty.dev">ct.getghosty.dev</a> and sign in with
+                Go to <a href="https://ct.whiteghost.ai">ct.whiteghost.ai</a> and sign in with
                 Google.
               </p>
             </div>
@@ -72,7 +72,7 @@ export default async function Docs() {
               <h3>Create your company</h3>
               <p>
                 Pick a name and a short URL slug — the slug becomes{' '}
-                <code>{'{slug}.getghosty.dev'}</code> — and a contact email we can reach you at.
+                <code>{'{slug}.whiteghost.ai'}</code> — and a contact email we can reach you at.
               </p>
             </div>
           </div>
@@ -114,7 +114,7 @@ export default async function Docs() {
                 Submit your company for provisioning. White Ghost stands up an isolated environment —
                 its own cloud project, database, domains, and CI/CD. Track the status in your
                 dashboard; when it&apos;s active, your company is live at{' '}
-                <code>{'{slug}.getghosty.dev'}</code>.
+                <code>{'{slug}.whiteghost.ai'}</code>.
               </p>
             </div>
           </div>
@@ -223,7 +223,7 @@ export default async function Docs() {
               <h3>Ship it</h3>
               <p>
                 A plain <code>git push</code> builds and deploys automatically. Your app goes live
-                at <code>{'{app}.{your-company-slug}.getghosty.dev'}</code>.
+                at <code>{'{app}.{your-company-slug}.whiteghost.ai'}</code>.
               </p>
               <div className="term">
                 <span className="term-cmd">
@@ -241,7 +241,7 @@ export default async function Docs() {
           <h3>Where everything lives</h3>
           <p>
             Find all of your company&apos;s apps in the catalog at{' '}
-            <code>{'{your-company-slug}.getghosty.dev'}</code>. From the console there you manage
+            <code>{'{your-company-slug}.whiteghost.ai'}</code>. From the console there you manage
             environment variables, logs, deploys, and your database — no cloud console required.
           </p>
         </div>

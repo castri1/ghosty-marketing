@@ -5,7 +5,7 @@ import type { Metadata } from 'next';
  * RSS, OG). NEXT_PUBLIC_SITE_URL overrides it (e.g. a staging deploy); it is
  * inlined at build time, same pattern as lib/console-url.ts.
  */
-export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://getghosty.dev').replace(
+export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://whiteghost.ai').replace(
   /\/+$/,
   '',
 );

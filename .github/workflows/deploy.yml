@@ -94,14 +94,11 @@ jobs:
 
       - name: Smoke
         run: |
-          # Pre-cutover smoke: the service's own run.app URL. The /health
-          # route ships with M3 (CAS-97).
-          # TODO(post-cutover): after OPS O3 flips the apex to marketing
-          # (ghosty repo docs/runbooks/13-marketing-split.md, phase D),
-          # switch this to: SMOKE_URL="https://getghosty.dev"
-          SMOKE_URL="$(gcloud run services describe "$RUN_SERVICE" \
-            --project="$GCP_PROJECT" --region="$RUN_REGION" \
-            --format='value(status.url)')"
+          # Smoke against the public apex: whiteghost.ai serves the marketing
+          # backend since the dual-host bring-up (CAS-203 / domain migration);
+          # the legacy getghosty.dev host 301s here after the cutover flip.
+          # The /health route ships with M3 (CAS-97).
+          SMOKE_URL="https://whiteghost.ai"
           for _ in $(seq 1 12); do # retry up to 60s for the new revision
             if curl -fsS -o /dev/null --max-time 5 "$SMOKE_URL/health"; then
               echo "smoke OK: $SMOKE_URL/health"

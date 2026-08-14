@@ -4,7 +4,7 @@ import { pageMeta } from '@/lib/site';
 export const metadata: Metadata = pageMeta({
   title: 'Terms of Service — White Ghost',
   description:
-    'The terms that govern use of the White Ghost platform, command-line tool, and websites under getghosty.dev.',
+    'The terms that govern use of the White Ghost platform, command-line tool, and websites under whiteghost.ai.',
   path: '/terms',
 });
 
@@ -20,7 +20,7 @@ export default function Terms() {
 
       <p>
         These Terms of Service (&quot;Terms&quot;) govern access to and use of the White Ghost
-        platform, command-line tool, and websites operated under <strong>getghosty.dev</strong>{' '}
+        platform, command-line tool, and websites operated under <strong>whiteghost.ai</strong>{' '}
         (the &quot;Service&quot;) by the company that registers for the Service (the
         &quot;Customer&quot;) and the individual users it authorizes (&quot;Users&quot;). By
         using the Service you agree to these Terms.
@@ -135,7 +135,7 @@ export default function Terms() {
       <h2>12. Contact</h2>
       <p>
         Questions about these Terms:{' '}
-        <a href="mailto:hello@getghosty.dev">hello@getghosty.dev</a>.
+        <a href="mailto:hello@whiteghost.ai">hello@whiteghost.ai</a>.
       </p>
     </main>
   );

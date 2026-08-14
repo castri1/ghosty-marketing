@@ -49,10 +49,10 @@ export function AltFooter({
             © {new Date().getFullYear()} White Ghost ▪ {dict.rights}
           </p>
           <a
-            href="https://getghosty.dev"
+            href="https://whiteghost.ai"
             className="px-label text-muted transition-colors duration-200 hover:text-emerald"
           >
-            getghosty.dev
+            whiteghost.ai
           </a>
         </div>
       </div>
