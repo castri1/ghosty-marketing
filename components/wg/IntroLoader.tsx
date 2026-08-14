@@ -48,6 +48,12 @@ const LETTERS = [
 // Lockup geometry — must match public/logo.svg
 const LOCKUP_W = 500;
 const LOCKUP_H = 66;
+// Padding around the drawing (like logo.svg's viewBox "-2 -2 504 70"): the
+// ghost's 2.5 stroke is centered on the path, so without it the outline gets
+// clipped at the left/top/bottom edges of the SVG.
+const LOCKUP_PAD = 2;
+const VIEW_W = LOCKUP_W + LOCKUP_PAD * 2;
+const VIEW_H = LOCKUP_H + LOCKUP_PAD * 2;
 const TEXT_X = 86; // 56 (ghost) + 30 (gap)
 const BASELINE_Y = 46; // 33 + capHeight 26 / 2
 const TEXT_SCALE = 0.37249; // capHeight 26 / 69.8
@@ -155,7 +161,8 @@ export function IntroLoader({ dict }: { dict: Dictionary["intro"] }) {
     if (!ctx) return;
 
     const svgW = ghostEl.ownerSVGElement!.getBoundingClientRect().width;
-    const s = svgW / LOCKUP_W;
+    const s = svgW / VIEW_W;
+    // viewBox center is at LOCKUP_W / 2 (pad is symmetric); ghost center at 28.
     const shift = (LOCKUP_W / 2 - 28) * s;
     if (wrapRef.current) {
       // Clear any transition left from a previous run (the slide below, or
@@ -295,7 +302,7 @@ export function IntroLoader({ dict }: { dict: Dictionary["intro"] }) {
       {/* Lockup: ghost solidifies and blinks, then slides left as GHOSTY types in */}
       <div ref={wrapRef} className="absolute inset-0 flex items-center justify-center">
         <motion.svg
-          viewBox={`0 0 ${LOCKUP_W} ${LOCKUP_H}`}
+          viewBox={`${-LOCKUP_PAD} ${-LOCKUP_PAD} ${VIEW_W} ${VIEW_H}`}
           style={{ width: "min(88vw, 980px)" }}
           initial={false}
           animate={{ opacity: solidVisible || reduce ? 1 : 0 }}
