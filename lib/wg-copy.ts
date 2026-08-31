@@ -93,6 +93,15 @@ export const copy = {
     toEn: "EN",
   },
 
+  // Analytics consent banner copy (approved 2026-08-31).
+  // Vendor-free wording by house rule; the provider detail lives in /privacy.
+  consent: {
+    text: "We use analytics cookies to understand how visitors use this site and to improve it. Declining changes nothing about how the site works. Details in our",
+    policyLabel: "Privacy Policy",
+    accept: "Accept",
+    decline: "Decline",
+  },
+
   footer: {
     tagline:
       "One safe place to launch, share, and manage everything your team builds with AI.",

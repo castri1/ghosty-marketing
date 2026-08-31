@@ -16,7 +16,7 @@ export default function Privacy() {
   return (
     <main className="legal">
       <h1>Privacy Policy</h1>
-      <p className="meta">Effective July 21, 2026</p>
+      <p className="meta">Effective August 31, 2026</p>
 
       <p>
         This Privacy Policy describes how White Ghost (&quot;White Ghost&quot;, &quot;we&quot;,
@@ -58,11 +58,18 @@ export default function Privacy() {
           timestamps) used for security and reliability.
         </li>
         <li>
-          <strong>Product analytics.</strong> We use PostHog to understand how whiteghost.ai is
+          <strong>Product analytics.</strong> We use PostHog to understand how the console is
           used — the pages you visit, the features you use, and session replays of console
           activity. Replays mask everything you type, and we never track the applications you
           build or the data inside them. If you&apos;d like your activity excluded, email{' '}
           <a href="mailto:hello@whiteghost.ai">hello@whiteghost.ai</a>.
+        </li>
+        <li>
+          <strong>Website analytics.</strong> On our public website (whiteghost.ai) we use
+          Google Analytics, loaded through Google Tag Manager, to understand where visitors
+          come from and which pages they use. Analytics cookies are set only if you accept
+          them in the consent banner; if you decline, the site works exactly the same and no
+          analytics cookies are stored.
         </li>
       </ul>
 
@@ -114,8 +121,9 @@ export default function Privacy() {
         <li>
           <strong>Service providers.</strong> We run on Google Cloud Platform; data is processed
           and stored there. We use GitHub (to create and manage application repositories in your
-          company&apos;s organization), npm (to distribute our CLI), and PostHog (product
-          analytics and session replay).
+          company&apos;s organization), npm (to distribute our CLI), PostHog (product
+          analytics and session replay), and Google Analytics with Google Tag Manager
+          (website analytics on whiteghost.ai, subject to your consent).
         </li>
         <li>
           <strong>Legal.</strong> We may disclose information if required by law or to protect

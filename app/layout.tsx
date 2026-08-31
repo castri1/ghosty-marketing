@@ -2,7 +2,10 @@ import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 import { AltNav } from '@/components/wg/AltNav';
 import { AltFooter } from '@/components/wg/AltFooter';
+import { AnalyticsPageView } from '@/components/wg/AnalyticsPageView';
+import { ConsentBanner } from '@/components/wg/ConsentBanner';
 import { copy } from '@/lib/wg-copy';
+import { CONSENT_STORAGE_KEY, GTM_ID } from '@/lib/gtm';
 import { SITE_URL } from '@/lib/site';
 import '@/styles/preflight.css';
 import '@/styles/marketing.css';
@@ -27,6 +30,34 @@ export const viewport: Viewport = {
 };
 
 /**
+ * Consent Mode v2 defaults + the GTM loader, as one inline script so the
+ * consent default is ALWAYS set before GTM boots (Google's required order).
+ * Everything starts denied; on repeat visits the stored choice from the
+ * consent banner (localStorage) seeds the default so returning visitors who
+ * accepted are measured from the first pageview. url_passthrough keeps ad
+ * click ids across pages while consent is denied.
+ */
+const CONSENT_AND_GTM = `
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+var wgc = null;
+try { wgc = localStorage.getItem('${CONSENT_STORAGE_KEY}'); } catch (e) {}
+var g = wgc === 'granted' ? 'granted' : 'denied';
+gtag('consent', 'default', {
+  ad_storage: g,
+  ad_user_data: g,
+  ad_personalization: g,
+  analytics_storage: g,
+  wait_for_update: 500
+});
+gtag('set', 'url_passthrough', true);
+(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
+j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${GTM_ID}');
+`;
+
+/**
  * Shared shell for all public White Ghost pages. The chrome (fixed nav +
  * footer) is the design-lab system, ported verbatim (components/wg, copy in
  * lib/wg-copy.ts) and deliberately rendered OUTSIDE any `.mkt` scope so the
@@ -47,12 +78,29 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=IBM+Plex+Mono:wght@400;500&display=swap"
           rel="stylesheet"
         />
+        {GTM_ID ? <script dangerouslySetInnerHTML={{ __html: CONSENT_AND_GTM }} /> : null}
       </head>
       <body>
+        {GTM_ID ? (
+          <noscript>
+            <iframe
+              src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
+              height="0"
+              width="0"
+              style={{ display: 'none', visibility: 'hidden' }}
+            />
+          </noscript>
+        ) : null}
         <div className="wg-atmosphere" />
         <AltNav locale="en" dict={copy.nav} switcher={copy.localeSwitcher} />
         {children}
         <AltFooter locale="en" dict={copy.footer} switcher={copy.localeSwitcher} />
+        {GTM_ID ? (
+          <>
+            <AnalyticsPageView />
+            <ConsentBanner dict={copy.consent} />
+          </>
+        ) : null}
       </body>
     </html>
   );
