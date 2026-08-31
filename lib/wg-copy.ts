@@ -23,7 +23,7 @@ export const copy = {
     about: {
       title: "White Ghost — about us",
       description:
-        "We were born inside Melonn. We believe anyone in a company should be able to take an idea all the way to a useful app or agent — without losing control of their information.",
+        "We were born solving our own mess. We believe anyone in a company should be able to take an idea all the way to a useful app or agent — without losing control of their information.",
     },
     compareStack: {
       title: "White Ghost vs. piecing together your own stack (Vercel + Supabase + Railway)",
@@ -349,16 +349,16 @@ export const copy = {
     titleLead: "We were born solving",
     titleEm: "our own chaos.",
     intro:
-      "White Ghost started inside Melonn, a logistics company for online stores in Latin America. When our own people began building incredible things with AI, we ran into the same problem every company faces today: everything got trapped on scattered laptops, with no order and no control. So we built the place we were missing.",
+      "White Ghost started inside a logistics company for online stores in Latin America. When our own people began building incredible things with AI, we ran into the same problem every company faces today: everything got trapped on scattered laptops, with no order and no control. So we built the place we were missing.",
     missionTitle: "What we believe",
     mission:
       "We believe anyone in a company — technical or not — should be able to take an idea all the way to a useful, deployed app or agent, without taking their information out of their control and without buying another AI. White Ghost is the safe home for everything a team builds with the AI it already has.",
     teamTitle: "The team",
     teamNote: "Founders (draft for review).",
     team: [
-      { name: "Alejandro Celis", role: "Co-founder · Melonn" },
-      { name: "Andrés Gómez", role: "Co-founder · Melonn" },
-      { name: "Daniel Castrillón", role: "Product & architecture" },
+      { name: "Daniel Castrillón", role: "Product & tech" },
+      { name: "Alejandro Celis", role: "Co-founder" },
+      { name: "Andrés Gómez", role: "Co-founder" },
       { name: "Felipe Jaramillo", role: "Co-founder" },
       { name: "Sebastián Román", role: "Co-founder" },
     ],
