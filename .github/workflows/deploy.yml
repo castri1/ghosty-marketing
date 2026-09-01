@@ -88,7 +88,7 @@ jobs:
             --image="$AR_BASE/marketing:${{ steps.meta.outputs.sha }}" \
             --service-account="$RUNTIME_SA" \
             --min-instances=1 \
-            --set-secrets=MARKETING_CONTENT_TOKEN=marketing-content-token:latest \
+            --set-secrets=MARKETING_CONTENT_TOKEN=marketing-content-token:latest,ADMIN_BASIC_AUTH=admin-basic-auth:latest \
             --quiet >/dev/null
           echo "deployed $AR_BASE/marketing:${{ steps.meta.outputs.sha }}"
 
