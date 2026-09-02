@@ -21,9 +21,28 @@ export function siteUrl(path: string): string {
  * root layout). Descriptions are user/agent-visible — vendor-free language
  * only (house rule).
  */
-export function pageMeta(opts: { title: string; description: string; path: string }): Metadata {
-  const { title, description, path } = opts;
+export function pageMeta(opts: {
+  title: string;
+  description: string;
+  path: string;
+  /** 'article' for blog posts (adds article:published_time etc.); default 'website'. */
+  type?: 'website' | 'article';
+  publishedTime?: string;
+  modifiedTime?: string;
+  tags?: string[];
+}): Metadata {
+  const { title, description, path, type = 'website', publishedTime, modifiedTime, tags } = opts;
   const url = siteUrl(path);
+  const og =
+    type === 'article'
+      ? {
+          type: 'article' as const,
+          ...(publishedTime ? { publishedTime } : {}),
+          ...(modifiedTime ? { modifiedTime } : {}),
+          ...(tags && tags.length > 0 ? { tags } : {}),
+          authors: [siteUrl('/about')],
+        }
+      : { type: 'website' as const };
   return {
     title,
     description,
@@ -33,8 +52,8 @@ export function pageMeta(opts: { title: string; description: string; path: strin
       description,
       url,
       siteName: 'White Ghost',
-      type: 'website',
       images: ['/og.png'],
+      ...og,
     },
     twitter: {
       card: 'summary_large_image',

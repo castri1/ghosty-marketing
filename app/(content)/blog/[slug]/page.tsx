@@ -26,6 +26,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: `${post.title} — White Ghost`,
     description: post.description,
     path: `/blog/${post.slug}`,
+    type: 'article',
+    publishedTime: post.date,
+    modifiedTime: post.updatedAt ?? post.date,
+    tags: post.tags,
   });
 }
 

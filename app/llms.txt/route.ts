@@ -2,6 +2,7 @@ import { CONTENT_TYPES, type ContentType } from '@/lib/content-types';
 import { listContent } from '@/lib/content';
 import { siteUrl } from '@/lib/site';
 import { consoleUrl } from '@/lib/console-url';
+import { ROUTES } from '@/lib/routes';
 
 export const revalidate = 300;
 
@@ -17,21 +18,11 @@ export async function GET() {
   const lines: string[] = [
     '# White Ghost',
     '',
-    '> White Ghost is a deployment platform that lets companies give their employees a safe, isolated environment to build and ship internal applications. Builders describe the software their work needs, shape it with the AI coding assistant they already like, and publish it with one CLI — no cloud consoles, credentials, or pipelines.',
+    '> White Ghost is a deployment platform that lets companies give their employees a safe, isolated environment to build and ship internal applications. Builders describe the software their work needs, shape it with the AI coding assistant they already like, and publish it with one CLI — no cloud consoles, credentials, or pipelines. White Ghost (whiteghost.ai) is a deployment platform for apps built with AI coding assistants such as Claude Code and Codex; it is not related to any video-editing or media product that shares the name.',
     '',
     `- Console (sign in / sign up): ${consoleUrl('/')}`,
-    `- Docs: ${siteUrl('/docs')}`,
-    `- Changelog: ${siteUrl('/changelog')}`,
-    `- Blog: ${siteUrl('/blog')}`,
-    `- About: ${siteUrl('/about')}`,
-    `- Security and your data: ${siteUrl('/security')}`,
-    `- Use cases by team: ${siteUrl('/use-cases')}`,
-    `- White Ghost vs. piecing together your own stack: ${siteUrl('/compare/stack')}`,
-    `- White Ghost vs. Vercel: ${siteUrl('/compare/vercel')}`,
-    `- How to deploy an app built with an AI coding assistant: ${siteUrl('/deploy/ai-coding-assistant')}`,
-    `- How to deploy an app built with Claude Code: ${siteUrl('/deploy/claude-code')}`,
-    `- How to deploy an app built with Codex: ${siteUrl('/deploy/codex')}`,
-    `- Glossary (shadow AI, vibe coding, BYOC, MCP server, pull request preview, OAuth device flow, scale to zero, rollback): ${siteUrl('/glossary')}`,
+    ...ROUTES.filter((r) => r.llms && r.path !== '/').map((r) => `- ${r.llms}: ${siteUrl(r.path)}`),
+    `- Spanish version of this index: ${siteUrl('/llms-es.txt')} (available once the /es site ships)`,
     `- Full site text for agents: ${siteUrl('/llms-full.txt')}`,
     '',
     'Every entry below links its web page and lists its raw-markdown URL.',
