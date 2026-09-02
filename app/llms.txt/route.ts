@@ -24,6 +24,7 @@ export async function GET() {
     `- Changelog: ${siteUrl('/changelog')}`,
     `- Blog: ${siteUrl('/blog')}`,
     `- About: ${siteUrl('/about')}`,
+    `- Pricing (Free, Solo, Team, Org, Enterprise): ${siteUrl('/pricing')}`,
     `- Security and your data: ${siteUrl('/security')}`,
     `- Use cases by team: ${siteUrl('/use-cases')}`,
     `- White Ghost vs. piecing together your own stack: ${siteUrl('/compare/stack')}`,

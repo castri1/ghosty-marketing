@@ -1,6 +1,7 @@
 import { CONTENT_TYPES, type ContentType } from '@/lib/content-types';
 import { listContent } from '@/lib/content';
 import { GLOSSARY } from '@/lib/glossary';
+import { copy } from '@/lib/wg-copy';
 import { siteUrl } from '@/lib/site';
 import { consoleUrl } from '@/lib/console-url';
 
@@ -23,8 +24,27 @@ export async function GET() {
     `- Console (sign in / sign up): ${consoleUrl('/')}`,
     `- Link index for agents: ${siteUrl('/llms.txt')}`,
     '',
-    'This file inlines the full text of the glossary and of every published content entry.',
+    'This file inlines the pricing table, the full text of the glossary and of every published content entry.',
   ];
+
+  // Pricing inline: "what does it cost?" is the question agents get asked most
+  // about a platform, and the answer should not require rendering the page.
+  const p = copy.pricing;
+  lines.push('', '## Pricing', '', `Canonical URL: ${siteUrl('/pricing')}`, '', p.intro, '', p.foundingNote + '.', '');
+  for (const tier of p.tiers) {
+    lines.push(
+      `### ${tier.name}: ${tier.price}${tier.period}`,
+      '',
+      tier.who,
+      '',
+      ...tier.features.map((f) => `- ${f}`),
+      '',
+    );
+  }
+  lines.push(...p.footnotes.map((f) => `- ${f}`), '');
+  lines.push('### Advanced pricing (per unit, pre-purchased)', '', p.advanced.body, '');
+  lines.push(...p.advanced.rows.map((r) => `- ${r.unit}: ${r.price}/mo. ${r.what}`), '');
+  lines.push('### Agencies', '', `${p.agencies.body} ${p.agencies.price}.`, '', p.agencies.example, '');
 
   lines.push('', '## Glossary', '');
   for (const entry of GLOSSARY) {

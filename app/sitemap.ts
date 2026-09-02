@@ -15,6 +15,7 @@ const STATIC_PATHS = [
   '/use-cases/commercial',
   '/use-cases/finance',
   '/use-cases/operations',
+  '/pricing',
   '/compare',
   '/compare/stack',
   '/compare/vercel',

@@ -48,7 +48,7 @@ export const copy = {
     pricing: {
       title: "White Ghost — pricing",
       description:
-        "Priced per company, not per seat. Unlimited users, no surprise bills. Plans are provisional while we open access.",
+        "Build unlimited apps and agents on every plan; your plan sizes how many stay awake in production. Free, Solo $19, Team $299, Org $699, Enterprise from $1,500 a month. Unlimited seats, your own AI keys, and nothing ever bills after the fact.",
     },
     security: {
       title: "White Ghost — security & your data",
@@ -79,6 +79,7 @@ export const copy = {
     links: [
       { label: "Product", href: "/#product" },
       { label: "How it works", href: "/#how" },
+      { label: "Pricing", href: "/pricing" },
       { label: "Compare", href: "/compare/stack" },
       { label: "Docs", href: "/docs" },
       { label: "Blog", href: "/blog" },
@@ -112,6 +113,7 @@ export const copy = {
         links: [
           { label: "How it works", href: "/#how" },
           { label: "Apps & agents", href: "/#product" },
+          { label: "Pricing", href: "/pricing" },
           { label: "Security", href: "/security" },
         ],
       },
@@ -567,47 +569,181 @@ export const copy = {
     },
   },
 
+  // Pricing v2 (approved 2026-08-28: the 28-ago session, on top of Castri's
+  // artefact and the Stamp Economics model). Founding-customer list prices,
+  // USD. The internal annexe (economics per tier, the margin project, the
+  // rollout) is deliberately NOT on this page.
   pricing: {
     eyebrow: "Pricing",
-    titleLead: "Priced per company,",
-    titleEm: "not per seat.",
+    titleLead: "Build without limits.",
+    titleEm: "Pay for what's awake.",
     intro:
-      "Unlimited users, no paying for each person, and no surprise bills. You pay one flat plan based on your company's size.",
-    provisionalNote: "Prices are provisional while we open access. They may change.",
+      "Create as many apps and agents as you want, on every plan: building is never restricted. Your plan sets how many can be awake in production at once, and how much they can carry. You bring your own AI; we never resell tokens. The platform asks before you spend; it never bills after the fact.",
+    foundingNote: "Founding customer pricing, locked for 12 months",
+    journey: "Free → Solo → Team → Org → Enterprise",
+    journeyNote: "one journey: you build alone, your team joins, your company adopts",
     perMonth: "/mo",
+    popular: "Most popular",
+    groupSolo: "For one builder",
+    groupTeams: "For teams and organizations: unlimited seats on every plan",
     tiers: [
       {
-        name: "Starter",
-        who: "Under 50 people",
-        price: "~US$150–200",
-        users: "Unlimited users",
-        features: ["Unlimited apps & agents", "Runs on the AI you already pay for", "Control tower included"],
+        name: "Free",
+        who: "Start building. Everything works.",
+        price: "$0",
+        period: "",
+        cta: "Start free",
+        popular: false,
+        features: [
+          "Build unlimited apps & agents",
+          "3 apps awake (sleep one to wake another)",
+          "Connect your apps to each other",
+          "Database, secrets & access modes",
+          "Community subdomain · single user",
+        ],
       },
       {
-        name: "Growth",
-        who: "50 to 250 people",
-        price: "~US$400",
-        users: "Unlimited users",
-        features: ["Everything in Starter", "More capacity", "Connectors to your systems"],
+        name: "Solo",
+        who: "For one builder who ships for real",
+        price: "$19",
+        period: "/mo",
+        cta: "Go Solo",
+        popular: false,
+        features: [
+          "Build unlimited · 10 apps awake",
+          "Custom domains · fast builds",
+          "PR previews · AI design",
+          "10 GB file storage",
+          "Single user",
+        ],
       },
       {
-        name: "Scale",
-        who: "250 to 1,000 people",
-        price: "~US$900",
-        users: "Unlimited users",
-        features: ["Everything in Growth", "Priority support", "Advanced controls"],
+        name: "Team",
+        who: "Your people, building together",
+        price: "$299",
+        period: "/mo",
+        cta: "Start your team",
+        popular: true,
+        features: [
+          "First month $49, try it as a team",
+          "Unlimited seats · end users free",
+          "Your own isolated environment",
+          "Company mesh: apps & agents connected",
+          "Your domain · your branding",
+          "Build unlimited · 50 apps awake",
+          "5M requests/mo · 50 GB out · 20 GB files",
+        ],
+      },
+      {
+        name: "Org",
+        who: "Your whole company runs on it",
+        price: "$699",
+        period: "/mo",
+        cta: "Move to Org",
+        popular: false,
+        features: [
+          "Everything in Team",
+          "Build unlimited · 200 apps awake",
+          "30M requests/mo · 300 GB out",
+          "2× database performance",
+          "100 GB files · higher ceilings",
+        ],
       },
       {
         name: "Enterprise",
-        who: "In your own cloud",
-        price: "Custom",
-        users: "Unlimited users",
-        features: ["Everything inside your cloud (BYOC)", "Your information never leaves", "Tailored to your policies"],
+        who: "Compliance-bound organizations",
+        price: "from $1,500",
+        period: "/mo",
+        cta: "Talk to us",
+        popular: false,
+        features: [
+          "Custom limits · 4× database",
+          "SSO & security review",
+          "Region choice / data residency",
+          "SLA · priority support",
+          "Invoicing",
+        ],
       },
     ],
+    footnotes: [
+      "Never limited by features: every feature works on every plan; plans only size capacity",
+      "Annual: 2 months free",
+      "Your AI keys, your rates: no resold tokens",
+    ],
+
+    gauge: {
+      eyebrow: "Know where you stand",
+      title: "One gauge. No billing math.",
+      body:
+        "Cloud providers bill in twenty invisible units. White Ghost folds them into one bar you can actually read: how much of your plan you're using, averaged over the last 3 days. It warns at 90%, tells you exactly which app is driving it, and suggests the right moment to move up, before anything slows down.",
+      planLabel: "YOUR PLAN · TEAM",
+      reading: "72% · trending up",
+      value: 72,
+      alert: "alert at 90%",
+      driver: "Driving it: storefront-app, 1,000+ visitors/day this week",
+      bars: [
+        { label: "Traffic", value: 84 },
+        { label: "Apps awake", value: 62 },
+        { label: "Storage", value: 48 },
+        { label: "Compute", value: 71 },
+      ],
+    },
+
+    advanced: {
+      eyebrow: "Advanced pricing",
+      title: "Or tune your plan, piece by piece",
+      body:
+        "Most teams just move up a plan when the gauge says so. If you'd rather tailor it, open Advanced and add exactly what you need: pre-purchased, confirmed before it bills, never a meter.",
+      colUnit: "Unit",
+      colPrice: "Price /mo",
+      colWhat: "What it adds",
+      rows: [
+        { unit: "Extra awake apps (pack of 10)", price: "$15", what: "Ten more apps awake beyond your plan" },
+        { unit: "Storage pack", price: "$15", what: "+100 GB file storage" },
+        { unit: "Bandwidth pack", price: "$60", what: "+250 GB transfer" },
+        { unit: "Always-warm app", price: "$99", what: "No cold starts for one critical app" },
+        { unit: "Database boost (2×)", price: "$150", what: "Double the compute and memory behind your data (included in Org)" },
+        { unit: "Database performance (4×)", price: "$350", what: "The heavy rung, Enterprise default" },
+        { unit: "Priority support / SLA", price: "$199", what: "Response-time commitment" },
+      ],
+    },
+
+    agencies: {
+      eyebrow: "Agencies",
+      title: "Build for your clients",
+      body: "Run every client in their own isolated environment, under your brand, from one console.",
+      price: "$299 /mo + $179 /mo per client environment",
+      points: [
+        "White-label console: your brand on the chrome",
+        "Cross-client view and priority support",
+        "Each client: isolated environment, 5 awake apps, 1M requests/mo",
+      ],
+      example:
+        "An agency with 5 clients runs on $1,194/mo: one relationship, five isolated environments, every client's data fully separated.",
+    },
+
+    pledge: {
+      eyebrow: "The pledge",
+      title: "Your bill can never surprise you",
+      items: [
+        {
+          title: "We ask before you spend",
+          body: "Hitting a limit blocks with an upgrade prompt; nothing bills after the fact, ever.",
+        },
+        {
+          title: "Building is never the limit",
+          body: "Create, iterate and keep every app you make. Capacity is what plans size: sleep an app any time to wake another.",
+        },
+        {
+          title: "Your AI, your rates",
+          body: "Your apps and agents run on the AI account you already pay for. No resold tokens, no hidden markup, no credit math.",
+        },
+      ],
+    },
+
     ctaTitle: "Ready to start?",
     cta: "Get started →",
-    note: "No new AI to buy ▪ unlimited users on every plan",
+    note: "No new AI to buy ▪ unlimited seats on every paid plan",
   },
 
   security: {
