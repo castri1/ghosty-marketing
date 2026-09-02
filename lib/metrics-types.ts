@@ -16,17 +16,35 @@ const isoWeek = z.string().regex(/^\d{4}-W\d{2}$/, 'YYYY-Www (ISO week)');
 
 /**
  * One share-of-voice run, as produced by the local measurement script
- * (rutinas/sov/medir_sov.py): the questions asked to each engine via clean
- * API calls, whether each answer mentioned White Ghost, and which
- * competitors it named. `engines` keeps the per-question detail; `summary`
- * is what the chart reads.
+ * (rutinas/sov/medir_sov.py). v1 runs (2026-08-31) carry only `id`,
+ * `mentioned`, `competitors_ordered`, `answer_excerpt` and a `{mencionan, de}`
+ * summary per engine; v2 runs add per-competitor counts and ranks,
+ * Perplexity citations, brand-disambiguation checks and per-language /
+ * per-intent breakdowns. Every v2 field is optional so v1 documents keep
+ * validating. The full answer text never reaches this API: it stays in the
+ * local sov-history (Firestore caps documents at 1 MB).
  */
+const sovCompetitor = z
+  .object({
+    name: z.string().min(1),
+    first_pos: z.number().int().min(0),
+    count: z.number().int().min(0),
+    rank: z.number().int().min(1),
+  })
+  .strict();
+
 const sovQuestionResult = z
   .object({
     id: z.string().min(1),
     mentioned: z.boolean().optional(),
+    self_rank: z.number().int().nullable().optional(),
     competitors_ordered: z.array(z.string()).optional(),
+    competitors: z.array(sovCompetitor).optional(),
+    citations: z.array(z.string()).optional(),
+    cites_self: z.boolean().optional(),
+    marca_ok: z.boolean().nullable().optional(),
     answer_excerpt: z.string().optional(),
+    usage: z.object({ input: z.number().int(), output: z.number().int() }).strict().optional(),
     error: z.string().optional(),
   })
   .strict();
@@ -42,12 +60,29 @@ const sovEngineRun = z
 
 const sovCount = z.object({ mencionan: z.number().int(), de: z.number().int() }).strict();
 
+/** Per-engine (or per-series: parametrico, browsing, agregado) summary. */
+const sovSummary = sovCount
+  .extend({
+    nucleo_v1: sovCount.optional(),
+    marca: z.object({ correctas: z.number().int(), de: z.number().int() }).strict().optional(),
+    por_lang: z.record(z.string(), sovCount).optional(),
+    por_intent: z.record(z.string(), sovCount).optional(),
+    citan_whiteghost: z.number().int().optional(),
+  })
+  .strict();
+
+const sovCandidate = z
+  .object({ texto: z.string(), veces: z.number().int(), motores: z.array(z.string()) })
+  .strict();
+
 const sovSchema = z
   .object({
     date: calendarDate,
     questions_version: z.number().int().min(1),
     engines: z.record(z.string(), sovEngineRun).default({}),
-    summary: z.record(z.string(), sovCount).default({}),
+    summary: z.record(z.string(), sovSummary).default({}),
+    competidores_top: z.record(z.string(), z.array(z.tuple([z.string(), z.number().int()]))).optional(),
+    candidatos_marcas: z.array(sovCandidate).optional(),
   })
   .strict();
 
@@ -72,6 +107,7 @@ const ga4SummarySchema = z
   .strict();
 
 export type SovRun = z.infer<typeof sovSchema>;
+export type SovSummary = z.infer<typeof sovSummary>;
 export type Ga4Summary = z.infer<typeof ga4SummarySchema>;
 
 export interface MetricKind<T = Record<string, unknown>> {

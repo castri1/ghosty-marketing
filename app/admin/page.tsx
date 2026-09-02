@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { getDb } from '@/lib/firestore';
-import { METRICS_COLLECTION, type Ga4Summary, type SovRun } from '@/lib/metrics-types';
+import { METRICS_COLLECTION, type Ga4Summary, type SovRun, type SovSummary } from '@/lib/metrics-types';
 import { getBlogPosts, getReleases } from '@/lib/content';
 
 /**
@@ -22,8 +22,13 @@ const ENGINE_COLORS: Record<string, string> = {
   anthropic: '#d97757',
   openai: '#10a37f',
   perplexity: '#1f7a8c',
-  agregado: '#0f172a',
+  parametrico: '#0f172a',
+  browsing: '#7c3aed',
 };
+
+/** Engines proper; the rest of `summary` are derived series. */
+const ENGINE_KEYS = ['anthropic', 'openai', 'perplexity'];
+const SERIES_KEYS = ['parametrico', 'browsing', 'agregado'];
 
 async function loadMetric<T>(kind: string): Promise<T[]> {
   try {
@@ -40,8 +45,22 @@ function pct(m: { mencionan: number; de: number } | undefined): number | null {
   return Math.round((m.mencionan / m.de) * 100);
 }
 
+/**
+ * The chart plots the comparable series: the v1 core questions (q01-q12),
+ * which every run since 2026-08-31 asks. v1 runs have no `nucleo_v1` field
+ * because all their questions are the core. New questions widen `de` week
+ * to week, so the total is shown in the tables, not in the trend line.
+ */
+function corePct(m: SovSummary | undefined): number | null {
+  return pct(m?.nucleo_v1 ?? m);
+}
+
+function fmt(m: { mencionan: number; de: number } | undefined): string {
+  return m ? `${m.mencionan}/${m.de}` : '-';
+}
+
 function SovChart({ runs }: { runs: SovRun[] }) {
-  const engines = ['anthropic', 'openai', 'perplexity', 'agregado'];
+  const engines = [...ENGINE_KEYS, 'parametrico', 'browsing'];
   const W = 860;
   const H = 320;
   const PAD = { top: 16, right: 24, bottom: 40, left: 44 };
@@ -67,7 +86,7 @@ function SovChart({ runs }: { runs: SovRun[] }) {
       ))}
       {engines.map((e) => {
         const pts = runs
-          .map((r, i) => ({ i, p: pct(r.summary?.[e]) }))
+          .map((r, i) => ({ i, p: corePct(r.summary?.[e]) }))
           .filter((d): d is { i: number; p: number } => d.p !== null);
         if (!pts.length) return null;
         const color = ENGINE_COLORS[e] ?? '#334155';
@@ -75,8 +94,8 @@ function SovChart({ runs }: { runs: SovRun[] }) {
           <g key={e}>
             <polyline
               points={pts.map((d) => `${x(d.i)},${y(d.p)}`).join(' ')}
-              fill="none" stroke={color} strokeWidth={e === 'agregado' ? 3 : 2}
-              strokeDasharray={e === 'agregado' ? undefined : 'none'} strokeLinejoin="round" strokeLinecap="round"
+              fill="none" stroke={color} strokeWidth={SERIES_KEYS.includes(e) ? 3 : 2}
+              strokeDasharray={SERIES_KEYS.includes(e) ? '6 4' : 'none'} strokeLinejoin="round" strokeLinecap="round"
             />
             {pts.map((d) => (
               <circle key={d.i} cx={x(d.i)} cy={y(d.p)} r={3.5} fill={color} />
@@ -117,8 +136,10 @@ export default async function AdminPage() {
   const ga4 = ga4Raw.filter((g) => g?.week).sort((a, b) => b.week.localeCompare(a.week))[0];
 
   const engineRows = latest
-    ? Object.entries(latest.summary ?? {}).filter(([k]) => k !== 'agregado')
+    ? Object.entries(latest.summary ?? {}).filter(([k]) => ENGINE_KEYS.includes(k))
     : [];
+  const topComp = latest?.competidores_top ?? {};
+  const candidatos = latest?.candidatos_marcas ?? [];
 
   return (
     <main style={{ maxWidth: 960, margin: '0 auto', padding: '48px 20px', display: 'grid', gap: 24 }}>
@@ -127,6 +148,8 @@ export default async function AdminPage() {
         <p style={{ color: '#475569', marginTop: 8 }}>
           Share of voice semanal: porcentaje de las preguntas de referencia en las que cada motor
           menciona a White Ghost. Lo alimenta la rutina semanal (medidor por API, llamadas limpias).
+          La grafica sigue el nucleo comparable (las 12 preguntas v1); las tablas traen el set completo.
+          Parametrico = Anthropic + OpenAI sin browsing; browsing = Perplexity con busqueda en vivo.
         </p>
       </header>
 
@@ -144,13 +167,41 @@ export default async function AdminPage() {
               ))}
             </div>
             {latest && (
-              <p style={{ marginBottom: 0, fontSize: 14, color: '#334155' }}>
-                Ultima corrida {latest.date}: agregado {latest.summary?.agregado?.mencionan ?? 0}/
-                {latest.summary?.agregado?.de ?? 0}
-                {prev && prev.summary?.agregado
-                  ? ` (anterior ${prev.summary.agregado.mencionan}/${prev.summary.agregado.de})`
-                  : ' (primera medicion)'}
-              </p>
+              <div style={{ overflowX: 'auto', marginTop: 12 }}>
+                <table style={{ borderCollapse: 'collapse', width: '100%' }}>
+                  <thead>
+                    <tr>
+                      <th style={th}>Corrida {latest.date} (v{latest.questions_version})</th>
+                      <th style={th}>Total</th>
+                      <th style={th}>Nucleo v1</th>
+                      <th style={th}>EN</th>
+                      <th style={th}>ES</th>
+                      <th style={th}>Marca OK</th>
+                      <th style={th}>Cita whiteghost.ai</th>
+                      <th style={th}>Anterior (nucleo)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[...ENGINE_KEYS, 'parametrico', 'browsing'].map((e) => {
+                      const s = latest.summary?.[e];
+                      if (!s) return null;
+                      const p = prev?.summary?.[e];
+                      return (
+                        <tr key={e}>
+                          <td style={td}>{e}</td>
+                          <td style={td}>{fmt(s)}</td>
+                          <td style={td}>{fmt(s.nucleo_v1 ?? s)}</td>
+                          <td style={td}>{fmt(s.por_lang?.en)}</td>
+                          <td style={td}>{fmt(s.por_lang?.es)}</td>
+                          <td style={td}>{s.marca ? `${s.marca.correctas}/${s.marca.de}` : '-'}</td>
+                          <td style={td}>{s.citan_whiteghost ?? '-'}</td>
+                          <td style={td}>{p ? fmt(p.nucleo_v1 ?? p) : 'primera'}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
             )}
           </>
         ) : (
@@ -197,6 +248,38 @@ export default async function AdminPage() {
           </div>
           <p style={{ fontSize: 13, color: '#64748b', marginBottom: 0 }}>
             En cada celda: NOS NOMBRA, o el top 3 de competidores que el motor nombro.
+          </p>
+        </section>
+      )}
+
+      {latest && Object.keys(topComp).length > 0 && (
+        <section style={card}>
+          <h2 style={{ fontSize: 18, marginTop: 0 }}>Quien se lleva las respuestas ({latest.date})</h2>
+          <div style={{ display: 'grid', gap: 16, gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))' }}>
+            {Object.entries(topComp).map(([e, rows]) => (
+              <div key={e}>
+                <p style={{ fontSize: 13, color: '#475569', margin: '0 0 6px', textTransform: 'uppercase' }}>{e}</p>
+                <table style={{ borderCollapse: 'collapse', width: '100%' }}>
+                  <tbody>
+                    {rows.slice(0, 8).map(([name, n]) => (
+                      <tr key={name}>
+                        <td style={td}>{name}</td>
+                        <td style={{ ...td, textAlign: 'right' }}>{n}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ))}
+          </div>
+          <p style={{ fontSize: 13, color: '#64748b', marginBottom: 0 }}>
+            Menciones acumuladas por motor en toda la corrida.
+            {candidatos.length > 0 && (
+              <>
+                {' '}Marcas nuevas detectadas (no estan en la lista):{' '}
+                {candidatos.slice(0, 8).map((c) => `${c.texto} (${c.veces})`).join(', ')}.
+              </>
+            )}
           </p>
         </section>
       )}
