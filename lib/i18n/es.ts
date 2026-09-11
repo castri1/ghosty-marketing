@@ -71,15 +71,55 @@ export const es: Dictionary = {
     openMenu: "Abrir menú",
     closeMenu: "Cerrar menú",
     cta: "Empezar",
-    links: [
-      { label: "Producto", href: "/#product" },
-      { label: "Cómo funciona", href: "/#how" },
+    signIn: { label: "Iniciar sesión", href: "/signin" },
+    items: [
+      {
+        label: "Producto",
+        groups: [
+          {
+            heading: "Plataforma",
+            links: [
+              { label: "Apps y agentes", href: "/#product" },
+              { label: "Cómo funciona", href: "/#how" },
+              { label: "Seguridad", href: "/security" },
+            ],
+          },
+          {
+            heading: "Casos de uso",
+            links: [
+              { label: "Equipo comercial", href: "/use-cases/commercial" },
+              { label: "Finanzas", href: "/use-cases/finance" },
+              { label: "Operaciones", href: "/use-cases/operations" },
+              { label: "Todos los casos", href: "/use-cases" },
+            ],
+          },
+        ],
+      },
       { label: "Precios", href: "/pricing" },
-      { label: "Comparar", href: "/compare/stack" },
-      { label: "Docs", href: "/docs" },
-      { label: "Blog", href: "/blog" },
-      { label: "Quiénes somos", href: "/about" },
-      { label: "Iniciar sesión", href: "/signin" },
+      { label: "Comparar", href: "/compare" },
+      {
+        label: "Recursos",
+        groups: [
+          {
+            heading: "Aprende",
+            links: [
+              { label: "Docs", href: "/docs" },
+              { label: "Guías de deploy", href: "/deploy" },
+              { label: "Glosario", href: "/glossary" },
+              { label: "Blog", href: "/blog" },
+              { label: "Changelog", href: "/changelog" },
+            ],
+          },
+          {
+            heading: "Empresa",
+            links: [
+              { label: "Quiénes somos", href: "/about" },
+              { label: "La historia", href: "/story" },
+              { label: "Contacto", href: "mailto:hello@whiteghost.ai" },
+            ],
+          },
+        ],
+      },
     ],
   },
 

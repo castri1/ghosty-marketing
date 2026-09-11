@@ -5,6 +5,13 @@
  * drift between the two languages fails `tsc`.
  */
 
+export type NavLink = { label: string; href: string };
+export type NavGroup = { heading: string; links: NavLink[] };
+/** A top-level nav item: a direct link, or a dropdown made of link groups. */
+export type NavItem =
+  | { label: string; href: string; groups?: undefined }
+  | { label: string; groups: NavGroup[]; href?: undefined };
+
 export const en = {
   meta: {
     home: {
@@ -68,16 +75,58 @@ export const en = {
     openMenu: "Open menu",
     closeMenu: "Close menu",
     cta: "Get started",
-    links: [
-      { label: "Product", href: "/#product" },
-      { label: "How it works", href: "/#how" },
+    signIn: { label: "Sign in", href: "/signin" },
+    // Four top-level items: two dropdowns (Product, Resources) and two direct
+    // links. Every destination the old flat nav had is still reachable here.
+    items: [
+      {
+        label: "Product",
+        groups: [
+          {
+            heading: "Platform",
+            links: [
+              { label: "Apps & agents", href: "/#product" },
+              { label: "How it works", href: "/#how" },
+              { label: "Security", href: "/security" },
+            ],
+          },
+          {
+            heading: "Use cases",
+            links: [
+              { label: "Commercial teams", href: "/use-cases/commercial" },
+              { label: "Finance teams", href: "/use-cases/finance" },
+              { label: "Operations teams", href: "/use-cases/operations" },
+              { label: "All use cases", href: "/use-cases" },
+            ],
+          },
+        ],
+      },
       { label: "Pricing", href: "/pricing" },
-      { label: "Compare", href: "/compare/stack" },
-      { label: "Docs", href: "/docs" },
-      { label: "Blog", href: "/blog" },
-      { label: "About", href: "/about" },
-      { label: "Sign in", href: "/signin" },
-    ],
+      { label: "Compare", href: "/compare" },
+      {
+        label: "Resources",
+        groups: [
+          {
+            heading: "Learn",
+            links: [
+              { label: "Docs", href: "/docs" },
+              { label: "Deploy guides", href: "/deploy" },
+              { label: "Glossary", href: "/glossary" },
+              { label: "Blog", href: "/blog" },
+              { label: "Changelog", href: "/changelog" },
+            ],
+          },
+          {
+            heading: "Company",
+            links: [
+              { label: "About", href: "/about" },
+              { label: "Story", href: "/story" },
+              { label: "Contact", href: "mailto:hello@whiteghost.ai" },
+            ],
+          },
+        ],
+      },
+    ] satisfies NavItem[],
   },
 
   localeSwitcher: {
