@@ -2,7 +2,8 @@ import type { MetadataRoute } from 'next';
 import { CONTENT_TYPES, type ContentType } from '@/lib/content-types';
 import { listContent } from '@/lib/content';
 import { siteUrl } from '@/lib/site';
-import { routePaths } from '@/lib/routes';
+import { ROUTES, esPathFor } from '@/lib/routes';
+import { blogPath, getBlogPosts } from '@/lib/content';
 import { GLOSSARY } from '@/lib/glossary';
 
 export const revalidate = 300;
@@ -10,8 +11,14 @@ export const revalidate = 300;
 /**
  * Static pages come from lib/routes.ts (single source of truth shared with
  * llms.txt); glossary terms from lib/glossary.ts. Nothing is listed by hand.
+ * Bilingual routes emit both URLs, each with hreflang alternates (x-default
+ * is the English page).
  */
-const STATIC_PATHS = [...routePaths(), ...GLOSSARY.map((g) => `/glossary/${g.slug}`)];
+const STATIC_PATHS = [...ROUTES.map((r) => r.path), ...GLOSSARY.map((g) => `/glossary/${g.slug}`)];
+
+function alternatesFor(en: string, es: string) {
+  return { languages: { en: siteUrl(en), es: siteUrl(es), 'x-default': siteUrl(en) } };
+}
 
 /**
  * Registry-driven sitemap: the static pages plus every entry of every
@@ -21,7 +28,21 @@ const STATIC_PATHS = [...routePaths(), ...GLOSSARY.map((g) => `/glossary/${g.slu
  * Adding a content type needs zero code here.
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const urls: MetadataRoute.Sitemap = STATIC_PATHS.map((path) => ({ url: siteUrl(path) }));
+  const urls: MetadataRoute.Sitemap = [];
+  for (const path of STATIC_PATHS) {
+    const es = esPathFor(path);
+    if (es) {
+      urls.push({ url: siteUrl(path), alternates: alternatesFor(path, es) });
+      urls.push({ url: siteUrl(es), alternates: alternatesFor(path, es) });
+    } else {
+      urls.push({ url: siteUrl(path) });
+    }
+  }
+
+  // Blog posts carry their own language pairs (translationOf).
+  const posts = await getBlogPosts();
+  const twinOf = (slug: string, lang: 'en' | 'es') =>
+    posts.find((p) => p.lang !== lang && (p.slug === slug || p.translationOf === slug));
 
   const types = CONTENT_TYPES as readonly unknown[] as readonly ContentType[];
   for (const type of types.filter((t) => t.flags.sitemap)) {
@@ -33,11 +54,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       const path = type.pathFor(entry);
       if (path.includes('#')) continue;
       const updatedAt = (entry as { updatedAt?: string }).updatedAt;
+      let alternates: ReturnType<typeof alternatesFor> | undefined;
+      if (type.key === 'blog') {
+        const e = entry as { slug: string; lang: 'en' | 'es'; translationOf?: string };
+        const twin = twinOf(e.translationOf ?? e.slug, e.lang);
+        if (twin) {
+          const enPath = e.lang === 'en' ? path : blogPath(twin);
+          const esPath = e.lang === 'es' ? path : blogPath(twin);
+          alternates = alternatesFor(enPath, esPath);
+        }
+      }
       urls.push({
         url: siteUrl(path),
         ...(updatedAt && !Number.isNaN(Date.parse(updatedAt))
           ? { lastModified: new Date(updatedAt) }
           : {}),
+        ...(alternates ? { alternates } : {}),
       });
     }
   }

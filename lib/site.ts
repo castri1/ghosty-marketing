@@ -1,4 +1,6 @@
 import type { Metadata } from 'next';
+import { enPathFor, esPathFor } from './routes';
+import { ogLocale, type Locale } from './i18n/config';
 
 /**
  * Canonical site origin for absolute URLs (canonicals, sitemap, llms.txt,
@@ -30,9 +32,28 @@ export function pageMeta(opts: {
   publishedTime?: string;
   modifiedTime?: string;
   tags?: string[];
+  /** Language of the page; default English. Drives og:locale and hreflang. */
+  locale?: Locale;
+  /**
+   * Explicit language alternates (canonical paths per locale) for pages that
+   * are not in lib/routes.ts, e.g. a blog post and its translation. Static
+   * pages get them derived from the routes registry automatically.
+   */
+  alternates?: Partial<Record<Locale, string>>;
 }): Metadata {
-  const { title, description, path, type = 'website', publishedTime, modifiedTime, tags } = opts;
+  const {
+    title,
+    description,
+    path,
+    type = 'website',
+    publishedTime,
+    modifiedTime,
+    tags,
+    locale = 'en',
+    alternates,
+  } = opts;
   const url = siteUrl(path);
+  const languages = hreflang(path, locale, alternates);
   const og =
     type === 'article'
       ? {
@@ -46,13 +67,14 @@ export function pageMeta(opts: {
   return {
     title,
     description,
-    alternates: { canonical: url },
+    alternates: { canonical: url, ...(languages ? { languages } : {}) },
     openGraph: {
       title,
       description,
       url,
       siteName: 'White Ghost',
       images: ['/og.png'],
+      locale: ogLocale[locale],
       ...og,
     },
     twitter: {
@@ -62,4 +84,30 @@ export function pageMeta(opts: {
       images: ['/og.png'],
     },
   };
+}
+
+/**
+ * hreflang set for a page: {en, es, x-default} as absolute URLs, when the
+ * page exists in both languages. Static pages are looked up in lib/routes.ts;
+ * content pages pass their own pair. x-default is always the English page.
+ */
+export function hreflang(
+  path: string,
+  locale: Locale,
+  explicit?: Partial<Record<Locale, string>>,
+): Record<string, string> | undefined {
+  let en: string | undefined;
+  let es: string | undefined;
+  if (explicit) {
+    en = explicit.en;
+    es = explicit.es;
+  } else if (locale === 'en') {
+    en = path;
+    es = esPathFor(path);
+  } else {
+    es = path;
+    en = enPathFor(path);
+  }
+  if (!en || !es) return undefined;
+  return { en: siteUrl(en), es: siteUrl(es), 'x-default': siteUrl(en) };
 }

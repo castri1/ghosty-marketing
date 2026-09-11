@@ -22,7 +22,7 @@ export async function GET() {
     '',
     `- Console (sign in / sign up): ${consoleUrl('/')}`,
     ...ROUTES.filter((r) => r.llms && r.path !== '/').map((r) => `- ${r.llms}: ${siteUrl(r.path)}`),
-    `- Spanish version of this index: ${siteUrl('/llms-es.txt')} (available once the /es site ships)`,
+    `- Spanish version of this index (the site in Spanish lives under /es): ${siteUrl('/llms-es.txt')}`,
     `- Full site text for agents: ${siteUrl('/llms-full.txt')}`,
     '',
     'Every entry below links its web page and lists its raw-markdown URL.',
@@ -35,7 +35,9 @@ export async function GET() {
 
   const types = CONTENT_TYPES as readonly unknown[] as readonly ContentType[];
   for (const type of types.filter((t) => t.flags.llmsTxt)) {
-    const entries = await listContent(type);
+    const entries = (await listContent(type)).filter(
+      (e) => (e as { lang?: string }).lang !== 'es',
+    );
     if (entries.length === 0) continue;
     lines.push('', `## ${type.label}`, '');
     for (const entry of entries) {

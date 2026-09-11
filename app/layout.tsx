@@ -1,10 +1,9 @@
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
-import { AltNav } from '@/components/wg/AltNav';
-import { AltFooter } from '@/components/wg/AltFooter';
+import { Chrome, type ChromeDict } from '@/components/wg/Chrome';
 import { AnalyticsPageView } from '@/components/wg/AnalyticsPageView';
-import { ConsentBanner } from '@/components/wg/ConsentBanner';
-import { copy } from '@/lib/wg-copy';
+import { en } from '@/lib/i18n/en';
+import { es } from '@/lib/i18n/es';
 import { CONSENT_STORAGE_KEY, GTM_ID } from '@/lib/gtm';
 import { SITE_URL } from '@/lib/site';
 import '@/styles/preflight.css';
@@ -57,8 +56,14 @@ j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
 f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${GTM_ID}');
 `;
 
+/** Only the chrome slices of a dictionary cross to the client. */
+function chromeDict(d: typeof en): ChromeDict {
+  return { nav: d.nav, footer: d.footer, localeSwitcher: d.localeSwitcher, consent: d.consent };
+}
+
 /**
- * Shared shell for all public White Ghost pages. The chrome (fixed nav +
+ * Shared shell for all public White Ghost pages (English at the root, Spanish
+ * under /es: the chrome picks its language from the path, see Chrome.tsx). The chrome (fixed nav +
  * footer) is the design-lab system, ported verbatim (components/wg, copy in
  * lib/wg-copy.ts) and deliberately rendered OUTSIDE any `.mkt` scope so the
  * console-ported element rules in styles/marketing.css cannot reach it.
@@ -92,15 +97,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           </noscript>
         ) : null}
         <div className="wg-atmosphere" />
-        <AltNav locale="en" dict={copy.nav} switcher={copy.localeSwitcher} />
-        {children}
-        <AltFooter locale="en" dict={copy.footer} switcher={copy.localeSwitcher} />
-        {GTM_ID ? (
-          <>
-            <AnalyticsPageView />
-            <ConsentBanner dict={copy.consent} />
-          </>
-        ) : null}
+        <Chrome en={chromeDict(en)} es={chromeDict(es)} withConsent={Boolean(GTM_ID)}>
+          {children}
+        </Chrome>
+        {GTM_ID ? <AnalyticsPageView /> : null}
       </body>
     </html>
   );

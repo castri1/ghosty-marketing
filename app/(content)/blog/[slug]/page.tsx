@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { GhostMark } from '@/components/GhostMark';
 import { consoleUrl } from '@/lib/console-url';
-import { findBlogPost, formatReleaseDate, getBlogPosts } from '@/lib/content';
+import { blogPath, findBlogPost, findBlogTwin, formatReleaseDate, getBlogPosts } from '@/lib/content';
 import { pageMeta, siteUrl } from '@/lib/site';
 
 export const revalidate = 300;
@@ -15,17 +15,20 @@ interface Props {
 export async function generateStaticParams() {
   // Empty when the store is unreachable (e.g. credential-less builds) —
   // slugs then render on demand at runtime.
-  return (await getBlogPosts()).map((p) => ({ slug: p.slug }));
+  return (await getBlogPosts('en')).map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const post = await findBlogPost(slug);
+  const post = await findBlogPost(slug, 'en');
   if (!post) return { title: 'Blog — White Ghost' };
+  const twin = await findBlogTwin(post);
   return pageMeta({
     title: `${post.title} — White Ghost`,
     description: post.description,
     path: `/blog/${post.slug}`,
+    locale: 'en',
+    ...(twin ? { alternates: { en: `/blog/${post.slug}`, es: blogPath(twin) } } : {}),
     type: 'article',
     publishedTime: post.date,
     modifiedTime: post.updatedAt ?? post.date,
@@ -38,6 +41,7 @@ export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
   const post = await findBlogPost(slug);
   if (!post) redirect('/blog');
+  if (post.lang !== 'en') redirect(blogPath(post));
 
   const postingJsonLd = {
     '@context': 'https://schema.org',
@@ -45,6 +49,7 @@ export default async function BlogPostPage({ params }: Props) {
     headline: post.title,
     description: post.description,
     url: siteUrl(`/blog/${post.slug}`),
+    inLanguage: 'en',
     datePublished: post.date,
     dateModified: post.updatedAt ?? post.date,
     author: { '@type': 'Organization', name: 'White Ghost', url: siteUrl('/') },

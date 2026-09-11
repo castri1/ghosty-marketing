@@ -12,11 +12,12 @@ export const metadata: Metadata = pageMeta({
   description:
     'Practical guides on deploying and sharing the apps, dashboards, and tools you build with AI coding assistants.',
   path: '/blog',
+  locale: 'en',
 });
 
 /** Blog index — renders the blog registry entries newest-first. */
 export default async function Blog() {
-  const posts = await getBlogPosts();
+  const posts = await getBlogPosts('en');
   return (
     <>
       <header className="docs-hero">

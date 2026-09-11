@@ -147,14 +147,25 @@ export interface BlogPost {
   tags: string[];
   faq: { q: string; a: string }[];
   html: string;
+  /** 'en' (at /blog) or 'es' (at /es/blog). */
+  lang: 'en' | 'es';
+  /** Slug of the twin post in the other language, when there is one. */
+  translationOf?: string;
   /** Server-stamped ISO datetime of the last write, when present. */
   updatedAt?: string;
 }
 
-/** All blog posts, newest first. */
-export async function getBlogPosts(): Promise<BlogPost[]> {
+/** Canonical path of a post, by language. */
+export function blogPath(post: Pick<BlogPost, 'slug' | 'lang'>): string {
+  return `${post.lang === 'es' ? '/es' : ''}/blog/${post.slug}`;
+}
+
+/** Blog posts newest first; `lang` narrows to one language. */
+export async function getBlogPosts(lang?: 'en' | 'es'): Promise<BlogPost[]> {
   const entries = await listContent<BlogEntry>(blogType);
-  return entries.map((e) => ({
+  return entries
+    .filter((e) => !lang || e.lang === lang)
+    .map((e) => ({
     slug: e.slug,
     date: e.date,
     title: e.title,
@@ -162,14 +173,50 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
     tags: e.tags,
     faq: e.faq,
     html: render(e.bodyMd),
+    lang: e.lang,
+    ...(e.translationOf ? { translationOf: e.translationOf } : {}),
     ...((e as BlogEntry & { updatedAt?: string }).updatedAt
       ? { updatedAt: (e as BlogEntry & { updatedAt?: string }).updatedAt }
       : {}),
   }));
 }
 
-export async function findBlogPost(slug: string): Promise<BlogPost | undefined> {
-  return (await getBlogPosts()).find((p) => p.slug === slug);
+export async function findBlogPost(slug: string, lang?: 'en' | 'es'): Promise<BlogPost | undefined> {
+  return (await getBlogPosts(lang)).find((p) => p.slug === slug);
+}
+
+/**
+ * The twin of a post in the other language: the post it declares as
+ * `translationOf`, or the post that declares it. Undefined when none.
+ */
+export async function findBlogTwin(post: BlogPost): Promise<BlogPost | undefined> {
+  const all = await getBlogPosts();
+  const other = post.lang === 'es' ? 'en' : 'es';
+  return all.find(
+    (p) => p.lang === other && (p.slug === post.translationOf || p.translationOf === post.slug),
+  );
+}
+
+const MONTHS_ES = [
+  'enero',
+  'febrero',
+  'marzo',
+  'abril',
+  'mayo',
+  'junio',
+  'julio',
+  'agosto',
+  'septiembre',
+  'octubre',
+  'noviembre',
+  'diciembre',
+];
+
+/** "2026-07-14" → "14 de julio de 2026". */
+export function formatDateEs(date: string): string {
+  const [y, m, d] = date.split('-').map(Number);
+  if (!y || !m || !d || m < 1 || m > 12) return date;
+  return `${d} de ${MONTHS_ES[m - 1]} de ${y}`;
 }
 
 /** "2026-07-14" → "July 14, 2026" (UTC-safe: no Date parsing of bare dates). */
