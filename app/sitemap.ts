@@ -2,39 +2,16 @@ import type { MetadataRoute } from 'next';
 import { CONTENT_TYPES, type ContentType } from '@/lib/content-types';
 import { listContent } from '@/lib/content';
 import { siteUrl } from '@/lib/site';
+import { routePaths } from '@/lib/routes';
+import { GLOSSARY } from '@/lib/glossary';
 
 export const revalidate = 300;
 
-/** Static pages that are not registry-driven. */
-const STATIC_PATHS = [
-  '/',
-  '/about',
-  '/security',
-  '/story',
-  '/use-cases',
-  '/use-cases/commercial',
-  '/use-cases/finance',
-  '/use-cases/operations',
-  '/compare',
-  '/compare/stack',
-  '/compare/vercel',
-  '/docs',
-  '/changelog',
-  '/privacy',
-  '/terms',
-  '/deploy/ai-coding-assistant',
-  '/deploy/claude-code',
-  '/deploy/codex',
-  '/glossary',
-  '/glossary/shadow-ai',
-  '/glossary/vibe-coding',
-  '/glossary/byoc',
-  '/glossary/mcp-server',
-  '/glossary/pull-request-preview',
-  '/glossary/oauth-device-flow',
-  '/glossary/scale-to-zero',
-  '/glossary/rollback',
-];
+/**
+ * Static pages come from lib/routes.ts (single source of truth shared with
+ * llms.txt); glossary terms from lib/glossary.ts. Nothing is listed by hand.
+ */
+const STATIC_PATHS = [...routePaths(), ...GLOSSARY.map((g) => `/glossary/${g.slug}`)];
 
 /**
  * Registry-driven sitemap: the static pages plus every entry of every

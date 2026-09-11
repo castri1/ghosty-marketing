@@ -31,17 +31,21 @@ const ORGANIZATION_JSON_LD = {
   url: SITE_URL,
   logo: `${SITE_URL}/logo-mark-512.png`,
   email: 'hello@whiteghost.ai',
+  // Other products share the name; say plainly which one this is.
+  disambiguatingDescription:
+    'White Ghost (whiteghost.ai) is a deployment platform for internal apps built with AI coding assistants such as Claude Code and Codex. Not a video-editing or media tool.',
 };
 
 const SOFTWARE_APPLICATION_JSON_LD = {
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
   name: 'White Ghost',
-  alternateName: 'Ghosty',
   url: SITE_URL,
-  applicationCategory: 'BusinessApplication',
+  applicationCategory: 'DeveloperApplication',
   operatingSystem: 'Web',
   description: copy.meta.home.description,
+  disambiguatingDescription:
+    'Deployment platform for apps built with AI coding assistants (Claude Code, Codex): a permanent URL, access rules, database, integrations, and rollback, without cloud consoles.',
 };
 
 /** The White Ghost home, ported from the design lab (GhostyHome): intro loader,
