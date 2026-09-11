@@ -71,6 +71,8 @@ const sovSummary = sovCount
   })
   .strict();
 
+const sovTopRow = z.object({ name: z.string().min(1), count: z.number().int().min(0) }).strict();
+
 const sovCandidate = z
   .object({ texto: z.string(), veces: z.number().int(), motores: z.array(z.string()) })
   .strict();
@@ -81,7 +83,8 @@ const sovSchema = z
     questions_version: z.number().int().min(1),
     engines: z.record(z.string(), sovEngineRun).default({}),
     summary: z.record(z.string(), sovSummary).default({}),
-    competidores_top: z.record(z.string(), z.array(z.tuple([z.string(), z.number().int()]))).optional(),
+    /** Per-engine leaderboard as objects: Firestore rejects nested arrays, so no tuples here. */
+    competidores_top: z.record(z.string(), z.array(sovTopRow)).optional(),
     candidatos_marcas: z.array(sovCandidate).optional(),
   })
   .strict();

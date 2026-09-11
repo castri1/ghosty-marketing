@@ -261,10 +261,10 @@ export default async function AdminPage() {
                 <p style={{ fontSize: 13, color: '#475569', margin: '0 0 6px', textTransform: 'uppercase' }}>{e}</p>
                 <table style={{ borderCollapse: 'collapse', width: '100%' }}>
                   <tbody>
-                    {rows.slice(0, 8).map(([name, n]) => (
+                    {rows.slice(0, 8).map(({ name, count }) => (
                       <tr key={name}>
                         <td style={td}>{name}</td>
-                        <td style={{ ...td, textAlign: 'right' }}>{n}</td>
+                        <td style={{ ...td, textAlign: 'right' }}>{count}</td>
                       </tr>
                     ))}
                   </tbody>
