@@ -16,6 +16,7 @@ export interface SiteRoute {
 export const ROUTES: SiteRoute[] = [
   { path: '/', llms: 'Home' },
   { path: '/about', llms: 'About White Ghost (what it is, and what it is not)' },
+  { path: '/pricing', llms: 'Pricing (Free, Solo, Team, Org, Enterprise; what a plan sizes is how many apps stay awake)' },
   { path: '/security', llms: 'Security and your data' },
   { path: '/story', llms: 'The story: why White Ghost exists' },
   { path: '/use-cases', llms: 'Use cases by team' },
