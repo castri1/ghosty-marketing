@@ -52,6 +52,10 @@ const blogSchema = base.extend({
   description: z.string().min(1),
   tags: z.array(z.string()).default([]),
   faq: z.array(blogFaqItem).default([]),
+  /** Language of the post: English posts live at /blog, Spanish ones at /es/blog. */
+  lang: z.enum(['en', 'es']).default('en'),
+  /** Slug of this post's twin in the other language, when there is one (hreflang). */
+  translationOf: z.string().optional(),
 });
 
 export type DocsEntry = z.infer<typeof docsSchema>;
@@ -123,7 +127,7 @@ const blogType: ContentType<BlogEntry> = {
   schema: blogSchema,
   storedSchema: blogSchema.extend({ updatedAt: z.iso.datetime().optional() }),
   idFor: (e) => e.slug,
-  pathFor: (e) => `/blog/${e.slug}`,
+  pathFor: (e) => `${e.lang === 'es' ? '/es' : ''}/blog/${e.slug}`,
   compare: (a, b) => (a.date === b.date ? a.slug.localeCompare(b.slug) : b.date.localeCompare(a.date)),
   flags: { sitemap: true, llmsTxt: true, rss: true },
 };

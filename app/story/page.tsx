@@ -1,28 +1,18 @@
 import type { Metadata } from 'next';
-import { StoryJourney } from '@/components/wg/StoryJourney';
-import { copy } from '@/lib/wg-copy';
+import { StoryView } from '@/components/wg/pages/StoryView';
+import { en as dict } from '@/lib/i18n/en';
 import { pageMeta } from '@/lib/site';
 
 export const metadata: Metadata = pageMeta({
-  title: copy.meta.story.title,
-  description: copy.meta.story.description,
+  title: dict.meta.story.title,
+  description: dict.meta.story.description,
   path: '/story',
+  locale: 'en',
 });
 
 // Bounded CDN TTL: see app/page.tsx (CAS-127).
 export const revalidate = 3600;
 
-/**
- * Ported from the design lab (app/[locale]/story/page.tsx), English-only.
- * The lab gave this page its own minimal header; here the global chrome from
- * the root layout takes that role.
- */
-export default function StoryPage() {
-  return (
-    <div className="bg-paper text-ink">
-      <main className="relative">
-        <StoryJourney locale="en" dict={copy.story} />
-      </main>
-    </div>
-  );
+export default function Page() {
+  return <StoryView dict={dict} locale="en" />;
 }

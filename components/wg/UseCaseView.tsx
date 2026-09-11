@@ -1,5 +1,3 @@
-import { AltNav } from "@/components/wg/AltNav";
-import { AltFooter } from "@/components/wg/AltFooter";
 import { Rise } from "@/components/wg/Rise";
 import { PixelEdge } from "@/components/wg/PixelBits";
 import type { Locale } from "@/lib/wg-copy";
@@ -8,7 +6,7 @@ import { localizeHref } from "@/lib/wg-copy";
 
 type Role = Dictionary["useCases"]["roles"][number];
 
-/** Shared layout for a single use-case (role) detail page. */
+/** Shared layout for a single use-case (role) detail page. Nav and footer come from the root layout. */
 export function UseCaseView({
   locale,
   dict,
@@ -22,7 +20,6 @@ export function UseCaseView({
 
   return (
     <div className="bg-paper text-ink">
-      <AltNav locale={locale} dict={dict.nav} switcher={dict.localeSwitcher} />
       <main>
         {/* Hero + problem */}
         <section className="mx-auto max-w-4xl px-5 pb-16 pt-32 sm:px-8 md:pt-40">
@@ -97,7 +94,6 @@ export function UseCaseView({
           </div>
         </section>
 
-        <AltFooter locale={locale} dict={dict.footer} switcher={dict.localeSwitcher} />
       </main>
     </div>
   );
