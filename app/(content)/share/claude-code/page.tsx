@@ -1,9 +1,11 @@
 import type { Metadata } from 'next';
 import { GhostMark } from '@/components/GhostMark';
-import { consoleUrl } from '@/lib/console-url';
+import { signupUrl } from '@/lib/console-url';
 import { pageMeta, siteUrl } from '@/lib/site';
 
 const TITLE = "How to share what you built with Claude Code with your team";
+/** Shorter <title>; the long TITLE stays as the H1. */
+const TITLE_TAG = "Share a Claude Code app with your team";
 const DESCRIPTION = "Three ways to share a Claude Code app, from a zip to a deployed tool with a login. Which one fits, and how to do the last one without learning Git or servers.";
 const PATH = "/share/claude-code";
 
@@ -12,7 +14,7 @@ const STEPS = [{"name": "Create the app", "text": "In the folder Claude Code has
 const FAQ = [{"q": "How do I share a Claude artifact with my team so they can use it every day without a Claude account?", "a": "Turn it into a deployed app instead of a shared artifact. An artifact link is a snapshot inside the AI product; a deployed app is a normal website. On White Ghost you run ghosty init, let Claude Code move the artifact's code into the app and push it, and your team opens it at a permanent URL without any Claude account. You choose whether it is public, behind a shared invite code, or behind a sign-in you build in."}, {"q": "I made a dashboard with Claude Code for my team. How do I share it so only people at my company can open it?", "a": "Deploy it with an access mode. On White Ghost the honest answer for \"only people at my company\" is your own sign-in: the app asks for a login you write into it, with Claude Code's help. A shared invite code is simpler but it is one code for everyone, so treat it like a shared password."}, {"q": "How do I put a tool I built with AI online with a password so only my team can see it?", "a": "Choose the shared invite code mode when you create the app on White Ghost: everyone who opens the link is asked for the code you hand them. It is one code for the whole team, not per-person passwords. For named accounts, use the own sign-in mode instead."}, {"q": "What is the simplest way to publish a small internal app made with Claude Code without learning Git or servers?", "a": "Run ghosty init in the project folder and hand the rest to Claude Code through the Open in Claude Code button. You type one command; the assistant creates the repository, pushes, and the app goes live at a permanent URL. You do need a GitHub account, because the code is stored there and stays yours."}, {"q": "Does my team need a Claude account or any AI account to use the app?", "a": "No. A deployed White Ghost app is a normal website at a normal URL. The only thing they may need is the invite code or the sign-in you chose."}];
 
 export const metadata: Metadata = pageMeta({
-  title: `${TITLE} — White Ghost`,
+  title: `${TITLE_TAG} — White Ghost`,
   description: DESCRIPTION,
   path: PATH,
   locale: "en",
@@ -140,9 +142,9 @@ export default function Page() {
       <section className="closing">
         <GhostMark className="ghost-mark" />
         <h2>Your team deserves a tool, not a copy of one.</h2>
-        <p>Individual builders can start right away. Beta access is free.</p>
-        <a className="btn" href={consoleUrl('/signup')}>
-          Join the beta
+        <p>Start on the free plan: 3 apps awake, one builder, every feature included.</p>
+        <a className="btn" href={signupUrl('share/claude-code')}>
+          Start free
         </a>
       </section>
     </>

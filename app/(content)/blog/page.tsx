@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { GhostMark } from '@/components/GhostMark';
-import { consoleUrl } from '@/lib/console-url';
+import { signupUrl } from '@/lib/console-url';
 import { formatReleaseDate, getBlogPosts } from '@/lib/content';
 import { pageMeta } from '@/lib/site';
 
@@ -55,8 +55,8 @@ export default async function Blog() {
         <GhostMark className="ghost-mark" />
         <h2>Ready to put your app to work?</h2>
         <p>Describe it, shape it with your assistant, and publish it with White Ghost.</p>
-        <a className="btn" href={consoleUrl('/signup')}>
-          Join the beta
+        <a className="btn" href={signupUrl('blog')}>
+          Start free
         </a>
       </section>
     </>

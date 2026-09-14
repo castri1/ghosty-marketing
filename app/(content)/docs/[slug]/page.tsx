@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import { findDocPage, getDocPages } from '@/lib/content';
 import { pageMeta } from '@/lib/site';
 
@@ -19,7 +19,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const page = await findDocPage(slug);
-  if (!page) return { title: 'Docs — White Ghost' };
+  if (!page) notFound();
   return pageMeta({
     title: `${page.title} — White Ghost docs`,
     description: page.description ?? `${page.title} on the White Ghost platform, explained.`,
@@ -27,12 +27,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   });
 }
 
-/** One docs topic — renders the registry entry with the topic sidebar. */
+/** One docs topic — renders the registry entry with the topic sidebar. Unknown slugs are a real 404. */
 export default async function DocsPage({ params }: Props) {
   const { slug } = await params;
   const [page, docPages] = await Promise.all([findDocPage(slug), getDocPages()]);
 
-  if (!page) redirect('/docs');
+  if (!page) notFound();
 
   return (
     <div className="docs-grid">
@@ -54,7 +54,7 @@ export default async function DocsPage({ params }: Props) {
       </aside>
 
       <article className="docs-article">
-        <p className="kicker">{page.title}</p>
+        <h1 className="kicker">{page.title}</h1>
         {page.description && <p className="lede">{page.description}</p>}
         <div className="md-prose" dangerouslySetInnerHTML={{ __html: page.html }} />
       </article>

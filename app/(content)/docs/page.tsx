@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { GhostMark } from '@/components/GhostMark';
-import { consoleUrl } from '@/lib/console-url';
+import { signupUrl } from '@/lib/console-url';
 import { getDocPages } from '@/lib/content';
 import { pageMeta } from '@/lib/site';
 
@@ -10,7 +10,7 @@ export const revalidate = 300;
 export const metadata: Metadata = pageMeta({
   title: 'Docs — White Ghost',
   description:
-    'Get started with White Ghost: set up your company, install the CLI, and ship your first app. Plus guides for every platform capability.',
+    'Get started with White Ghost: set up your company, let your assistant install the CLI, and ship your first app. Plus guides for every platform capability.',
   path: '/docs',
 });
 
@@ -26,7 +26,8 @@ export default async function Docs() {
         </h1>
         <p className="lede reveal d2">
           Two paths, depending on where you sit. Admins set the company up once in the control
-          tower. Builders install the CLI and ship apps from their laptop. Pick yours below.
+          tower. Builders connect their coding assistant, which installs the CLI and ships apps from
+          their laptop. Pick yours below.
         </p>
         <div className="docs-toc reveal d3">
           <a href="#companies">
@@ -137,7 +138,8 @@ export default async function Docs() {
 
         <p className="docs-intro">
           Once your company is active, you don&apos;t touch cloud consoles, credentials, or
-          pipelines. You install one CLI, answer a short interview, and push. Everything below
+          pipelines. One CLI (your assistant can install it for you), a short interview, and a push.
+          Everything below
           assumes your admin has set your company up and added you to the team.
         </p>
 
@@ -146,7 +148,7 @@ export default async function Docs() {
             <span className="docs-flow-num">01</span>
             <div>
               <h3>Install the CLI</h3>
-              <p>One global install. Works on macOS, Linux, and Windows.</p>
+              <p>One global install on macOS, Linux, or Windows. Paste the command, or ask your assistant to run it.</p>
               <div className="term">
                 <span className="term-cmd">
                   <span className="term-p">$</span> npm install -g ghosty-cli
@@ -342,7 +344,7 @@ export default async function Docs() {
         <GhostMark className="ghost-mark" />
         <h2>Ready to ship something?</h2>
         <p>Create your account and go from idea to live app today.</p>
-        <a className="btn" href={consoleUrl('/signup')}>
+        <a className="btn" href={signupUrl('docs')}>
           Sign up — it&apos;s free
         </a>
       </section>

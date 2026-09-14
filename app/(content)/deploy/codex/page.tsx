@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { GhostMark } from '@/components/GhostMark';
-import { consoleUrl } from '@/lib/console-url';
+import { signupUrl } from '@/lib/console-url';
 import { pageMeta, siteUrl } from '@/lib/site';
 
 const TITLE = 'How to deploy an app built with Codex';
@@ -9,7 +9,7 @@ const DESCRIPTION =
 
 const STEPS = [
   {
-    name: 'Install the CLI once',
+    name: 'Install the CLI once (or let your assistant do it)',
     text: 'npm install -g ghosty-cli. Every command supports --json and ends with a parseable ready line, so Codex CLI and other agents can drive the whole flow.',
   },
   {
@@ -209,9 +209,9 @@ export default function DeployCodex() {
       <section className="closing">
         <GhostMark className="ghost-mark" />
         <h2>Ship it where everyone can actually open it.</h2>
-        <p>Individual builders can start right away. Beta access is free.</p>
-        <a className="btn" href={consoleUrl('/signup')}>
-          Join the beta
+        <p>Start on the free plan: 3 apps awake, one builder, every feature included.</p>
+        <a className="btn" href={signupUrl('deploy/codex')}>
+          Start free
         </a>
       </section>
     </>

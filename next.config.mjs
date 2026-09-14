@@ -16,6 +16,12 @@ const nextConfig = {
   // real routes (sitemap.xml, robots.txt, llms.txt, public/ files) match
   // first, and the handlers 404 anything not in lib/content-types.ts — so
   // new content types get raw-markdown and RSS URLs with no config change.
+  // Moved or renamed articles get a permanent redirect here (source → destination).
+  // Language mismatches (an ES post requested under /blog) are handled at
+  // runtime by the blog pages, so they never need an entry.
+  async redirects() {
+    return [];
+  },
   async rewrites() {
     return [
       // /<urlBase>/<id>.md → raw markdown (app/raw/[type]/[id]/route.ts)

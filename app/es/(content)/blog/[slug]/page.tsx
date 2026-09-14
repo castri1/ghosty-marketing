@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
+import { notFound, permanentRedirect } from 'next/navigation';
 import { GhostMark } from '@/components/GhostMark';
-import { consoleUrl } from '@/lib/console-url';
+import { signupUrl } from '@/lib/console-url';
 import { blogPath, findBlogPost, findBlogTwin, formatDateEs, getBlogPosts } from '@/lib/content';
 import { pageMeta, siteUrl } from '@/lib/site';
 
@@ -18,8 +18,9 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const post = await findBlogPost(slug, 'es');
-  if (!post) return { title: 'Blog — White Ghost' };
+  const post = await findBlogPost(slug);
+  if (!post) notFound();
+  if (post.lang !== 'es') permanentRedirect(blogPath(post));
   const twin = await findBlogTwin(post);
   return pageMeta({
     title: `${post.title} — White Ghost`,
@@ -38,8 +39,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function BlogPostEsPage({ params }: Props) {
   const { slug } = await params;
   const post = await findBlogPost(slug);
-  if (!post) redirect('/es/blog');
-  if (post.lang !== 'es') redirect(blogPath(post));
+  if (!post) notFound();
+  if (post.lang !== 'es') permanentRedirect(blogPath(post));
 
   const postingJsonLd = {
     '@context': 'https://schema.org',
@@ -107,8 +108,8 @@ export default async function BlogPostEsPage({ params }: Props) {
         <GhostMark className="ghost-mark" />
         <h2>¿Lista tu app para ponerse a trabajar?</h2>
         <p>Descríbela, dale forma con tu asistente y publícala con White Ghost.</p>
-        <a className="btn" href={consoleUrl('/signup')}>
-          Entrar a la beta
+        <a className="btn" href={signupUrl(`es/blog/${post.slug}`)}>
+          Empezar gratis
         </a>
       </section>
     </>

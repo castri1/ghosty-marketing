@@ -1,4 +1,4 @@
-import { consoleUrl } from '@/lib/console-url';
+import { consoleUrl, signupUrl } from '@/lib/console-url';
 import { esPathFor } from '@/lib/routes';
 import type { Locale } from './config';
 
@@ -11,7 +11,7 @@ import type { Locale } from './config';
  *   the English page rather than 404ing.
  */
 export function localizeHref(href: string, locale: Locale = 'en'): string {
-  if (href === '/waitlist') return consoleUrl('/signup');
+  if (href === '/waitlist') return signupUrl('chrome');
   if (href === '/signin') return consoleUrl('/login');
   if (
     href.startsWith('#') ||

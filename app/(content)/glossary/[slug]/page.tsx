@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import { GLOSSARY, getGlossaryEntry } from '@/lib/glossary';
 import { pageMeta, siteUrl } from '@/lib/site';
 
@@ -20,7 +20,7 @@ export const revalidate = 3600;
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const entry = getGlossaryEntry(slug);
-  if (!entry) return { title: 'Glossary — White Ghost' };
+  if (!entry) notFound();
   return pageMeta({
     title: `${entry.question} — White Ghost`,
     description: entry.definition.slice(0, 158),
@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function GlossaryEntryPage({ params }: Props) {
   const { slug } = await params;
   const entry = getGlossaryEntry(slug);
-  if (!entry) redirect('/glossary');
+  if (!entry) notFound();
 
   const related = entry.related
     .map((s) => getGlossaryEntry(s))

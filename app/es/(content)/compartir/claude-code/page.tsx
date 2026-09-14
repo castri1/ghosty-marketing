@@ -1,9 +1,11 @@
 import type { Metadata } from 'next';
 import { GhostMark } from '@/components/GhostMark';
-import { consoleUrl } from '@/lib/console-url';
+import { signupUrl } from '@/lib/console-url';
 import { pageMeta, siteUrl } from '@/lib/site';
 
 const TITLE = "Cómo compartir lo que hiciste en Claude Code con tu equipo";
+/** <title> corto; el TITLE largo sigue siendo el H1. */
+const TITLE_TAG = "Compartir una app de Claude Code con tu equipo";
 const DESCRIPTION = "Tres formas de compartir una app hecha con Claude Code, desde un zip hasta una herramienta publicada con login. Cuál te sirve y cómo hacer la última sin saber de Git ni de servidores.";
 const PATH = "/es/compartir/claude-code";
 
@@ -12,7 +14,7 @@ const STEPS = [{"name": "Crea la app", "text": "En la carpeta donde Claude Code 
 const FAQ = [{"q": "¿Cómo comparto lo que hice en Claude Code con mi equipo?", "a": "Publicándolo en un lugar que no sea tu computador. Con White Ghost: ghosty init en la carpeta, botón Open in Claude Code en la página de la app para que el asistente mueva el código y lo suba, y cada subida queda en vivo en una URL permanente. Tú eliges si el link es público, pide un código de invitación compartido o exige un inicio de sesión que tú programas."}, {"q": "¿Cómo comparto un artefacto de Claude con mi equipo sin que necesiten cuenta de Claude?", "a": "Conviértelo en una app publicada en vez de un artefacto compartido. El link de un artefacto es una foto dentro del producto de IA; una app publicada es una página web normal. En White Ghost escribes ghosty init, dejas que Claude Code mueva el código del artefacto a la app y la suba, y tu equipo la abre en una URL permanente sin ninguna cuenta de Claude."}, {"q": "Hice un dashboard con Claude Code para mi equipo. ¿Cómo lo publico para que solo la gente de mi empresa lo pueda abrir?", "a": "Publicándolo con un modo de acceso. En White Ghost la respuesta honesta para \"solo la gente de mi empresa\" es tu propio inicio de sesión: la app pide un login que tú le programas con ayuda de Claude Code. El código de invitación compartido es más simple, pero es un solo código para todos, así que trátalo como una contraseña compartida."}, {"q": "¿Cómo pongo en línea con contraseña una herramienta que hice con IA para que solo mi equipo la vea?", "a": "Eligiendo el modo de código de invitación compartido al crear la app en White Ghost: a quien abra el link se le pide el código que tú le pasaste. Es un código para todo el equipo, no contraseñas por persona. Para cuentas con nombre, usa el modo de inicio de sesión propio."}, {"q": "¿Mi equipo necesita cuenta de Claude o de alguna IA para usar la app?", "a": "No. Una app publicada en White Ghost es una página web normal en una URL normal. Lo único que pueden necesitar es el código de invitación o el inicio de sesión que tú elegiste."}];
 
 export const metadata: Metadata = pageMeta({
-  title: `${TITLE} — White Ghost`,
+  title: `${TITLE_TAG} — White Ghost`,
   description: DESCRIPTION,
   path: PATH,
   locale: "es",
@@ -145,9 +147,9 @@ export default function Page() {
       <section className="closing">
         <GhostMark className="ghost-mark" />
         <h2>Tu equipo merece una herramienta, no una copia de una.</h2>
-        <p>Si construyes por tu cuenta puedes empezar hoy. El acceso a la beta es gratis.</p>
-        <a className="btn" href={consoleUrl('/signup')}>
-          Entrar a la beta
+        <p>Empieza en el plan gratis: 3 apps despiertas, una persona, todas las funciones incluidas.</p>
+        <a className="btn" href={signupUrl('es/compartir/claude-code')}>
+          Empezar gratis
         </a>
       </section>
     </>

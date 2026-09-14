@@ -43,7 +43,7 @@ export const es: Dictionary = {
     pricing: {
       title: "White Ghost — precios",
       description:
-        "Construye apps y agentes sin límite en todos los planes; tu plan define cuántas quedan despiertas en producción. Free, Solo US$19, Team US$299, Org US$699, Enterprise desde US$1.500 al mes. Usuarios ilimitados, tus propias llaves de IA y nada se cobra después.",
+        "Construye apps y agentes sin límite en todos los planes; el plan define cuántas quedan despiertas. Free, Solo US$19, Team US$299, Org US$699, Enterprise desde US$1.500 al mes. Usuarios ilimitados en los planes de equipo.",
     },
     security: {
       title: "White Ghost — seguridad y tus datos",
@@ -227,7 +227,7 @@ export const es: Dictionary = {
       steps: [
         {
           title: "Responde unas preguntas simples.",
-          body: "Dile a White Ghost qué quieres — un tablero, una herramienta, un agente — en palabras normales. Sin configurar nada, sin instalar nada.",
+          body: "Dile a White Ghost qué quieres — un tablero, una herramienta, un agente — en palabras normales. Tu asistente instala y configura todo; tú nunca lees un log.",
           line: '"Necesito una herramienta simple para llevar las solicitudes de clientes."',
         },
         {
@@ -397,7 +397,7 @@ export const es: Dictionary = {
       { name: "Sebastián Román", role: "Cofundador" },
     ],
     ctaTitle: "¿Quieres verlo en tu empresa?",
-    cta: "Únete a la lista de espera →",
+    cta: "Empezar →",
   },
 
   compareStack: {
@@ -771,7 +771,7 @@ export const es: Dictionary = {
 
     ctaTitle: "¿Listo para empezar?",
     cta: "Empezar →",
-    note: "Sin nueva IA que comprar ▪ usuarios ilimitados en todos los planes pagos",
+    note: "Sin nueva IA que comprar ▪ usuarios ilimitados en Team, Org y Enterprise",
   },
 
   security: {

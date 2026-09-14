@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { GhostMark } from '@/components/GhostMark';
-import { consoleUrl } from '@/lib/console-url';
+import { signupUrl } from '@/lib/console-url';
 import { pageMeta, siteUrl } from '@/lib/site';
 
 const TITLE = 'How to deploy an app built with Claude Code';
@@ -9,7 +9,7 @@ const DESCRIPTION =
 
 const STEPS = [
   {
-    name: 'Install the CLI once',
+    name: 'Install the CLI once (or let your assistant do it)',
     text: 'npm install -g ghosty-cli. Every command supports --json and ends with a parseable ready line, so Claude Code can drive the whole flow for you.',
   },
   {
@@ -215,9 +215,9 @@ export default function DeployClaudeCode() {
       <section className="closing">
         <GhostMark className="ghost-mark" />
         <h2>Your app deserves more than a temporary link.</h2>
-        <p>Individual builders can start right away. Beta access is free.</p>
-        <a className="btn" href={consoleUrl('/signup')}>
-          Join the beta
+        <p>Start on the free plan: 3 apps awake, one builder, every feature included.</p>
+        <a className="btn" href={signupUrl('deploy/claude-code')}>
+          Start free
         </a>
       </section>
     </>

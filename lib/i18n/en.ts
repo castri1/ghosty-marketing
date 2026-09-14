@@ -47,7 +47,7 @@ export const en = {
     pricing: {
       title: "White Ghost — pricing",
       description:
-        "Build unlimited apps and agents on every plan; your plan sizes how many stay awake in production. Free, Solo $19, Team $299, Org $699, Enterprise from $1,500 a month. Unlimited seats, your own AI keys, and nothing ever bills after the fact.",
+        "Build unlimited apps and agents on every plan; the plan sizes how many stay awake. Free, Solo $19, Team $299, Org $699, Enterprise from $1,500 a month. Unlimited seats on team plans.",
     },
     security: {
       title: "White Ghost — security & your data",
@@ -236,7 +236,7 @@ export const en = {
       steps: [
         {
           title: "Answer a few simple questions.",
-          body: "Tell White Ghost what you want — a dashboard, a tool, an agent — in plain words. No setup, nothing to install.",
+          body: "Tell White Ghost what you want — a dashboard, a tool, an agent — in plain words. Your assistant installs and sets up everything; you never read a build log.",
           line: '"I need a simple tool to track customer requests."',
         },
         {
@@ -784,7 +784,7 @@ export const en = {
 
     ctaTitle: "Ready to start?",
     cta: "Get started →",
-    note: "No new AI to buy ▪ unlimited seats on every paid plan",
+    note: "No new AI to buy ▪ unlimited seats on Team, Org and Enterprise",
   },
 
   security: {

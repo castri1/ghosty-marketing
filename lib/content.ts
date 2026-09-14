@@ -83,6 +83,15 @@ export function render(markdown: string): string {
   return marked.parse(markdown) as string;
 }
 
+/**
+ * Drops a leading `# Title` line so a page that renders its own <h1> from the
+ * entry's `title` never ends up with two. Only the first non-blank line is
+ * considered; the raw markdown surface (`/docs/<slug>.md`) is untouched.
+ */
+export function stripLeadingH1(markdown: string): string {
+  return markdown.replace(/^\s*#[ \t]+[^\n]*\r?\n?/, '');
+}
+
 // ── Page-facing shapes (unchanged from the CAS-93 port) ──────────────────
 
 export interface ReleaseEntry {
@@ -117,7 +126,7 @@ export async function getDocPages(): Promise<DocPage[]> {
     title: e.title,
     ...(e.description ? { description: e.description } : {}),
     order: e.order,
-    html: render(e.bodyMd),
+    html: render(stripLeadingH1(e.bodyMd)),
   }));
 }
 

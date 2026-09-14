@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { GhostMark } from '@/components/GhostMark';
-import { consoleUrl } from '@/lib/console-url';
+import { signupUrl } from '@/lib/console-url';
 import { formatReleaseDate, getReleases } from '@/lib/content';
 import { pageMeta } from '@/lib/site';
 
@@ -52,7 +52,7 @@ export default async function Changelog() {
         <GhostMark className="ghost-mark" />
         <h2>Want these in your console?</h2>
         <p>Everything above is live for every White Ghost app, automatically.</p>
-        <a className="btn" href={consoleUrl('/signup')}>
+        <a className="btn" href={signupUrl('changelog')}>
           Sign up — it&apos;s free
         </a>
       </section>

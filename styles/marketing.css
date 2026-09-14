@@ -1360,3 +1360,7 @@ body {
   .mkt .beta-hero .text-link { justify-self: start; }
   .mkt .mkt-footer .links { grid-template-columns: 1fr; }
 }
+
+/* Docs topics: the title is the page's only H1 but keeps the kicker look
+   (the H1 rules above would otherwise change weight and line-height). */
+.mkt .docs-article h1.kicker { font-weight: inherit; line-height: inherit; margin-bottom: 12px; }

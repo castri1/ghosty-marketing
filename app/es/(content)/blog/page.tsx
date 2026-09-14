@@ -1,14 +1,14 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { GhostMark } from '@/components/GhostMark';
-import { consoleUrl } from '@/lib/console-url';
+import { signupUrl } from '@/lib/console-url';
 import { formatDateEs, getBlogPosts } from '@/lib/content';
 import { pageMeta } from '@/lib/site';
 
 export const revalidate = 300;
 
 export const metadata: Metadata = pageMeta({
-  title: 'Blog — White Ghost',
+  title: 'Blog: publicar y compartir apps hechas con IA — White Ghost',
   description:
     'Guías prácticas para publicar y compartir las apps, tableros y herramientas que construyes con asistentes de programación con IA.',
   path: '/es/blog',
@@ -55,8 +55,8 @@ export default async function BlogEs() {
         <GhostMark className="ghost-mark" />
         <h2>¿Lista tu app para ponerse a trabajar?</h2>
         <p>Descríbela, dale forma con tu asistente y publícala con White Ghost.</p>
-        <a className="btn" href={consoleUrl('/signup')}>
-          Entrar a la beta
+        <a className="btn" href={signupUrl('es/blog')}>
+          Empezar gratis
         </a>
       </section>
     </>

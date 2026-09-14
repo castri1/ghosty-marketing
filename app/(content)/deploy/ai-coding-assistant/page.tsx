@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { GhostMark } from '@/components/GhostMark';
-import { consoleUrl } from '@/lib/console-url';
+import { signupUrl } from '@/lib/console-url';
 import { pageMeta, siteUrl } from '@/lib/site';
 
 const TITLE = 'How to deploy an app built with an AI coding assistant';
@@ -9,7 +9,7 @@ const DESCRIPTION =
 
 const STEPS = [
   {
-    name: 'Install the CLI once',
+    name: 'Install the CLI once (or let your assistant do it)',
     text: 'npm install -g ghosty-cli. Every command supports --json, so Claude Code, Codex CLI, Cursor, and other agents can drive the whole flow without you touching a terminal.',
   },
   {
@@ -272,9 +272,9 @@ export default function DeployAiCodingAssistant() {
       <section className="closing">
         <GhostMark className="ghost-mark" />
         <h2>The assistant built it. Let it ship it too.</h2>
-        <p>Individual builders can start right away. Beta access is free.</p>
-        <a className="btn" href={consoleUrl('/signup')}>
-          Join the beta
+        <p>Start on the free plan: 3 apps awake, one builder, every feature included.</p>
+        <a className="btn" href={signupUrl('deploy/ai-coding-assistant')}>
+          Start free
         </a>
       </section>
     </>

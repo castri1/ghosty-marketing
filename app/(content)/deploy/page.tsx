@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { GhostMark } from '@/components/GhostMark';
-import { consoleUrl } from '@/lib/console-url';
+import { signupUrl } from '@/lib/console-url';
 import { pageMeta, siteUrl } from '@/lib/site';
 
 const TITLE = 'How to deploy an app built with an AI assistant';
@@ -85,7 +85,7 @@ export default function DeployHubPage() {
       <h2>The short version</h2>
       <ol>
         <li>
-          Install the CLI once: <code>npm install -g ghosty-cli</code>. Every command supports{' '}
+          Install the CLI once, or ask your assistant to: <code>npm install -g ghosty-cli</code>. Every command supports{' '}
           <code>--json</code>, so the assistant can run it for you.
         </li>
         <li>
@@ -97,7 +97,7 @@ export default function DeployHubPage() {
         </li>
       </ol>
       <p>
-        Ready to try it? <a href={consoleUrl('/signup')}>Create an account</a> or read the{' '}
+        Ready to try it? <a href={signupUrl('deploy')}>Create an account</a> or read the{' '}
         <Link href="/docs">docs</Link>.
       </p>
     </main>
