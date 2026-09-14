@@ -7,7 +7,7 @@ import { pageMeta, siteUrl } from '@/lib/site';
 const TITLE = 'Cómo publicar una app hecha con Codex';
 const TITLE_TAG = 'Publicar una app hecha con Codex';
 const DESCRIPTION =
-  'Codex escribe código normal. ChatGPT Sites lo aloja en OpenAI. Para una app en tu propio repositorio, con las reglas de acceso que tú elijas, publícala con White Ghost.';
+  'Codex escribe código normal. ChatGPT Sites lo aloja en OpenAI. Para una app en tu repositorio, con las reglas de acceso que elijas, publícala con White Ghost.';
 const PATH = '/es/publicar/codex';
 const REVISADO = 'Revisada por el equipo de White Ghost, septiembre de 2026';
 

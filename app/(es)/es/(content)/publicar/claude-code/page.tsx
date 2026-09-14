@@ -7,7 +7,7 @@ import { pageMeta, siteUrl } from '@/lib/site';
 const TITLE = 'Cómo publicar una app hecha con Claude Code';
 const TITLE_TAG = 'Publicar una app hecha con Claude Code';
 const DESCRIPTION =
-  'Claude Code escribe apps normales. Tienes opciones: armar tu propio stack, un link de artefacto o una plataforma administrada como White Ghost. Cómo elegir y publicarla.';
+  'Claude Code escribe apps normales. Tienes opciones: armar tu stack, un link de artefacto o una plataforma administrada como White Ghost. Cómo elegir y publicarla.';
 const PATH = '/es/publicar/claude-code';
 const REVISADO = 'Revisada por el equipo de White Ghost, septiembre de 2026';
 
