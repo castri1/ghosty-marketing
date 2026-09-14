@@ -13,12 +13,12 @@ export const es: Dictionary = {
     home: {
       title: "White Ghost — tu equipo ya está creando con IA. Nosotros lo hacemos real.",
       description:
-        "Tu gente usa Claude todos los días para crear herramientas y agentes, pero casi todo se queda atascado antes de que alguien lo pueda usar. White Ghost le da a toda tu empresa un solo lugar seguro para lanzar, compartir y controlar lo que crea.",
+        "Publica la app que hiciste con Claude Code o Codex: dirección web, base de datos y reglas de acceso. Y un solo lugar seguro para todo lo que tu empresa crea con IA.",
     },
     about: {
       title: "White Ghost — quiénes somos",
       description:
-        "Nacimos resolviendo nuestro propio caos. Creemos que cualquiera en una empresa debería poder llevar una idea hasta una app o un agente útil, sin perder el control de su información.",
+        "White Ghost nació dentro de Melonn, una empresa de logística de Latinoamérica donde toda la compañía empezó a construir con IA. La historia, y en qué creemos.",
     },
     compareStack: {
       title: "White Ghost vs. armar tu propio stack (Vercel + Supabase + Railway)",
@@ -104,7 +104,9 @@ export const es: Dictionary = {
             heading: "Aprende",
             links: [
               { label: "Docs", href: "/docs" },
-              { label: "Guías de deploy", href: "/deploy" },
+              { label: "Publicar con Claude Code", href: "/es/publicar/claude-code" },
+              { label: "Publicar con Codex", href: "/es/publicar/codex" },
+              { label: "Guías de deploy (en inglés)", href: "/deploy" },
               { label: "Glosario", href: "/glossary" },
               { label: "Blog", href: "/blog" },
               { label: "Changelog", href: "/changelog" },
@@ -185,6 +187,45 @@ export const es: Dictionary = {
   },
 
   home: {
+    creator: {
+      eyebrow: "¿Hiciste algo con Claude Code o Codex?",
+      titleLead: "Publica y comparte la app que construiste.",
+      titleEm: "White Ghost le da una dirección web, una base de datos y reglas de acceso.",
+      intro:
+        "Tu asistente escribió la app y corre en localhost, en tu computador. White Ghost la pone en un link permanente que tu equipo abre desde cualquier teléfono, con base de datos incluida, y tú decides quién entra.",
+      columns: [
+        {
+          title: "Qué hace",
+          items: [
+            "Una URL permanente que no depende de tu computador",
+            "Una base de datos PostgreSQL administrada, y archivos cuando tu código los necesita",
+            "Pública, con un código de invitación compartido o con el inicio de sesión que tú programes",
+            "Cada push sale en vivo; con un clic vuelves a la versión anterior",
+          ],
+        },
+        {
+          title: "Qué necesitas",
+          items: [
+            "La carpeta donde tu asistente estuvo trabajando",
+            "Una cuenta de GitHub: ahí queda tu código y sigue siendo tuyo",
+            "Tu asistente hace la parte técnica; tú pegas las instrucciones que te da la consola",
+          ],
+        },
+        {
+          title: "Qué obtienes",
+          items: [
+            "Una app que tu equipo abre mañana sin que tú estés conectado",
+            "Una consola con despliegues, logs, analítica y un preview por cada pull request",
+            "Un plan gratis para empezar: 3 apps despiertas, una persona",
+          ],
+        },
+      ],
+      ctaPrimary: "Publica tu primera app →",
+      ctaSecondary: "Por qué un link de localhost no le abre a nadie",
+      bridge:
+        "Cuando más gente en tu empresa empieza a construir, necesitan un solo lugar para ver y controlar todo. De eso trata el resto de esta página.",
+      bridgeLink: "Ver cómo funciona",
+    },
     hero: {
       badge: "Nuevo — tu equipo ya puede crear agentes de IA",
       titleLead: "Tu equipo ya está creando con IA.",
@@ -383,21 +424,42 @@ export const es: Dictionary = {
     titleLead: "Nacimos resolviendo",
     titleEm: "nuestro propio caos.",
     intro:
-      "White Ghost nació dentro de una empresa de logística para tiendas online en Latinoamérica. Cuando nuestra gente empezó a crear cosas increíbles con IA, nos topamos con el mismo problema que vive hoy cualquier empresa: todo quedaba atrapado en computadores sueltos, regado y sin control. Así que construimos el lugar que nos hacía falta.",
+      "White Ghost nació dentro de Melonn, una empresa de logística para marcas online en Latinoamérica con más de 500 personas en Colombia, México y Chile. Esta es la historia de cómo toda una empresa, no solo sus ingenieros, empezó a construir con IA, y del lugar que tuvimos que construir para que eso funcionara.",
+    storyLabel: "La historia",
+    chapters: [
+      {
+        title: "Primero, una empresa de logística.",
+        body: "Melonn se fundó en Bogotá en 2020 para operar el fulfillment de marcas online: centros de distribución, empaque, envíos y el software que lo une todo. Cientos de personas en operaciones, comercial, finanzas y legal. La mayoría no programa.",
+      },
+      {
+        title: "Después, todo el mundo empezó a construir.",
+        body: "Cuando llegaron los asistentes de IA, nuestra gente no esperó a ingeniería. Comercial hizo calculadoras, finanzas hizo tableros, legal hizo un revisor de contratos. Cosas útiles, hechas rápido, por la gente que las necesitaba.",
+      },
+      {
+        title: "Y detrás vino el caos.",
+        body: "Cada herramienta terminaba en un lugar distinto: un computador, una cuenta de Vercel, una base de datos en Supabase, un servidor en Railway. Usuarios regados, credenciales regadas, cobros pequeños por todas partes, y nadie sabía qué existía ni quién lo podía abrir. Una app que solo su autor puede correr todavía no es una app.",
+      },
+      {
+        title: "Así que construimos el lugar que faltaba.",
+        body: "Un solo lugar donde cualquiera en la empresa pudiera publicar lo que hizo: un link permanente, una base de datos, reglas de acceso y el inicio de sesión de la empresa al frente. Hoy corren ahí 99 aplicaciones, casi todas hechas por gente que no programa. Una es el portal con el que legal revisa los NDA. La hizo una abogada.",
+      },
+      {
+        title: "Ahora también es tuyo.",
+        body: "Ese lugar es White Ghost. Lo abrimos para que quien acaba de hacer algo con Claude Code o Codex tenga dónde ponerlo, y para que cuando toda la empresa empiece a construir, alguien pueda seguir viendo y controlando todo.",
+      },
+    ],
+    proofLabel: "En números",
+    proof: [
+      { figure: "2020", label: "Melonn se fundó en Bogotá" },
+      { figure: "3", label: "Países: Colombia, México y Chile" },
+      { figure: "500+", label: "Personas en Melonn" },
+      { figure: "99", label: "Apps corriendo en White Ghost dentro de Melonn" },
+    ],
     missionTitle: "En qué creemos",
     mission:
       "Creemos que cualquier persona en una empresa — técnica o no — debería poder llevar una idea hasta una app o un agente útil y desplegado, sin sacar su información de control y sin comprar otra IA. White Ghost es el hogar seguro de todo lo que un equipo crea con la IA que ya tiene.",
-    teamTitle: "El equipo",
-    teamNote: "Fundadores (borrador para revisión).",
-    team: [
-      { name: "Alejandro Celis", role: "Cofundador" },
-      { name: "Andrés Gómez", role: "Cofundador" },
-      { name: "Daniel Castrillón", role: "Producto y arquitectura" },
-      { name: "Felipe Jaramillo", role: "Cofundador" },
-      { name: "Sebastián Román", role: "Cofundador" },
-    ],
-    ctaTitle: "¿Quieres verlo en tu empresa?",
-    cta: "Empezar →",
+    ctaTitle: "¿Listo para publicar tu primera app?",
+    cta: "Empezar gratis →",
   },
 
   compareStack: {

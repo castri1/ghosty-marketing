@@ -62,7 +62,7 @@ export default function Page() {
       ))}
 
       <article className="docs-article">
-        <p className="kicker">Guía para compartir</p>
+        <p className="kicker">Guía para compartir · Revisada por el equipo de White Ghost, septiembre de 2026</p>
         <h1>{TITLE}</h1>
         <p className="lede">Porque un link que empieza por http://localhost solo funciona en el computador donde está corriendo la app: localhost es el nombre con el que cada computador se llama a sí mismo. Para una demo de diez minutos, abre un túnel. Para algo que tu equipo va a seguir usando, publica la app para que viva sola, con dirección permanente y una regla de acceso.</p>
 
@@ -105,6 +105,12 @@ export default function Page() {
             </tbody>
           </table>
 
+          <h2>Pídeselo a Claude Code</h2>
+          <p>Pega esto en la conversación de Claude Code, parado en la carpeta de tu app:</p>
+          <pre>
+            <code>Instala el CLI de ghosty (npm install -g ghosty-cli), inicia sesión con ghosty login y corre ghosty init en esta carpeta para crear la app y su repositorio. Sube el código y corre ghosty deploy hasta que la app quede en vivo. Usa salida --json y dime la URL final.</code>
+          </pre>
+
           <h2>De localhost a un link que tu equipo sí puede abrir</h2>
           <ol>
             {STEPS.map((step) => (
@@ -113,6 +119,14 @@ export default function Page() {
               </li>
             ))}
           </ol>
+          <h2>Cómo comprobar que funcionó</h2>
+          <ul>
+            <li>La app aparece en el panel de la consola y un repositorio nuevo aparece en tu cuenta de GitHub.</li>
+            <li>La pestaña Deploys muestra el último build en verde, con su log.</li>
+            <li>La URL de la app abre desde tu celular con el Wi-Fi apagado. Esa es la prueba que localhost nunca pasa.</li>
+            <li>Si elegiste código de invitación compartido, una ventana privada del navegador lo pide antes de mostrar la app.</li>
+          </ul>
+
           <h2>Qué más viene incluido</h2>
           <p>
             Casi todo lo que se construye con un asistente necesita más que una página. Una app de
@@ -132,6 +146,12 @@ export default function Page() {
             </li>
             <li>
               <Link href="/es/compartir/claude-code">Cómo compartir lo que hiciste en Claude Code con tu equipo</Link>
+            </li>
+            <li>
+              <Link href="/es/publicar/claude-code">Cómo publicar una app hecha con Claude Code</Link>
+            </li>
+            <li>
+              <Link href="/es/blog/tu-app-necesita-base-de-datos">Tu app hecha con IA necesita una base de datos. ¿Dónde vive?</Link>
             </li>
           </ul>
           <h2>Límites, dichos con claridad</h2>

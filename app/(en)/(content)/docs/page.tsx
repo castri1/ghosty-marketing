@@ -140,7 +140,10 @@ export default async function Docs() {
           Once your company is active, you don&apos;t touch cloud consoles, credentials, or
           pipelines. One CLI (your assistant can install it for you), a short interview, and a push.
           Everything below
-          assumes your admin has set your company up and added you to the team.
+          assumes your admin has set your company up and added you to the team. Building on your
+          own? Start with the guides for <Link href="/deploy/claude-code">Claude Code</Link> or{' '}
+          <Link href="/deploy/codex">Codex</Link>, the <Link href="/localhost">localhost</Link>{' '}
+          explainer, or <Link href="/blog/ai-built-app-needs-a-database">what happens to your data</Link>.
         </p>
 
         <div className="docs-flow">

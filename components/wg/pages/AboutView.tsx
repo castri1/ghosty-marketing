@@ -2,7 +2,7 @@ import { Rise } from "@/components/wg/Rise";
 import { PixelEdge, PixelIcon, PX } from "@/components/wg/PixelBits";
 import { localizeHref, type Dictionary, type Locale } from '@/lib/i18n';
 
-/** Ported verbatim from the design lab (app/[locale]/about/page.tsx), bilingual via {dict, locale}. */
+/** Ported from the design lab (app/[locale]/about/page.tsx), bilingual via {dict, locale}. Since 2026-09-14 the page tells the Melonn story instead of listing the team. */
 export function AboutView({ dict, locale }: { dict: Dictionary; locale: Locale }) {
   const t = dict.about;
 
@@ -40,29 +40,44 @@ export function AboutView({ dict, locale }: { dict: Dictionary; locale: Locale }
           </div>
         </section>
 
-        {/* Team */}
+        {/* The story */}
         <section className="bg-paper text-ink">
           <PixelEdge color="#EBF5EF" />
           <div className="mx-auto max-w-6xl px-5 py-24 sm:px-8 md:py-32">
             <Rise>
-              <p className="px-label text-muted">{t.teamTitle}</p>
+              <p className="px-label text-muted">{t.storyLabel}</p>
             </Rise>
-            <div className="mt-10 grid gap-6 sm:grid-cols-3">
-              {t.team.map((member, i) => (
-                <Rise key={member.name} delay={i * 0.1}>
+            <ol className="mt-10 border-t border-line">
+              {t.chapters.map((chapter, i) => (
+                <li key={chapter.title} className="border-b border-line">
+                  <Rise>
+                    <div className="grid gap-4 py-10 md:grid-cols-[90px_1fr] md:gap-10 md:py-12">
+                      <span className="px-label text-2xl text-emerald md:pt-1">0{i + 1}</span>
+                      <div>
+                        <h2 className="text-balance font-display text-2xl font-semibold tracking-tight sm:text-3xl">
+                          {chapter.title}
+                        </h2>
+                        <p className="mt-3 max-w-2xl text-pretty leading-relaxed text-muted">{chapter.body}</p>
+                      </div>
+                    </div>
+                  </Rise>
+                </li>
+              ))}
+            </ol>
+            <Rise delay={0.1}>
+              <p className="px-label mt-16 text-muted">{t.proofLabel}</p>
+            </Rise>
+            <div className="mt-8 grid gap-6 sm:grid-cols-2 md:grid-cols-4">
+              {t.proof.map((item, i) => (
+                <Rise key={item.label} delay={i * 0.08}>
                   <article className="h-full border border-line bg-surface p-8">
                     <PixelIcon rows={[...PX.ghost]} className="h-10 w-12 text-emerald" />
-                    <h2 className="mt-6 font-display text-xl font-semibold tracking-tight">
-                      {member.name}
-                    </h2>
-                    <p className="mt-1 text-sm text-muted">{member.role}</p>
+                    <p className="mt-6 font-display text-4xl font-semibold tracking-tight">{item.figure}</p>
+                    <p className="mt-1 text-sm text-muted">{item.label}</p>
                   </article>
                 </Rise>
               ))}
             </div>
-            <Rise delay={0.1}>
-              <p className="px-label mt-6 text-muted">{t.teamNote}</p>
-            </Rise>
           </div>
         </section>
 

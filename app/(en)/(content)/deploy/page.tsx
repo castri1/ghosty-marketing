@@ -96,6 +96,25 @@ export default function DeployHubPage() {
           becomes a live version on its own URL, with access rules you choose.
         </li>
       </ol>
+      <h2>The four things people actually need to do</h2>
+      <ul>
+        <li>
+          <Link href="/deploy/claude-code">Publish an app built with Claude Code</Link> (also{' '}
+          <Link href="/es/publicar/claude-code">en español</Link>)
+        </li>
+        <li>
+          <Link href="/deploy/codex">Publish an app built with Codex</Link> (also{' '}
+          <Link href="/es/publicar/codex">en español</Link>)
+        </li>
+        <li>
+          <Link href="/localhost">Share an app that only opens on localhost</Link> (also{' '}
+          <Link href="/es/localhost">en español</Link>)
+        </li>
+        <li>
+          <Link href="/blog/ai-built-app-needs-a-database">Publish an app that needs to keep data</Link> (also{' '}
+          <Link href="/es/blog/tu-app-necesita-base-de-datos">en español</Link>)
+        </li>
+      </ul>
       <p>
         Ready to try it? <a href={signupUrl('deploy')}>Create an account</a> or read the{' '}
         <Link href="/docs">docs</Link>.

@@ -1,5 +1,6 @@
 import { IntroLoader } from '@/components/wg/IntroLoader';
 import { AltHero } from '@/components/wg/AltHero';
+import { AltCreator } from '@/components/wg/AltCreator';
 import { AltMarquee } from '@/components/wg/AltMarquee';
 import { AltProblem } from '@/components/wg/AltProblem';
 import { AltHowItWorks } from '@/components/wg/AltHowItWorks';
@@ -63,6 +64,7 @@ export function HomeView({ dict, locale }: { dict: Dictionary; locale: Locale })
       <IntroLoader dict={dict.intro} />
       <main>
         <AltHero dict={dict.home.hero} locale={locale} />
+        <AltCreator dict={dict.home.creator} locale={locale} />
         <AltMarquee dict={dict.home.marquee} />
         <AltProblem dict={dict.home.problem} />
         <AltHowItWorks dict={dict.home.how} />

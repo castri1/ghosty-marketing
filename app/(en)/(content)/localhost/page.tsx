@@ -62,7 +62,7 @@ export default function Page() {
       ))}
 
       <article className="docs-article">
-        <p className="kicker">Sharing guide</p>
+        <p className="kicker">Sharing guide · Reviewed by the White Ghost team, September 2026</p>
         <h1>{TITLE}</h1>
         <p className="lede">No. A link that starts with http://localhost only works on the computer where the app is running: localhost is the name every computer gives to itself. For a ten-minute demo, open a tunnel. For something your team will keep using, deploy the app so it lives on its own, with a permanent address and an access rule.</p>
 
@@ -104,6 +104,12 @@ export default function Page() {
             </tbody>
           </table>
 
+          <h2>Tell Claude Code to do it</h2>
+          <p>Paste this into the Claude Code conversation, in the folder of your app:</p>
+          <pre>
+            <code>Install the ghosty CLI (npm install -g ghosty-cli), sign in with ghosty login, then run ghosty init in this folder to create the app and its repository. Push the code and run ghosty deploy until the app is live. Use --json output and tell me the final URL.</code>
+          </pre>
+
           <h2>From localhost to a link your team can open</h2>
           <ol>
             {STEPS.map((step) => (
@@ -112,6 +118,14 @@ export default function Page() {
               </li>
             ))}
           </ol>
+          <h2>How to check it worked</h2>
+          <ul>
+            <li>The app appears in the console dashboard, and a new repository appears in your GitHub account.</li>
+            <li>The Deploys tab shows the latest build as successful, with its log.</li>
+            <li>The app URL opens from your phone with Wi-Fi off. That is the test localhost can never pass.</li>
+            <li>If you chose a shared invite code, a private browser window asks for it before showing the app.</li>
+          </ul>
+
           <h2>What else comes with it</h2>
           <p>
             Most apps built with an assistant need more than a web page. A White Ghost app includes
@@ -130,6 +144,9 @@ export default function Page() {
             </li>
             <li>
               <Link href="/deploy/claude-code">How to deploy an app built with Claude Code</Link>
+            </li>
+            <li>
+              <Link href="/blog/ai-built-app-needs-a-database">Your AI-built app needs a database. Where does it live?</Link>
             </li>
           </ul>
           <h2>Honest limits</h2>

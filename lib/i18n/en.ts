@@ -17,12 +17,12 @@ export const en = {
     home: {
       title: "White Ghost — your team is already building with AI. We make it real.",
       description:
-        "Your people use Claude every day to create tools and agents — but most of it gets stuck before anyone can use it. White Ghost gives your whole company one safe place to launch, share, and manage everything they build.",
+        "Publish the app you built with Claude Code or Codex: a web address, a database and access rules. Then one safe place for everything your company builds with AI.",
     },
     about: {
       title: "White Ghost — about us",
       description:
-        "We were born solving our own mess. We believe anyone in a company should be able to take an idea all the way to a useful app or agent — without losing control of their information.",
+        "White Ghost was born inside Melonn, a logistics company in Latin America where a whole company started building with AI. The story, and what we believe.",
     },
     compareStack: {
       title: "White Ghost vs. piecing together your own stack (Vercel + Supabase + Railway)",
@@ -194,6 +194,45 @@ export const en = {
   },
 
   home: {
+    creator: {
+      eyebrow: "Built something with Claude Code or Codex?",
+      titleLead: "Publish and share the app you built.",
+      titleEm: "White Ghost gives it a web address, a database, and access rules.",
+      intro:
+        "Your assistant wrote the app and it runs at localhost, on your laptop. White Ghost puts it on a permanent link your team can open from any phone, with a managed database behind it, and lets you choose who gets in.",
+      columns: [
+        {
+          title: "What it does",
+          items: [
+            "A permanent URL that does not depend on your computer",
+            "A managed PostgreSQL database, and file storage when your code needs it",
+            "Public, a shared invite code, or a sign-in you build into the app",
+            "Every push goes live; one click puts the previous version back",
+          ],
+        },
+        {
+          title: "What you need",
+          items: [
+            "The folder your assistant has been working in",
+            "A GitHub account: your code lives there and stays yours",
+            "Your assistant does the technical part; you paste the instructions the console gives you",
+          ],
+        },
+        {
+          title: "What you get",
+          items: [
+            "An app your team opens tomorrow, without you online",
+            "A console with deploys, logs, analytics, and a preview for every pull request",
+            "A free plan to start: 3 apps awake, one builder",
+          ],
+        },
+      ],
+      ctaPrimary: "Publish your first app →",
+      ctaSecondary: "Why a localhost link opens for nobody else",
+      bridge:
+        "When more people in your company start building, they need one place to see and control it all. That is the rest of this page.",
+      bridgeLink: "See how it works",
+    },
     hero: {
       badge: "New — your team can now build AI agents",
       titleLead: "Your team is already building with AI.",
@@ -392,21 +431,42 @@ export const en = {
     titleLead: "We were born solving",
     titleEm: "our own chaos.",
     intro:
-      "White Ghost started inside a logistics company for online stores in Latin America. When our own people began building incredible things with AI, we ran into the same problem every company faces today: everything got trapped on scattered laptops, with no order and no control. So we built the place we were missing.",
+      "White Ghost started inside Melonn, a logistics company for online brands in Latin America with more than 500 people across Colombia, Mexico, and Chile. This is the story of how a whole company, not just its engineers, started building with AI, and of the place we had to build for that to work.",
+    storyLabel: "The story",
+    chapters: [
+      {
+        title: "A logistics company, first.",
+        body: "Melonn was founded in Bogotá in 2020 to run fulfillment for online brands: warehouses, packing, shipping, and the software that ties it all together. Hundreds of people in operations, sales, finance, and legal. Most of them do not program.",
+      },
+      {
+        title: "Then everyone started building.",
+        body: "When AI assistants arrived, our people did not wait for engineering. Sales built calculators, finance built dashboards, legal built a contract reviewer. Useful things, built fast, by the people who needed them.",
+      },
+      {
+        title: "And the chaos followed.",
+        body: "Every tool ended up somewhere different: one laptop, a Vercel account, a database on Supabase, a server on Railway. Users scattered, credentials scattered, small bills everywhere, and nobody could say what existed or who could open it. An app only its author can run is not an app yet.",
+      },
+      {
+        title: "So we built the place that was missing.",
+        body: "One place where anyone in the company could publish what they built: a permanent link, a database, access rules, and the company sign-in in front. Today 99 applications run there, most of them built by people who do not program. One is the portal our legal team uses to review NDAs. A lawyer built it.",
+      },
+      {
+        title: "Now it is yours too.",
+        body: "That place is White Ghost. We opened it so the person who just built something with Claude Code or Codex has somewhere to put it, and so that when the whole company starts building, someone can still see and control it all.",
+      },
+    ],
+    proofLabel: "In numbers",
+    proof: [
+      { figure: "2020", label: "Melonn founded in Bogotá" },
+      { figure: "3", label: "Countries: Colombia, Mexico, Chile" },
+      { figure: "500+", label: "People at Melonn" },
+      { figure: "99", label: "Apps running on White Ghost inside Melonn" },
+    ],
     missionTitle: "What we believe",
     mission:
       "We believe anyone in a company — technical or not — should be able to take an idea all the way to a useful, deployed app or agent, without taking their information out of their control and without buying another AI. White Ghost is the safe home for everything a team builds with the AI it already has.",
-    teamTitle: "The team",
-    teamNote: "Founders (draft for review).",
-    team: [
-      { name: "Daniel Castrillón", role: "Product & tech" },
-      { name: "Alejandro Celis", role: "Co-founder" },
-      { name: "Andrés Gómez", role: "Co-founder" },
-      { name: "Felipe Jaramillo", role: "Co-founder" },
-      { name: "Sebastián Román", role: "Co-founder" },
-    ],
-    ctaTitle: "Want to see it in your company?",
-    cta: "Get started →",
+    ctaTitle: "Ready to publish your first app?",
+    cta: "Start free →",
   },
 
   compareStack: {
