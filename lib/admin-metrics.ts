@@ -21,11 +21,12 @@ import {
  * which Firestore serves without a composite index.
  */
 
-export const ENGINE_KEYS = ['anthropic', 'openai', 'perplexity'] as const;
+export const ENGINE_KEYS = ['anthropic', 'openai', 'openai-search', 'perplexity'] as const;
 export const SERIES_KEYS = ['parametrico', 'browsing', 'agregado'] as const;
 export const ENGINE_COLORS: Record<string, string> = {
   anthropic: '#d97757',
   openai: '#10a37f',
+  'openai-search': '#0b6b55',
   perplexity: '#1f7a8c',
   parametrico: '#0f172a',
   browsing: '#7c3aed',

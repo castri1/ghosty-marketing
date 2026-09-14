@@ -79,7 +79,7 @@ export default async function AdminPage() {
                       return (
                         <tr key={e} style={sinMedir ? { background: '#fefce8' } : undefined}>
                           <td style={td}>{e}</td>
-                          <td style={td}>{eng ? (sinMedir ? `sin medir (${eng.status}, ${eng.errors ?? 0} errores)` : 'ok') : 'serie'}</td>
+                          <td style={td}>{eng ? (sinMedir ? `sin medir (${eng.status}, ${eng.errors ?? 0} errores)` : (eng.errors ? `ok (${eng.errors} sin medir)` : 'ok')) : 'serie'}</td>
                           <td style={td}>{sinMedir ? '-' : fmt(s)}</td>
                           <td style={td}>{sinMedir ? '-' : fmt(s.nucleo_v1 ?? s)}</td>
                           <td style={td}>{!sinMedir && s.ponderado?.de_puntos ? `${s.ponderado.puntos}/${s.ponderado.de_puntos}` : '-'}</td>

@@ -42,6 +42,12 @@ const sovQuestionResult = z
     competitors: z.array(sovCompetitor).optional(),
     citations: z.array(z.string()).optional(),
     cites_self: z.boolean().optional(),
+    /** v3.1: which citations are the brand's own apex/www (cites_self is derived from this). */
+    citas_propias_urls: z.array(z.string()).optional(),
+    /** v3.1: a citation to a customer app on *.app.getghosty.dev (not a brand citation). */
+    cita_app_cliente: z.boolean().optional(),
+    /** v3.1: for engines with a web-search tool, whether this answer actually searched. */
+    busqueda_web_usada: z.boolean().optional(),
     marca_ok: z.boolean().nullable().optional(),
     answer_excerpt: z.string().optional(),
     usage: z.object({ input: z.number().int(), output: z.number().int() }).strict().optional(),
@@ -54,6 +60,9 @@ const sovEngineRun = z
     status: z.string().min(1),
     model: z.string().optional(),
     errors: z.number().int().optional(),
+    /** v3.1: series the engine belongs to and whether it browses the web (stamped by the meter). */
+    serie: z.enum(['parametrico', 'browsing']).optional(),
+    busqueda_web: z.boolean().optional(),
     results: z.array(sovQuestionResult).default([]),
   })
   .strict();
@@ -68,6 +77,12 @@ const sovSummary = sovCount
     por_lang: z.record(z.string(), sovCount).optional(),
     por_intent: z.record(z.string(), sovCount).optional(),
     citan_whiteghost: z.number().int().optional(),
+    /** v3.1: answered vs errored questions, so "sin medir" is a number and not an inference. */
+    medidas: z.number().int().optional(),
+    sin_medir: z.number().int().optional(),
+    /** v3.1: brand citations on brand-category questions (do not count in the SoV) and to customer apps. */
+    citan_whiteghost_marca: z.number().int().optional(),
+    citan_app_cliente: z.number().int().optional(),
     /** v3 (catalog-driven): breakdowns by catalog category, persona and potencial. */
     por_categoria: z.record(z.string(), sovCount).optional(),
     por_persona: z.record(z.string(), sovCount).optional(),
@@ -94,6 +109,10 @@ const sovSchema = z
     candidatos_marcas: z.array(sovCandidate).optional(),
     /** Catalog version the run was measured against (v3+). */
     catalogo_version: z.number().int().min(1).optional(),
+    /** v3.1: provenance of local re-analyses (originals kept in sov-history/originales). */
+    reanalizado: z
+      .array(z.object({ fecha: calendarDate, motivo: z.string(), campos: z.array(z.string()) }).strict())
+      .optional(),
   })
   .strict();
 
@@ -224,6 +243,8 @@ const sovRespuestaMotor = z
     self_rank: z.number().int().nullable().optional(),
     competitors: z.array(sovCompetitor).optional(),
     cites_self: z.boolean().optional(),
+    citas_propias_urls: z.array(z.string()).optional(),
+    busqueda_web_usada: z.boolean().optional(),
     error: z.string().optional(),
   })
   .strict();
