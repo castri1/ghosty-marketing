@@ -976,4 +976,16 @@ export const es: Dictionary = {
     },
   },
 
+  notFound: {
+    title: "Esa página no está aquí.",
+    body: "Puede que el link sea viejo o que la página se haya movido. Aquí es a donde va la mayoría.",
+    links: [
+      { href: "/es", title: "Inicio", body: "Qué es White Ghost, en una página." },
+      { href: "/es/localhost", title: "Compartir tu app", body: "Por qué tu link de localhost no le abre a nadie y cómo publicarla." },
+      { href: "/docs", title: "Docs (en inglés)", body: "Crear una app, iniciar sesión, el CLI, integraciones." },
+      { href: "/es/blog", title: "Blog", body: "Publicar, compartir y cuidar las apps hechas con IA." },
+    ],
+    consoleLead: "¿Buscas tus apps?",
+    consoleCta: "Abre la consola",
+  },
 };

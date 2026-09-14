@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, type ReactNode } from "react";
+import type { ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import { AltNav } from "@/components/wg/AltNav";
 import { AltFooter } from "@/components/wg/AltFooter";
@@ -16,10 +16,11 @@ export function localeFromPathname(pathname: string | null): Locale {
 
 /**
  * Site chrome (fixed nav + footer + consent banner) in the language of the
- * current path. The root layout is shared by the English pages at the root
- * and the Spanish pages under /es, so the chrome picks its dictionary from
- * the pathname; only the nav/footer/consent slices of each dictionary reach
- * the client. `<html lang>` follows the same rule.
+ * current path. The shell (components/wg/RootShell.tsx) is shared by the
+ * English pages at the root and the Spanish pages under /es, so the chrome
+ * picks its dictionary from the pathname; only the nav/footer/consent slices
+ * of each dictionary reach the client. `<html lang>` is set by the root
+ * layout of each language group (app/(en), app/(es)), server-side.
  */
 export function Chrome({
   en,
@@ -35,10 +36,6 @@ export function Chrome({
   const pathname = usePathname();
   const locale = localeFromPathname(pathname);
   const dict = locale === "es" ? es : en;
-
-  useEffect(() => {
-    document.documentElement.lang = locale;
-  }, [locale]);
 
   return (
     <>

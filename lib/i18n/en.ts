@@ -989,6 +989,18 @@ export const en = {
     },
   },
 
+  notFound: {
+    title: "That page is not here.",
+    body: "The link may be old, or the page moved. Here is where most people were heading.",
+    links: [
+      { href: "/", title: "Home", body: "What White Ghost is, in one page." },
+      { href: "/deploy", title: "Deploy guides", body: "Ship an app built with Claude Code, Codex, or any assistant." },
+      { href: "/docs", title: "Docs", body: "Creating an app, signing in, the CLI, integrations." },
+      { href: "/blog", title: "Blog", body: "Sharing, hosting, and keeping AI-built apps safe." },
+    ],
+    consoleLead: "Looking for your apps?",
+    consoleCta: "Open the console",
+  },
 };
 
 export type Dictionary = typeof en;

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
+import type { Locale } from '@/lib/i18n/config';
 import { Chrome, type ChromeDict } from '@/components/wg/Chrome';
 import { AnalyticsPageView } from '@/components/wg/AnalyticsPageView';
 import { en } from '@/lib/i18n/en';
@@ -14,7 +15,7 @@ import '@/styles/wg.css';
 const FAVICON =
   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 60 70'%3E%3Cpath d='M28 0C12.536 0 0 12.536 0 28v30a7 7 0 0 0 14 0 7 7 0 0 0 14 0 7 7 0 0 0 14 0 7 7 0 0 0 14 0V28C56 12.536 43.464 0 28 0Z' fill='%23ffffff' stroke='%2310251C' stroke-width='2.5'/%3E%3Crect x='17.5' y='24' width='7' height='15' rx='2' fill='%2310251C'/%3E%3Crect x='31.5' y='24' width='7' height='15' rx='2' fill='%2310251C'/%3E%3C/svg%3E";
 
-export const metadata: Metadata = {
+export const ROOT_METADATA: Metadata = {
   // metadataBase resolves relative OG/Twitter image paths (/og.png) to
   // absolute URLs; per-page tags come from pageMeta() in lib/site.ts.
   metadataBase: new URL(SITE_URL),
@@ -24,7 +25,7 @@ export const metadata: Metadata = {
   icons: { icon: FAVICON },
 };
 
-export const viewport: Viewport = {
+export const ROOT_VIEWPORT: Viewport = {
   colorScheme: 'light',
 };
 
@@ -62,18 +63,19 @@ function chromeDict(d: typeof en): ChromeDict {
 }
 
 /**
- * Shared shell for all public White Ghost pages (English at the root, Spanish
- * under /es: the chrome picks its language from the path, see Chrome.tsx). The chrome (fixed nav +
- * footer) is the design-lab system, ported verbatim (components/wg, copy in
- * lib/wg-copy.ts) and deliberately rendered OUTSIDE any `.mkt` scope so the
- * console-ported element rules in styles/marketing.css cannot reach it.
- * Content pages re-enter `.mkt` via app/(content)/layout.tsx. The site is
- * anonymous: sign-in CTAs are absolute links into the console
+ * Shared shell for all public White Ghost pages. There are two root layouts,
+ * one per language (app/(en)/layout.tsx and app/(es)/layout.tsx), so that
+ * `<html lang>` is right in the server-rendered HTML; both render this
+ * component. The chrome (fixed nav + footer) is the design-lab system, ported
+ * verbatim (components/wg) and deliberately rendered OUTSIDE any `.mkt` scope
+ * so the console-ported element rules in styles/marketing.css cannot reach
+ * it. Content pages re-enter `.mkt` via their (content)/layout.tsx. The site
+ * is anonymous: sign-in CTAs are absolute links into the console
  * (lib/console-url.ts).
  */
-export default function RootLayout({ children }: { children: ReactNode }) {
+export function RootShell({ lang, children }: { lang: Locale; children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang={lang}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
