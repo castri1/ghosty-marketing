@@ -43,7 +43,7 @@ export const es: Dictionary = {
     pricing: {
       title: "White Ghost — precios",
       description:
-        "Construye apps y agentes sin límite en todos los planes; el plan define cuántas quedan despiertas. Free, Solo US$19, Team US$299, Org US$699, Enterprise desde US$1.500 al mes. Usuarios ilimitados en los planes de equipo.",
+        "Construye apps y agentes sin límite en todos los planes; el plan define cuántas quedan despiertas. Free, Solo US$19, Team US$299, Scale US$699, Enterprise desde US$2.000 al mes. Usuarios ilimitados en los planes de equipo.",
     },
     security: {
       title: "White Ghost — seguridad y tus datos",
@@ -669,8 +669,7 @@ export const es: Dictionary = {
     titleEm: "Paga por lo que está despierto.",
     intro:
       "Crea todas las apps y agentes que quieras, en todos los planes: construir nunca se restringe. Tu plan define cuántas pueden estar despiertas en producción al mismo tiempo y cuánta carga aguantan. La IA la pones tú; nunca revendemos tokens. La plataforma pregunta antes de que gastes; nunca cobra después.",
-    foundingNote: "Precio de cliente fundador, congelado por 12 meses",
-    journey: "Free → Solo → Team → Org → Enterprise",
+    journey: "Free → Solo → Team → Scale → Enterprise",
     journeyNote: "un solo camino: construyes solo, se une tu equipo, lo adopta tu empresa",
     perMonth: "/mes",
     popular: "El más elegido",
@@ -678,28 +677,33 @@ export const es: Dictionary = {
     groupTeams: "Para equipos y organizaciones: usuarios ilimitados en todos los planes",
     tiers: [
       {
+        id: "free",
         name: "Free",
         who: "Empieza a construir. Todo funciona.",
         price: "US$0",
+        amount: 0,
         period: "",
         cta: "Empezar gratis",
         popular: false,
         features: [
           "Construye apps y agentes sin límite",
           "3 apps despiertas (duerme una para despertar otra)",
-          "Conecta tus apps entre sí",
           "Base de datos, secretos y modos de acceso",
+          "1 GB de archivos",
           "Subdominio de la comunidad · un solo usuario",
         ],
       },
       {
+        id: "solo",
         name: "Solo",
         who: "Para una persona que publica en serio",
         price: "US$19",
+        amount: 19,
         period: "/mes",
         cta: "Pasar a Solo",
         popular: false,
         features: [
+          "Primer mes gratis (prueba de 30 días)",
           "Construye sin límite · 10 apps despiertas",
           "Dominios propios · builds rápidos",
           "Previews por pull request · diseño con IA",
@@ -708,46 +712,53 @@ export const es: Dictionary = {
         ],
       },
       {
+        id: "team",
         name: "Team",
         who: "Tu gente, construyendo junta",
         price: "US$299",
+        amount: 299,
         period: "/mes",
         cta: "Crear tu equipo",
         popular: true,
         features: [
-          "Primer mes a US$49, para probarlo en equipo",
+          "Primer mes a US$19, para probarlo en equipo",
           "Usuarios ilimitados · los usuarios finales no pagan",
           "Tu propio ambiente aislado",
           "Malla de empresa: apps y agentes conectados",
           "Tu dominio · tu marca",
-          "Construye sin límite · 50 apps despiertas",
+          "Construye sin límite · 25 apps despiertas",
           "5M de solicitudes al mes · 50 GB de salida · 20 GB de archivos",
         ],
       },
       {
-        name: "Org",
+        id: "scale",
+        name: "Scale",
         who: "Toda tu empresa corre sobre esto",
         price: "US$699",
+        amount: 699,
         period: "/mes",
-        cta: "Pasar a Org",
+        cta: "Pasar a Scale",
         popular: false,
         features: [
           "Todo lo de Team",
-          "Construye sin límite · 200 apps despiertas",
-          "30M de solicitudes al mes · 300 GB de salida",
-          "Base de datos con el doble de rendimiento",
+          "Construye sin límite · 100 apps despiertas",
+          "15M de solicitudes al mes · 300 GB de salida",
+          "Una base de datos más grande y más rápida",
           "100 GB de archivos · techos más altos",
         ],
       },
       {
+        id: "enterprise",
         name: "Enterprise",
         who: "Organizaciones con exigencias de cumplimiento",
-        price: "desde US$1.500",
+        price: "desde US$2.000",
+        amount: 2000,
+        from: true,
         period: "/mes",
         cta: "Hablemos",
         popular: false,
         features: [
-          "Límites a la medida · base de datos 4×",
+          "Límites a la medida · nuestra base de datos más grande",
           "SSO y revisión de seguridad",
           "Elección de región / residencia de datos",
           "SLA · soporte prioritario",
@@ -756,8 +767,8 @@ export const es: Dictionary = {
       },
     ],
     footnotes: [
-      "Nunca limitado por funciones: todas funcionan en todos los planes; los planes solo dimensionan capacidad",
-      "Anual: 2 meses gratis",
+      "Los planes dimensionan capacidad. Dominios propios, previews por pull request y builds rápidos desde Solo",
+      "Cobro mensual · anual (2 meses gratis) a solicitud",
       "Tus llaves de IA, tus tarifas: sin tokens revendidos",
     ],
 
@@ -765,51 +776,36 @@ export const es: Dictionary = {
       eyebrow: "Sabe dónde estás parado",
       title: "Un solo medidor. Cero matemáticas de facturación.",
       body:
-        "Los proveedores de nube cobran en veinte unidades invisibles. White Ghost las junta en una sola barra que sí se puede leer: cuánto de tu plan estás usando, promediado sobre los últimos 3 días. Avisa al 90%, te dice exactamente qué app lo está empujando y sugiere el momento de subir de plan, antes de que algo se ponga lento.",
+        "Los proveedores de nube cobran en veinte unidades invisibles. White Ghost las junta en una sola barra que sí se puede leer: qué tan cerca estás del límite más ajustado de tu plan, entre visitas, datos servidos, archivos, base de datos y apps corriendo. Se actualiza todos los días, te escribe al 80, 90 y 100%, te dice cuál de esos lo está empujando y te muestra cuándo conviene subir de plan o agregar un paquete.",
       planLabel: "EJEMPLO · PLAN TEAM",
-      reading: "72% · subiendo",
-      value: 72,
-      alert: "alerta al 90%",
-      driver: "Lo empuja: una tienda de ejemplo, más de 1.000 visitas al día esta semana",
+      reading: "84% · visitas",
+      value: 84,
+      alert: "avisos al 80, 90 y 100%",
+      driver: "Lo empujan las visitas: van camino a 4,2M de 5M este mes",
       bars: [
-        { label: "Tráfico", value: 84 },
-        { label: "Apps despiertas", value: 62 },
+        { label: "Visitas", value: 84 },
+        { label: "Datos servidos", value: 62 },
         { label: "Archivos", value: 48 },
-        { label: "Cómputo", value: 71 },
+        { label: "Base de datos", value: 35 },
+        { label: "Apps corriendo", value: 72 },
       ],
     },
 
     advanced: {
-      eyebrow: "Precios avanzados",
+      eyebrow: "Paquetes",
       title: "O ajusta tu plan pieza por pieza",
       body:
-        "La mayoría de los equipos simplemente sube de plan cuando el medidor lo dice. Si prefieres afinarlo, abre Avanzado y agrega exactamente lo que necesitas: se compra por adelantado, se confirma antes de cobrar, nunca es un contador.",
+        "La mayoría de los equipos simplemente sube de plan cuando el medidor lo dice. Si prefieres afinarlo, agrega un paquete desde Plan & usage en Team, Scale y Enterprise: exactamente lo que necesitas, se compra por adelantado, se confirma antes de cobrar, nunca es un contador.",
       colUnit: "Unidad",
       colPrice: "Precio /mes",
       colWhat: "Qué agrega",
       rows: [
         { unit: "Apps despiertas extra (paquete de 10)", price: "US$15", what: "Diez apps despiertas más allá de tu plan" },
         { unit: "Paquete de archivos", price: "US$15", what: "+100 GB de almacenamiento de archivos" },
-        { unit: "Paquete de ancho de banda", price: "US$60", what: "+250 GB de transferencia" },
+        { unit: "Paquete de ancho de banda", price: "US$60", what: "+250 GB de datos servidos al mes" },
+        { unit: "Bloque de capacidad", price: "US$99", what: "+5M de solicitudes al mes" },
         { unit: "App siempre caliente", price: "US$99", what: "Sin arranques en frío para una app crítica" },
-        { unit: "Base de datos 2×", price: "US$150", what: "El doble de cómputo y memoria detrás de tus datos (incluido en Org)" },
-        { unit: "Base de datos 4×", price: "US$350", what: "El escalón pesado, el default de Enterprise" },
-        { unit: "Soporte prioritario / SLA", price: "US$199", what: "Compromiso de tiempo de respuesta" },
       ],
-    },
-
-    agencies: {
-      eyebrow: "Agencias",
-      title: "Construye para tus clientes",
-      body: "Corre cada cliente en su propio ambiente aislado, con tu marca, desde una sola consola.",
-      price: "US$299 /mes + US$179 /mes por ambiente de cliente",
-      points: [
-        "Consola con tu marca",
-        "Vista de todos tus clientes y soporte prioritario",
-        "Cada cliente: ambiente aislado, 5 apps despiertas, 1M de solicitudes al mes",
-      ],
-      example:
-        "Una agencia con 5 clientes paga US$1.194 al mes: una sola relación, cinco ambientes aislados, los datos de cada cliente completamente separados.",
     },
 
     pledge: {
@@ -818,7 +814,7 @@ export const es: Dictionary = {
       items: [
         {
           title: "Preguntamos antes de que gastes",
-          body: "Llegar a un límite bloquea con una invitación a subir de plan; nunca se cobra después del hecho.",
+          body: "Las subidas de plan y los paquetes se confirman antes de cobrar. Los límites te avisan al 80, 90 y 100%; nunca se cobra después del hecho.",
         },
         {
           title: "Construir nunca es el límite",
@@ -833,7 +829,7 @@ export const es: Dictionary = {
 
     ctaTitle: "¿Listo para empezar?",
     cta: "Empezar →",
-    note: "Sin nueva IA que comprar ▪ usuarios ilimitados en Team, Org y Enterprise",
+    note: "Sin nueva IA que comprar ▪ usuarios ilimitados en Team, Scale y Enterprise",
   },
 
   security: {

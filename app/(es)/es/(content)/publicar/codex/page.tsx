@@ -15,7 +15,7 @@ const REQUISITOS = [
   'La carpeta donde Codex estuvo trabajando, con la app corriendo en tu computador (el link de localhost).',
   'Una cuenta de GitHub. Es el "Google Drive de los programadores": ahí queda tu código, sigue siendo tuyo y lo puedes bajar en .zip cuando quieras.',
   'Una app en Node o en Python. Un archivo HTML suelto todavía no es una app; Codex lo convierte en una en pocos minutos.',
-  'Una cuenta de White Ghost. Con el plan gratis alcanza para la primera: 3 apps despiertas, una persona, todas las funciones.',
+  'Una cuenta de White Ghost. Con el plan gratis alcanza para la primera: 3 apps despiertas, una persona, sin tarjeta.',
   'Codex CLI (o la extensión de Codex) abierto en esa carpeta. Él hace la parte técnica; tú apruebas.',
 ];
 
@@ -259,7 +259,7 @@ export default function PublicarCodex() {
       <section className="closing">
         <GhostMark className="ghost-mark" />
         <h2>Tu app merece más que un link temporal.</h2>
-        <p>Empieza en el plan gratis: 3 apps despiertas, una persona, todas las funciones incluidas.</p>
+        <p>Empieza en el plan gratis: 3 apps despiertas, una persona, sin tarjeta.</p>
         <a className="btn" href={signupUrl('es/publicar/codex')}>
           Empezar gratis
         </a>

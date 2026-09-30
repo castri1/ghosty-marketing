@@ -170,7 +170,7 @@ export default function Page() {
       <section className="closing">
         <GhostMark className="ghost-mark" />
         <h2>Your app deserves more than a link that dies with your laptop.</h2>
-        <p>Start on the free plan: 3 apps awake, one builder, every feature included.</p>
+        <p>Start on the free plan: 3 apps awake, one builder, no card needed.</p>
         <a className="btn" href={signupUrl('localhost')}>
           Start free
         </a>

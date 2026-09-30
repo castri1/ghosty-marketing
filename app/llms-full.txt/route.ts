@@ -30,7 +30,7 @@ export async function GET() {
   // Pricing inline: "what does it cost?" is the question agents get asked most
   // about a platform, and the answer should not require rendering the page.
   const p = copy.pricing;
-  lines.push('', '## Pricing', '', `Canonical URL: ${siteUrl('/pricing')}`, '', p.intro, '', p.foundingNote + '.', '');
+  lines.push('', '## Pricing', '', `Canonical URL: ${siteUrl('/pricing')}`, '', p.intro, '');
   for (const tier of p.tiers) {
     lines.push(
       `### ${tier.name}: ${tier.price}${tier.period}`,
@@ -42,9 +42,8 @@ export async function GET() {
     );
   }
   lines.push(...p.footnotes.map((f) => `- ${f}`), '');
-  lines.push('### Advanced pricing (per unit, pre-purchased)', '', p.advanced.body, '');
+  lines.push('### Packs (per unit, pre-purchased)', '', p.advanced.body, '');
   lines.push(...p.advanced.rows.map((r) => `- ${r.unit}: ${r.price}/mo. ${r.what}`), '');
-  lines.push('### Agencies', '', `${p.agencies.body} ${p.agencies.price}.`, '', p.agencies.example, '');
 
   lines.push('', '## Glossary', '');
   for (const entry of GLOSSARY) {

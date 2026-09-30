@@ -1,17 +1,27 @@
 import { Rise } from '@/components/wg/Rise';
 import { PixelEdge, PixelIcon, PX } from '@/components/wg/PixelBits';
+import { signupUrl } from '@/lib/console-url';
 import { localizeHref, type Dictionary, type Locale } from '@/lib/i18n';
 import { siteUrl } from '@/lib/site';
 
 const PLEDGE_ICONS = [PX.shield, PX.toggle, PX.plug];
 
+/** Enterprise is sales-led: its card writes to us instead of signing up. */
+const SALES_MAILTO = 'mailto:hello@whiteghost.ai?subject=White%20Ghost%20Enterprise';
+
+type Tier = Dictionary['pricing']['tiers'][number];
+
 /**
- * Pricing v2 (approved 2026-08-28). Five tiers on one journey, the gauge, the
- * per-unit Advanced layer, the agency model and the billing pledge. Copy lives
- * in `lib/wg-dict.ts`; the internal economics annexe never lands here.
+ * The pricing page: five tiers on one journey, the gauge, packs and the
+ * billing pledge. It mirrors the platform's published billing catalog (plan
+ * templates, packs, checkout offers). Copy lives in `lib/i18n/{en,es}.ts`;
+ * the internal economics annexe never lands here.
  */
 export function PricingView({ dict, locale }: { dict: Dictionary; locale: Locale }) {
   const t = dict.pricing;
+  const signupRef = locale === 'es' ? 'es/pricing' : 'pricing';
+  const tierHref = (tier: Tier) =>
+    tier.id === 'enterprise' ? SALES_MAILTO : signupUrl(signupRef, `pricing-${tier.id}`);
 
   // Offer JSON-LD: agents answering "what does it cost?" get the list prices
   // from structured data rather than parsing the cards.
@@ -28,8 +38,10 @@ export function PricingView({ dict, locale }: { dict: Dictionary; locale: Locale
       description: tier.who,
       url: siteUrl(localizeHref('/pricing', locale)),
       priceCurrency: 'USD',
-      price: tier.price.replace(/[^0-9.]/g, '') || '0',
-      ...(tier.price.startsWith('from') ? { priceSpecification: { '@type': 'PriceSpecification', minPrice: 1500, priceCurrency: 'USD' } } : {}),
+      price: String(tier.amount),
+      ...(tier.from
+        ? { priceSpecification: { '@type': 'PriceSpecification', minPrice: tier.amount, priceCurrency: 'USD' } }
+        : {}),
       availability: 'https://schema.org/InStock',
     })),
   };
@@ -56,11 +68,6 @@ export function PricingView({ dict, locale }: { dict: Dictionary; locale: Locale
             </p>
           </Rise>
           <Rise delay={0.2}>
-            <p className="px-label mt-9 inline-block border border-emerald/40 bg-emerald/5 px-4 py-2 text-emerald">
-              {t.foundingNote}
-            </p>
-          </Rise>
-          <Rise delay={0.26}>
             <p className="mt-8 font-display text-lg tracking-tight text-ink">{t.journey}</p>
             <p className="mt-2 text-sm leading-relaxed text-muted">{t.journeyNote}</p>
           </Rise>
@@ -76,7 +83,7 @@ export function PricingView({ dict, locale }: { dict: Dictionary; locale: Locale
             <div className="mt-6 grid gap-6 md:grid-cols-2">
               {t.tiers.slice(0, 2).map((tier, i) => (
                 <Rise key={tier.name} delay={i * 0.08}>
-                  <TierCard tier={tier} locale={locale} />
+                  <TierCard tier={tier} href={tierHref(tier)} />
                 </Rise>
               ))}
             </div>
@@ -87,7 +94,7 @@ export function PricingView({ dict, locale }: { dict: Dictionary; locale: Locale
             <div className="mt-6 grid gap-6 md:grid-cols-3">
               {t.tiers.slice(2).map((tier, i) => (
                 <Rise key={tier.name} delay={i * 0.08}>
-                  <TierCard tier={tier} locale={locale} popularLabel={t.popular} />
+                  <TierCard tier={tier} href={tierHref(tier)} popularLabel={t.popular} />
                 </Rise>
               ))}
             </div>
@@ -195,43 +202,9 @@ export function PricingView({ dict, locale }: { dict: Dictionary; locale: Locale
           </div>
         </section>
 
-        {/* Agencies */}
+        {/* The pledge */}
         <section className="bg-paper text-ink">
           <PixelEdge color="#EBF5EF" />
-          <div className="mx-auto max-w-5xl px-5 py-24 sm:px-8 md:py-32">
-            <Rise>
-              <p className="px-label text-muted">{t.agencies.eyebrow}</p>
-              <h2 className="mt-5 text-balance font-display text-4xl font-semibold tracking-[-0.02em] sm:text-5xl">
-                {t.agencies.title}
-              </h2>
-              <p className="mt-6 max-w-2xl text-pretty leading-relaxed text-muted">
-                {t.agencies.body}
-              </p>
-            </Rise>
-            <Rise delay={0.1}>
-              <div className="mt-10 border border-line p-8">
-                <p className="font-display text-2xl font-semibold tracking-tight sm:text-3xl">
-                  {t.agencies.price}
-                </p>
-                <ul className="mt-7 flex flex-col gap-3">
-                  {t.agencies.points.map((point) => (
-                    <li key={point} className="flex gap-3 leading-relaxed text-muted">
-                      <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 bg-emerald" />
-                      {point}
-                    </li>
-                  ))}
-                </ul>
-                <p className="mt-7 border-t border-line pt-6 text-pretty leading-relaxed text-ink">
-                  {t.agencies.example}
-                </p>
-              </div>
-            </Rise>
-          </div>
-        </section>
-
-        {/* The pledge */}
-        <section className="bg-mist text-ink">
-          <PixelEdge color="#F7F8F3" />
           <div className="mx-auto max-w-6xl px-5 py-24 sm:px-8 md:py-32">
             <Rise className="max-w-3xl">
               <p className="px-label text-muted">{t.pledge.eyebrow}</p>
@@ -242,7 +215,7 @@ export function PricingView({ dict, locale }: { dict: Dictionary; locale: Locale
             <div className="mt-12 grid gap-6 md:grid-cols-3">
               {t.pledge.items.map((item, i) => (
                 <Rise key={item.title} delay={i * 0.1}>
-                  <article className="h-full border border-line bg-paper p-8">
+                  <article className="h-full border border-line bg-mist p-8">
                     <PixelIcon
                       rows={[...PLEDGE_ICONS[i % PLEDGE_ICONS.length]]}
                       className="h-9 w-11 text-ink"
@@ -259,8 +232,8 @@ export function PricingView({ dict, locale }: { dict: Dictionary; locale: Locale
         </section>
 
         {/* Closing CTA */}
-        <section className="relative flex flex-col bg-paper text-ink">
-          <PixelEdge color="#EBF5EF" />
+        <section className="relative flex flex-col bg-mist text-ink">
+          <PixelEdge color="#F7F8F3" />
           <div className="mx-auto flex w-full max-w-3xl flex-col items-center px-5 py-24 text-center sm:px-8">
             <Rise>
               <h2 className="text-balance font-display text-4xl font-semibold tracking-[-0.02em] sm:text-5xl">
@@ -269,7 +242,7 @@ export function PricingView({ dict, locale }: { dict: Dictionary; locale: Locale
             </Rise>
             <Rise delay={0.1}>
               <a
-                href={localizeHref('/waitlist', locale)}
+                href={signupUrl(signupRef, 'pricing-cta')}
                 className="px-label mt-9 inline-flex items-center justify-center gap-2 bg-emerald px-9 py-4 text-white shadow-[6px_6px_0_0_rgba(5,150,105,0.25)] transition-all duration-200 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[9px_9px_0_0_rgba(5,150,105,0.3)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald"
               >
                 {t.cta}
@@ -287,11 +260,11 @@ export function PricingView({ dict, locale }: { dict: Dictionary; locale: Locale
 
 function TierCard({
   tier,
-  locale,
+  href,
   popularLabel,
 }: {
-  tier: Dictionary['pricing']['tiers'][number];
-  locale: Locale;
+  tier: Tier;
+  href: string;
   popularLabel?: string;
 }) {
   const highlight = tier.popular;
@@ -327,7 +300,7 @@ function TierCard({
       </ul>
 
       <a
-        href={localizeHref('/waitlist', locale)}
+        href={href}
         className={`px-label mt-9 inline-flex items-center justify-center px-6 py-3.5 transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald ${
           highlight
             ? 'bg-emerald text-white shadow-[4px_4px_0_0_rgba(5,150,105,0.25)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_0_rgba(5,150,105,0.3)]'

@@ -13,7 +13,7 @@ const REQUIREMENTS = [
   'The folder Claude Code has been working in, with the app running locally (the localhost link).',
   'A GitHub account. The code is stored in your own account and you can download it as a zip whenever you want.',
   'A Node or Python app. A plain HTML file is not an app by itself; Claude Code can wrap it into one in a few minutes.',
-  'A White Ghost account. The Free plan is enough for a first app: 3 apps awake, one builder, every feature included.',
+  'A White Ghost account. The Free plan is enough for a first app: 3 apps awake, one builder, no card needed.',
   'Claude Code open in that folder. It does the technical part; you approve.',
 ];
 
@@ -280,7 +280,7 @@ export default function DeployClaudeCode() {
       <section className="closing">
         <GhostMark className="ghost-mark" />
         <h2>Your app deserves more than a temporary link.</h2>
-        <p>Start on the free plan: 3 apps awake, one builder, every feature included.</p>
+        <p>Start on the free plan: 3 apps awake, one builder, no card needed.</p>
         <a className="btn" href={signupUrl('deploy/claude-code')}>
           Start free
         </a>

@@ -47,7 +47,7 @@ export const en = {
     pricing: {
       title: "White Ghost — pricing",
       description:
-        "Build unlimited apps and agents on every plan; the plan sizes how many stay awake. Free, Solo $19, Team $299, Org $699, Enterprise from $1,500 a month. Unlimited seats on team plans.",
+        "Build unlimited apps and agents on every plan; the plan sizes how many stay awake. Free, Solo $19, Team $299, Scale $699, Enterprise from $2,000 a month. Unlimited seats on team plans.",
     },
     security: {
       title: "White Ghost — security & your data",
@@ -670,18 +670,18 @@ export const en = {
     },
   },
 
-  // Pricing v2 (approved 2026-08-28: the 28-ago session, on top of Castri's
-  // artefact and the Stamp Economics model). Founding-customer list prices,
-  // USD. The internal annexe (economics per tier, the margin project, the
-  // rollout) is deliberately NOT on this page.
+  // Pricing, aligned with the published billing catalog (the platform's
+  // plan templates, packs and checkout; list prices in USD). Tier `id`s are
+  // the catalog template ids; `amount`/`from` feed the Offer JSON-LD so it
+  // never parses display strings. The internal annexe (economics per tier,
+  // the margin project, the rollout) is deliberately NOT on this page.
   pricing: {
     eyebrow: "Pricing",
     titleLead: "Build without limits.",
     titleEm: "Pay for what's awake.",
     intro:
       "Create as many apps and agents as you want, on every plan: building is never restricted. Your plan sets how many can be awake in production at once, and how much they can carry. You bring your own AI; we never resell tokens. The platform asks before you spend; it never bills after the fact.",
-    foundingNote: "Founding customer pricing, locked for 12 months",
-    journey: "Free → Solo → Team → Org → Enterprise",
+    journey: "Free → Solo → Team → Scale → Enterprise",
     journeyNote: "one journey: you build alone, your team joins, your company adopts",
     perMonth: "/mo",
     popular: "Most popular",
@@ -689,28 +689,33 @@ export const en = {
     groupTeams: "For teams and organizations: unlimited seats on every plan",
     tiers: [
       {
+        id: "free",
         name: "Free",
         who: "Start building. Everything works.",
         price: "$0",
+        amount: 0,
         period: "",
         cta: "Start free",
         popular: false,
         features: [
           "Build unlimited apps & agents",
           "3 apps awake (sleep one to wake another)",
-          "Connect your apps to each other",
           "Database, secrets & access modes",
+          "1 GB file storage",
           "Community subdomain · single user",
         ],
       },
       {
+        id: "solo",
         name: "Solo",
         who: "For one builder who ships for real",
         price: "$19",
+        amount: 19,
         period: "/mo",
         cta: "Go Solo",
         popular: false,
         features: [
+          "First month free (30-day trial)",
           "Build unlimited · 10 apps awake",
           "Custom domains · fast builds",
           "PR previews · AI design",
@@ -719,46 +724,53 @@ export const en = {
         ],
       },
       {
+        id: "team",
         name: "Team",
         who: "Your people, building together",
         price: "$299",
+        amount: 299,
         period: "/mo",
         cta: "Start your team",
         popular: true,
         features: [
-          "First month $49, try it as a team",
+          "First month $19, try it as a team",
           "Unlimited seats · end users free",
           "Your own isolated environment",
           "Company mesh: apps & agents connected",
           "Your domain · your branding",
-          "Build unlimited · 50 apps awake",
+          "Build unlimited · 25 apps awake",
           "5M requests/mo · 50 GB out · 20 GB files",
         ],
       },
       {
-        name: "Org",
+        id: "scale",
+        name: "Scale",
         who: "Your whole company runs on it",
         price: "$699",
+        amount: 699,
         period: "/mo",
-        cta: "Move to Org",
+        cta: "Move to Scale",
         popular: false,
         features: [
           "Everything in Team",
-          "Build unlimited · 200 apps awake",
-          "30M requests/mo · 300 GB out",
-          "2× database performance",
+          "Build unlimited · 100 apps awake",
+          "15M requests/mo · 300 GB out",
+          "A bigger, faster database",
           "100 GB files · higher ceilings",
         ],
       },
       {
+        id: "enterprise",
         name: "Enterprise",
         who: "Compliance-bound organizations",
-        price: "from $1,500",
+        price: "from $2,000",
+        amount: 2000,
+        from: true,
         period: "/mo",
         cta: "Talk to us",
         popular: false,
         features: [
-          "Custom limits · 4× database",
+          "Custom limits · our largest database",
           "SSO & security review",
           "Region choice / data residency",
           "SLA · priority support",
@@ -767,8 +779,8 @@ export const en = {
       },
     ],
     footnotes: [
-      "Never limited by features: every feature works on every plan; plans only size capacity",
-      "Annual: 2 months free",
+      "Plans size capacity. Custom domains, PR previews and fast builds start at Solo",
+      "Billed monthly · annual (2 months free) on request",
       "Your AI keys, your rates: no resold tokens",
     ],
 
@@ -776,51 +788,36 @@ export const en = {
       eyebrow: "Know where you stand",
       title: "One gauge. No billing math.",
       body:
-        "Cloud providers bill in twenty invisible units. White Ghost folds them into one bar you can actually read: how much of your plan you're using, averaged over the last 3 days. It warns at 90%, tells you exactly which app is driving it, and suggests the right moment to move up, before anything slows down.",
+        "Cloud providers bill in twenty invisible units. White Ghost folds them into one bar you can actually read: how close you are to your plan's tightest limit, across visits, data served, file storage, database and running apps. It's refreshed every day, emails you at 80, 90 and 100%, tells you which of those is driving it, and shows when it's time to move up a plan or add a pack.",
       planLabel: "EXAMPLE · TEAM PLAN",
-      reading: "72% · trending up",
-      value: 72,
-      alert: "alert at 90%",
-      driver: "Driving it: an example storefront app, 1,000+ visitors/day this week",
+      reading: "84% · visits",
+      value: 84,
+      alert: "emails at 80, 90 and 100%",
+      driver: "Driving it: visits, on pace for 4.2M of 5M this month",
       bars: [
-        { label: "Traffic", value: 84 },
-        { label: "Apps awake", value: 62 },
-        { label: "Storage", value: 48 },
-        { label: "Compute", value: 71 },
+        { label: "Visits", value: 84 },
+        { label: "Data served", value: 62 },
+        { label: "File storage", value: 48 },
+        { label: "Database", value: 35 },
+        { label: "Running apps", value: 72 },
       ],
     },
 
     advanced: {
-      eyebrow: "Advanced pricing",
+      eyebrow: "Packs",
       title: "Or tune your plan, piece by piece",
       body:
-        "Most teams just move up a plan when the gauge says so. If you'd rather tailor it, open Advanced and add exactly what you need: pre-purchased, confirmed before it bills, never a meter.",
+        "Most teams just move up a plan when the gauge says so. If you'd rather tailor it, add a pack from Plan & usage on Team, Scale and Enterprise: exactly what you need, pre-purchased, confirmed before it bills, never a meter.",
       colUnit: "Unit",
       colPrice: "Price /mo",
       colWhat: "What it adds",
       rows: [
         { unit: "Extra awake apps (pack of 10)", price: "$15", what: "Ten more apps awake beyond your plan" },
         { unit: "Storage pack", price: "$15", what: "+100 GB file storage" },
-        { unit: "Bandwidth pack", price: "$60", what: "+250 GB transfer" },
+        { unit: "Bandwidth pack", price: "$60", what: "+250 GB of data served a month" },
+        { unit: "Capacity block", price: "$99", what: "+5M requests a month" },
         { unit: "Always-warm app", price: "$99", what: "No cold starts for one critical app" },
-        { unit: "Database boost (2×)", price: "$150", what: "Double the compute and memory behind your data (included in Org)" },
-        { unit: "Database performance (4×)", price: "$350", what: "The heavy rung, Enterprise default" },
-        { unit: "Priority support / SLA", price: "$199", what: "Response-time commitment" },
       ],
-    },
-
-    agencies: {
-      eyebrow: "Agencies",
-      title: "Build for your clients",
-      body: "Run every client in their own isolated environment, under your brand, from one console.",
-      price: "$299 /mo + $179 /mo per client environment",
-      points: [
-        "White-label console: your brand on the chrome",
-        "Cross-client view and priority support",
-        "Each client: isolated environment, 5 awake apps, 1M requests/mo",
-      ],
-      example:
-        "An agency with 5 clients runs on $1,194/mo: one relationship, five isolated environments, every client's data fully separated.",
     },
 
     pledge: {
@@ -829,7 +826,7 @@ export const en = {
       items: [
         {
           title: "We ask before you spend",
-          body: "Hitting a limit blocks with an upgrade prompt; nothing bills after the fact, ever.",
+          body: "Upgrades and packs are confirmed before they bill. Limits warn you at 80, 90 and 100%; nothing bills after the fact, ever.",
         },
         {
           title: "Building is never the limit",
@@ -844,7 +841,7 @@ export const en = {
 
     ctaTitle: "Ready to start?",
     cta: "Get started →",
-    note: "No new AI to buy ▪ unlimited seats on Team, Org and Enterprise",
+    note: "No new AI to buy ▪ unlimited seats on Team, Scale and Enterprise",
   },
 
   security: {

@@ -142,7 +142,7 @@ export default function Page() {
       <section className="closing">
         <GhostMark className="ghost-mark" />
         <h2>Your team deserves a tool, not a copy of one.</h2>
-        <p>Start on the free plan: 3 apps awake, one builder, every feature included.</p>
+        <p>Start on the free plan: 3 apps awake, one builder, no card needed.</p>
         <a className="btn" href={signupUrl('share/claude-code')}>
           Start free
         </a>

@@ -20,7 +20,7 @@ export interface SiteRoute {
 export const ROUTES: SiteRoute[] = [
   { path: '/', llms: 'Home', es: true, llmsEs: 'Inicio' },
   { path: '/about', llms: 'About White Ghost (what it is, and what it is not)', es: true, llmsEs: 'Quiénes somos (qué es White Ghost y qué no es)' },
-  { path: '/pricing', llms: 'Pricing (Free, Solo, Team, Org, Enterprise; what a plan sizes is how many apps stay awake)', es: true, llmsEs: 'Precios (Free, Solo, Team, Org, Enterprise; el plan dimensiona cuántas apps quedan despiertas)' },
+  { path: '/pricing', llms: 'Pricing (Free, Solo, Team, Scale, Enterprise; what a plan sizes is how many apps stay awake)', es: true, llmsEs: 'Precios (Free, Solo, Team, Scale, Enterprise; el plan dimensiona cuántas apps quedan despiertas)' },
   { path: '/security', llms: 'Security and your data', es: true, llmsEs: 'Seguridad y tus datos' },
   { path: '/story', llms: 'The story: why White Ghost exists', es: true, llmsEs: 'La historia: por qué existe White Ghost' },
   { path: '/use-cases', llms: 'Use cases by team', es: true, llmsEs: 'Casos de uso por equipo' },

@@ -147,7 +147,7 @@ export default function Page() {
       <section className="closing">
         <GhostMark className="ghost-mark" />
         <h2>Tu equipo merece una herramienta, no una copia de una.</h2>
-        <p>Empieza en el plan gratis: 3 apps despiertas, una persona, todas las funciones incluidas.</p>
+        <p>Empieza en el plan gratis: 3 apps despiertas, una persona, sin tarjeta.</p>
         <a className="btn" href={signupUrl('es/compartir/claude-code')}>
           Empezar gratis
         </a>

@@ -14,7 +14,7 @@ const REQUIREMENTS = [
   'The folder Codex has been working in, with the app running locally (the localhost link).',
   'A GitHub account. The code is stored in your own account and you can download it as a zip whenever you want.',
   'A Node or Python app. A plain HTML file is not an app by itself; Codex can wrap it into one in a few minutes.',
-  'A White Ghost account. The Free plan is enough for a first app: 3 apps awake, one builder, every feature included.',
+  'A White Ghost account. The Free plan is enough for a first app: 3 apps awake, one builder, no card needed.',
   'Codex CLI (or the Codex extension) open in that folder. It does the technical part; you approve.',
 ];
 
@@ -282,7 +282,7 @@ export default function DeployCodex() {
       <section className="closing">
         <GhostMark className="ghost-mark" />
         <h2>Ship it where everyone can actually open it.</h2>
-        <p>Start on the free plan: 3 apps awake, one builder, every feature included.</p>
+        <p>Start on the free plan: 3 apps awake, one builder, no card needed.</p>
         <a className="btn" href={signupUrl('deploy/codex')}>
           Start free
         </a>
