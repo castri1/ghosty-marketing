@@ -702,6 +702,7 @@ export const en = {
           "3 apps awake (sleep one to wake another)",
           "Database, secrets & access modes",
           "1 GB file storage",
+          "2 scheduled routines · at most every hour",
           "Community subdomain · single user",
         ],
       },
@@ -720,6 +721,7 @@ export const en = {
           "Custom domains · fast builds",
           "PR previews · AI design",
           "10 GB file storage",
+          "5 scheduled routines · at most every hour",
           "Single user",
         ],
       },
@@ -740,6 +742,7 @@ export const en = {
           "Your domain · your branding",
           "Build unlimited · 25 apps awake",
           "5M requests/mo · 50 GB out · 20 GB files",
+          "10 scheduled routines · at most every 5 minutes",
         ],
       },
       {
@@ -757,6 +760,7 @@ export const en = {
           "15M requests/mo · 300 GB out",
           "A bigger, faster database",
           "100 GB files · higher ceilings",
+          "25 scheduled routines · at most every 5 minutes",
         ],
       },
       {
@@ -771,6 +775,7 @@ export const en = {
         popular: false,
         features: [
           "Custom limits · our largest database",
+          "Scheduled routines as often as every minute",
           "SSO & security review",
           "Region choice / data residency",
           "SLA · priority support",
@@ -807,11 +812,12 @@ export const en = {
       eyebrow: "Packs",
       title: "Or tune your plan, piece by piece",
       body:
-        "Most teams just move up a plan when the gauge says so. If you'd rather tailor it, add a pack from Plan & usage on Team, Scale and Enterprise: exactly what you need, pre-purchased, confirmed before it bills, never a meter.",
+        "Most teams just move up a plan when the gauge says so. If you'd rather tailor it, add a pack from Plan & usage: exactly what you need, pre-purchased, confirmed before it bills, never a meter. Routines, storage and app packs are on Solo too; the rest are for Team, Scale and Enterprise.",
       colUnit: "Unit",
       colPrice: "Price /mo",
       colWhat: "What it adds",
       rows: [
+        { unit: "Routines pack", price: "$10", what: "+5 scheduled routines" },
         { unit: "Extra awake apps (pack of 10)", price: "$15", what: "Ten more apps awake beyond your plan" },
         { unit: "Storage pack", price: "$15", what: "+100 GB file storage" },
         { unit: "Bandwidth pack", price: "$60", what: "+250 GB of data served a month" },

@@ -690,6 +690,7 @@ export const es: Dictionary = {
           "3 apps despiertas (duerme una para despertar otra)",
           "Base de datos, secretos y modos de acceso",
           "1 GB de archivos",
+          "2 routines programadas · como máximo cada hora",
           "Subdominio de la comunidad · un solo usuario",
         ],
       },
@@ -708,6 +709,7 @@ export const es: Dictionary = {
           "Dominios propios · builds rápidos",
           "Previews por pull request · diseño con IA",
           "10 GB de archivos",
+          "5 routines programadas · como máximo cada hora",
           "Un solo usuario",
         ],
       },
@@ -728,6 +730,7 @@ export const es: Dictionary = {
           "Tu dominio · tu marca",
           "Construye sin límite · 25 apps despiertas",
           "5M de solicitudes al mes · 50 GB de salida · 20 GB de archivos",
+          "10 routines programadas · como máximo cada 5 minutos",
         ],
       },
       {
@@ -745,6 +748,7 @@ export const es: Dictionary = {
           "15M de solicitudes al mes · 300 GB de salida",
           "Una base de datos más grande y más rápida",
           "100 GB de archivos · techos más altos",
+          "25 routines programadas · como máximo cada 5 minutos",
         ],
       },
       {
@@ -759,6 +763,7 @@ export const es: Dictionary = {
         popular: false,
         features: [
           "Límites a la medida · nuestra base de datos más grande",
+          "Routines programadas hasta cada minuto",
           "SSO y revisión de seguridad",
           "Elección de región / residencia de datos",
           "SLA · soporte prioritario",
@@ -795,11 +800,12 @@ export const es: Dictionary = {
       eyebrow: "Paquetes",
       title: "O ajusta tu plan pieza por pieza",
       body:
-        "La mayoría de los equipos simplemente sube de plan cuando el medidor lo dice. Si prefieres afinarlo, agrega un paquete desde Plan & usage en Team, Scale y Enterprise: exactamente lo que necesitas, se compra por adelantado, se confirma antes de cobrar, nunca es un contador.",
+        "La mayoría de los equipos simplemente sube de plan cuando el medidor lo dice. Si prefieres afinarlo, agrega un paquete desde Plan & usage: exactamente lo que necesitas, se compra por adelantado, se confirma antes de cobrar, nunca es un contador. Los paquetes de routines, archivos y apps también están en Solo; los demás son para Team, Scale y Enterprise.",
       colUnit: "Unidad",
       colPrice: "Precio /mes",
       colWhat: "Qué agrega",
       rows: [
+        { unit: "Paquete de routines", price: "US$10", what: "+5 routines programadas" },
         { unit: "Apps despiertas extra (paquete de 10)", price: "US$15", what: "Diez apps despiertas más allá de tu plan" },
         { unit: "Paquete de archivos", price: "US$15", what: "+100 GB de almacenamiento de archivos" },
         { unit: "Paquete de ancho de banda", price: "US$60", what: "+250 GB de datos servidos al mes" },
