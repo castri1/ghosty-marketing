@@ -177,7 +177,12 @@ changes these surfaces with no per-surface code.
 - **`/sitemap.xml`** (`app/sitemap.ts`): static pages + every entry of every `sitemap: true`
   type. Entries whose `pathFor` is a list-page fragment (changelog) are skipped — fragments
   aren't valid sitemap URLs; the list page covers them. `lastModified` from `updatedAt`.
-- **`/robots.txt`** (`app/robots.ts`): allow all + sitemap pointer.
+  Tracked-link paths (`/go/...`, `isGoPath`) are skipped on the path, before `siteUrl()`.
+- **`/robots.txt`** (`app/robots.ts`): allow all except `/admin`, + sitemap pointer. `/go/` is
+  deliberately NOT disallowed: a 302 isn't indexed (crawlers follow it to the target, whose
+  canonical carries no query — every page sets it through `pageMeta()`), every card fetcher
+  can read `/go/` links whatever token it presents, and the click filter keeps crawlers out of
+  the counts.
 - **`/llms.txt`** (`app/llms.txt/route.ts`): markdown site index per the llms.txt
   convention — one section per `llmsTxt: true` type, each entry as title + canonical URL +
   raw-markdown URL.
@@ -192,11 +197,88 @@ changes these surfaces with no per-surface code.
   routes (`/sitemap.xml`) win over the rewrite (afterFiles).
 - **`/health`**: force-dynamic 200 `ok`, no store access — the platform's smoke target for
   this service after the apex cutover (ghosty repo runbook 13).
-- **`public/og.png`**: static 1200×630 house-brand card (light slate + emerald, DM Sans).
-  Regenerate by screenshotting a 1200×630 HTML mock in headless Chrome if the brand changes.
+- **`public/og.png`**: static 1200×630 house-brand card (lockup on paper, `whiteghost.ai`
+  in IBM Plex Mono 500 24px / 0.3167em tracking / #4D6258 under it). Regenerate by
+  screenshotting a 1200×630 HTML mock in headless Chrome if the brand changes.
 - The content-reading surfaces (sitemap, llms.txt, raw md, RSS) read through the cached
   `listContent` readers with `revalidate = 300` and inherit tag invalidation — a publish
   refreshes them like the pages, and they serve empty (not error) on credential-less builds.
+
+## Tracked links + first-touch pass-through
+
+Social posts link `https://whiteghost.ai/go/<id>`; the site keeps the campaign a visitor
+arrived with and hands it to the console link they use to sign up or sign in.
+
+- **`/go/<id>`** (`app/go/[id]/route.ts`): `302` to the link's `target` with its
+  `utm_source/medium/campaign/content` set; an unknown or malformed id `302`s to `/` (a typo
+  in a post never shows an error page). Counts only real clicks — a `GET` from a browser:
+  `HEAD` never counts (link and mail scanners probe with it; Next answers HEAD with the `GET`
+  handler, and `req.method` still says HEAD), and neither do (`isBotUserAgent` /
+  `shouldCountClick` in `lib/links.ts`, one `NOT_A_PERSON` list + one token rule): link-preview
+  / card fetchers (X, LinkedIn, Facebook, Slack, Discord, WhatsApp, Telegram, Pinterest's
+  fetchers `Pinterest/0.x` and `Pinterestbot` — never its in-app browser `[Pinterest/iOS]` /
+  `[Pinterest/Android]`, Reddit, Bluesky's Cardyb, Mastodon, Iframely, Embedly), crawlers, any
+  agent with a `+http(s)://` contact URL, any other "…bot" product token (a letter, digit or
+  `_` before `bot`, ending the token: `Googlebot/2.1`, `MJ12bot/v1.4.8`, `Mail.RU_Bot/2.0` —
+  never a bare substring, so phones like `CUBOT_X19` still count), HTTP libraries, headless
+  browsers, speculative prefetches. Counting is `FieldValue.increment` on `clicks` and
+  `clicks_by_day.<UTC YYYY-MM-DD>`. The redirect awaits that write (Cloud Run throttles CPU
+  after the response, so a write left behind can be lost), capped at 1500 ms
+  (`settleWithin`); hitting the cap logs `go: <id> click write still pending at redirect`, a
+  failed write logs `go: count failed for <id>` (its one error handler). Nothing about the
+  visitor is stored. Every answer is `Cache-Control: private, no-store` — the apex CDN honors
+  origin headers, and a cached redirect would swallow clicks. Known and accepted: the counter
+  is one document per link — past roughly one sustained click per second on a single link,
+  move to sharded counters; and `/go` reads the link and then writes the count, one after the
+  other (two sequential store calls per counted click).
+- **Store**: Firestore `marketing_links/{id}` = `{target, utm_source, utm_medium,
+  utm_campaign, utm_content, clicks, clicks_by_day: {YYYY-MM-DD: n}, createdAt, updatedAt}` —
+  maps only, never nested arrays. Links are **not** a content type: never register them in
+  `lib/content-types.ts` (that would publish them on the public surfaces).
+- **API** (`app/api/links/[id]/route.ts`), every verb behind the content bearer token
+  (`MARKETING_CONTENT_TOKEN`, GET included — counts are dashboard data):
+  - `PUT /api/links/:id` — create/update. `:id` must match `^(x|li|yt)-\d{3,}$` (the piece
+    id). Strict body `{target, utm_source, utm_medium, utm_campaign, utm_content?}`;
+    `target` is an absolute `https://` address, tag values 1–100 characters (`TAG_MAX` in
+    `lib/utm.ts`, the console's own bound). An omitted `utm_content` is the id on create and
+    keeps the stored value on update (`linkConfig`). Counters and `createdAt` are
+    server-managed and survive updates (transaction). `201` created / `200` updated.
+  - `GET /api/links/:id` — the link + `clicks` + `clicks_by_day`, plus `url` (its `/go`
+    address) and `redirectsTo` (where it lands). `404` when absent.
+
+  ```bash
+  curl -X PUT "https://whiteghost.ai/api/links/x-001" \
+    -H "Authorization: Bearer $MARKETING_CONTENT_TOKEN" -H "content-type: application/json" \
+    -d '{"target":"https://whiteghost.ai/blog/ship-it","utm_source":"x",
+         "utm_medium":"social","utm_campaign":"ship-it"}'
+  ```
+- **First touch** (`public/ft.js`): a hand-written ES5 script with no dependencies, loaded
+  `async` in the root shell's `<head>` as `<script src="/ft.js?v=<hash>" async data-…>`
+  (attributes from `lib/first-touch.ts`). `async` never blocks rendering, and the script still
+  runs before hydration in practice (`document.currentScript` and its dataset work for an
+  async classic script). The `?v=` is the file's content hash, computed by `next.config.mjs` at
+  build time (`env.FT_JS_HASH`; the build fails without it), which is what lets `headers()`
+  serve `/ft.js` as `public, max-age=31536000, immutable`: edit the file and the URL changes.
+  React isn't involved, and only the tag's attributes travel in the page payload, never the
+  code. Its whole config comes from that tag: `data-console` (`lib/console-url.ts`),
+  `data-keys` / `data-max` (`lib/utm.ts`, shared with the links code). A page load whose URL
+  carries a `utm_*` tag, in a tab with no first touch yet, keeps `{utm_source, utm_medium,
+  utm_campaign, utm_content, utm_term}` in sessionStorage `wg_ft` (never replaced; session
+  storage only — no cookie, nothing across sessions). When a console link that can start an
+  account — `<console>/signup`, `<console>/login` (the nav "Sign in"), the console root (the
+  404 page's link); trailing slash optional — is about to be used (`pointerdown`: tap, click,
+  long-press "Open in New Tab", drag; keyboard `focusin`; click; middle-click; context menu;
+  capture phase on `document`), its `utm_*` are replaced by the kept ones; `ref`, `plan` and
+  every other parameter stay. `signupUrl()` stays server-rendered; with no first touch every
+  link is byte-identical. Keep the file ES5 and self-contained: `lib/first-touch.test.ts` runs
+  that exact text in a bare VM (only `window`, `document`, `URL`, `URLSearchParams`), rejects
+  newer syntax, and checks the configured hash matches the file. Known and accepted: a link
+  rewritten on `pointerdown`/`focusin` before hydration can make React log a hydration
+  attribute-mismatch warning for its `href`. No CSP today; if one lands, this script and the
+  consent/GTM inline one need allowing.
+- **Pricing Solo**: `signupUrl(ref, campaign, { plan: 'solo' })` adds the console's own
+  `plan=solo` (the plan step opens with Solo selected); the Solo button renders it next to
+  `utm_campaign=pricing-solo`, so the intent survives a first-touch swap of the campaign tag.
 
 ## Dev
 
@@ -214,7 +296,9 @@ changes these surfaces with no per-surface code.
   through the API overwrites those edits — post-cutover, publish via the API instead.
   Non-loopback targets must be https. Needs Node ≥ 23.6 (native TypeScript; declared in
   `engines`). The operator runs this against the live service in OPS O1.
-- `npm run build` — production build (`output: 'standalone'`); `npm run typecheck` — tsc.
+- `npm run build` — production build (`output: 'standalone'`); `npm run typecheck` — tsc;
+  `npm test` — unit tests for the pure modules (`lib/**/*.test.ts`, Node's built-in runner,
+  native TypeScript — no test dependencies; tested modules import nothing through `@/`).
 - Production serving = `node .next/standalone/server.js`, and the build output alone is
   incomplete: `public/` and `.next/static` must be copied into `.next/standalone/` (see the
   note in `next.config.mjs`) — the M4 deploy image does this. `npm start` (`next start`) is a

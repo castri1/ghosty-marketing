@@ -1,5 +1,31 @@
+import { createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
+
+/**
+ * Content hash of the first-touch script (public/ft.js), computed when the
+ * config loads at build time and inlined as process.env.FT_JS_HASH: the root
+ * shell loads `/ft.js?v=<hash>`, so the file can be cached for a year
+ * (headers() below) and a changed script is a new URL.
+ */
+const FT_JS_HASH = createHash('sha256')
+  .update(readFileSync(new URL('./public/ft.js', import.meta.url)))
+  .digest('hex')
+  .slice(0, 16);
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  env: { FT_JS_HASH },
+  // /ft.js is only ever referenced with its content hash (?v=…), so it is
+  // immutable: browsers and the apex CDN keep it a year instead of
+  // revalidating the script on every page view.
+  async headers() {
+    return [
+      {
+        source: '/ft.js',
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
+      },
+    ];
+  },
   // Self-contained server bundle — the Ghosty platform runs the site from
   // .next/standalone with no node_modules install at runtime. NOTE: `next
   // build` does NOT place `public/` or `.next/static` inside the standalone

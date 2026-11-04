@@ -5,6 +5,7 @@ import { siteUrl } from '@/lib/site';
 import { ROUTES, esPathFor } from '@/lib/routes';
 import { blogPath, getBlogPosts } from '@/lib/content';
 import { GLOSSARY } from '@/lib/glossary';
+import { isGoPath } from '@/lib/links';
 
 export const revalidate = 300;
 
@@ -12,9 +13,13 @@ export const revalidate = 300;
  * Static pages come from lib/routes.ts (single source of truth shared with
  * llms.txt); glossary terms from lib/glossary.ts. Nothing is listed by hand.
  * Bilingual routes emit both URLs, each with hreflang alternates (x-default
- * is the English page).
+ * is the English page). Tracked short links (/go/...) are redirects, never
+ * pages: such a path is skipped here and in the entry loop, on the path,
+ * before it becomes a URL.
  */
-const STATIC_PATHS = [...ROUTES.map((r) => r.path), ...GLOSSARY.map((g) => `/glossary/${g.slug}`)];
+const STATIC_PATHS = [...ROUTES.map((r) => r.path), ...GLOSSARY.map((g) => `/glossary/${g.slug}`)].filter(
+  (path) => !isGoPath(path),
+);
 
 function alternatesFor(en: string, es: string) {
   return { languages: { en: siteUrl(en), es: siteUrl(es), 'x-default': siteUrl(en) } };
@@ -52,7 +57,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     for (const entry of await listContent(type)) {
       const path = type.pathFor(entry);
-      if (path.includes('#')) continue;
+      if (path.includes('#') || isGoPath(path)) continue;
       const updatedAt = (entry as { updatedAt?: string }).updatedAt;
       let alternates: ReturnType<typeof alternatesFor> | undefined;
       if (type.key === 'blog') {

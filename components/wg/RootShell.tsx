@@ -6,6 +6,7 @@ import { AnalyticsPageView } from '@/components/wg/AnalyticsPageView';
 import { en } from '@/lib/i18n/en';
 import { es } from '@/lib/i18n/es';
 import { CONSENT_STORAGE_KEY, GTM_ID } from '@/lib/gtm';
+import { firstTouchScriptProps } from '@/lib/first-touch';
 import { SITE_URL } from '@/lib/site';
 import '@/styles/preflight.css';
 import '@/styles/marketing.css';
@@ -57,6 +58,17 @@ j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
 f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${GTM_ID}');
 `;
 
+/**
+ * First-touch campaign pass-through (public/ft.js, lib/first-touch.ts): keeps
+ * the campaign a visitor landed with and hands it to the console links that
+ * can start an account as they are used. An async, content-hashed
+ * <script src> in <head>: it never blocks rendering, still captures and
+ * listens before hydration in practice, and only the tag's attributes travel
+ * in the page payload, never the code. Session storage only, independent of
+ * GTM and consent.
+ */
+const FIRST_TOUCH = firstTouchScriptProps();
+
 /** Only the chrome slices of a dictionary cross to the client. */
 function chromeDict(d: typeof en): ChromeDict {
   return { nav: d.nav, footer: d.footer, localeSwitcher: d.localeSwitcher, consent: d.consent };
@@ -85,6 +97,7 @@ export function RootShell({ lang, children }: { lang: Locale; children: ReactNod
           href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=IBM+Plex+Mono:wght@400;500&display=swap"
           rel="stylesheet"
         />
+        <script {...FIRST_TOUCH} />
         {GTM_ID ? <script dangerouslySetInnerHTML={{ __html: CONSENT_AND_GTM }} /> : null}
       </head>
       <body>

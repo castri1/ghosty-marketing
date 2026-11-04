@@ -10,6 +10,7 @@
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
+    "test": "node --test \"lib/**/*.test.ts\"",
     "seed": "node scripts/seed.ts"
   },
   "dependencies": {

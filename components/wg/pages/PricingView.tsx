@@ -20,8 +20,12 @@ type Tier = Dictionary['pricing']['tiers'][number];
 export function PricingView({ dict, locale }: { dict: Dictionary; locale: Locale }) {
   const t = dict.pricing;
   const signupRef = locale === 'es' ? 'es/pricing' : 'pricing';
+  // Solo also says so in the console's own terms (plan=solo), so the intent
+  // holds even when a visitor's first-touch tags replace the campaign tag.
   const tierHref = (tier: Tier) =>
-    tier.id === 'enterprise' ? SALES_MAILTO : signupUrl(signupRef, `pricing-${tier.id}`);
+    tier.id === 'enterprise'
+      ? SALES_MAILTO
+      : signupUrl(signupRef, `pricing-${tier.id}`, tier.id === 'solo' ? { plan: 'solo' } : {});
 
   // Offer JSON-LD: agents answering "what does it cost?" get the list prices
   // from structured data rather than parsing the cards.
