@@ -13,8 +13,23 @@ export function consoleUrl(path: string): string {
 }
 
 /**
+ * Refs of the sign-up buttons that need their own placement rather than the
+ * generic `chrome` (which `localizeHref('/waitlist')` still gives every other
+ * shared CTA): the nav button on every page, and the home page's hero and
+ * closing buttons (both locales — the ref names the button, not the language).
+ * Each is also its `utm_campaign` (signupUrl's default), so the console can tell
+ * which one converted. The creator block keeps its own `home-creator`.
+ */
+export const CTA_REF = {
+  nav: 'nav',
+  homeHero: 'home-hero',
+  homeCta: 'home-cta',
+} as const;
+
+/**
  * The sign-up CTA link. `ref` names the placement (the page's canonical path
- * without the leading slash, or `chrome` for nav/footer) so the console can
+ * without the leading slash, a `CTA_REF` above, or `chrome` for the other
+ * shared CTAs) so the console can
  * record where a sign-up came from and GA4 can attribute it across domains.
  * GTM's `cta_signup_click` trigger matches on `console.whiteghost.ai/signup`,
  * which the query string does not disturb. When the visitor arrived with

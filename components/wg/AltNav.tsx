@@ -6,6 +6,7 @@ import { cn } from "@/lib/cn";
 import type { Locale } from "@/lib/wg-copy";
 import type { Dictionary } from "@/lib/wg-copy";
 import { localizeHref } from "@/lib/wg-copy";
+import { CTA_REF, signupUrl } from "@/lib/console-url";
 import { LocaleSwitcher } from "@/components/wg/LocaleSwitcher";
 import { NavMenu } from "@/components/wg/NavMenu";
 
@@ -106,7 +107,7 @@ export function AltNav({
           <span aria-hidden="true" className="hidden h-4 w-px bg-line md:block" />
           <LocaleSwitcher locale={locale} dict={switcher} className="hidden sm:flex" />
           <a
-            href={localizeHref("/waitlist", locale)}
+            href={signupUrl(CTA_REF.nav)}
             className="px-label hidden bg-emerald px-5 py-2.5 text-white shadow-[4px_4px_0_0_rgba(5,150,105,0.25)] transition-all duration-200 hover:-translate-x-px hover:-translate-y-px hover:shadow-[6px_6px_0_0_rgba(5,150,105,0.3)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald sm:inline-block"
           >
             {dict.cta}
@@ -162,7 +163,7 @@ export function AltNav({
 
             <div className="mt-6 flex flex-col gap-3 border-t border-line pt-5">
               <a
-                href={localizeHref("/waitlist", locale)}
+                href={signupUrl(CTA_REF.nav)}
                 onClick={() => setOpen(false)}
                 className="px-label bg-emerald px-5 py-3 text-center text-white"
               >

@@ -2,7 +2,7 @@ import { PixelField } from "./PixelField";
 import { Rise } from "./Rise";
 import type { Locale } from "@/lib/wg-copy";
 import type { Dictionary } from "@/lib/wg-copy";
-import { localizeHref } from "@/lib/wg-copy";
+import { CTA_REF, signupUrl } from "@/lib/console-url";
 
 export function AltHero({
   dict,
@@ -51,7 +51,7 @@ export function AltHero({
           <Rise delay={0.3}>
             <div className="pointer-events-auto mt-10 flex flex-col gap-3 sm:flex-row">
               <a
-                href={localizeHref("/waitlist", locale)}
+                href={signupUrl(CTA_REF.homeHero)}
                 className="px-label inline-flex items-center justify-center gap-2 bg-emerald px-8 py-4 text-white shadow-[6px_6px_0_0_rgba(5,150,105,0.25)] transition-all duration-200 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[9px_9px_0_0_rgba(5,150,105,0.3)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald"
               >
                 {dict.ctaPrimary}

@@ -5,7 +5,7 @@ import { describe, test } from 'node:test';
 import vm from 'node:vm';
 import nextConfig from '../next.config.mjs';
 import { FIRST_TOUCH_SRC, firstTouchScriptProps } from './first-touch.ts';
-import { consoleUrl, signupUrl } from './console-url.ts';
+import { CTA_REF, consoleUrl, signupUrl } from './console-url.ts';
 import { TAG_MAX, UTM_KEYS } from './utm.ts';
 
 /** The exact file the site serves and the browser runs. */
@@ -226,6 +226,21 @@ describe('pass-through', () => {
   test('a partial first touch never mixes with the site tags', () => {
     const out = new URL(loadPage('?utm_source=newsletter').use('click', BLOG_CTA));
     assert.deepEqual([...out.searchParams], [['ref', 'blog/ship-it'], ['utm_source', 'newsletter']]);
+  });
+  test('per-CTA refs (nav, home hero, home closing CTA) survive; a first touch still wins every utm_*', () => {
+    for (const ref of Object.values(CTA_REF)) {
+      const cta = signupUrl(ref);
+      assert.equal(
+        loadPage(POST_SEARCH).use('click', cta),
+        `https://console.whiteghost.ai/signup?ref=${ref}&utm_source=x&utm_medium=social&utm_campaign=ship-it&utm_content=x-001`,
+        ref,
+      );
+      // a partial first touch replaces the CTA's own campaign too, never mixes with it
+      const partial = new URL(loadPage('?utm_source=newsletter').use('click', cta));
+      assert.deepEqual([...partial.searchParams], [['ref', ref], ['utm_source', 'newsletter']], ref);
+      // no first touch → the CTA's own campaign goes through untouched
+      for (const type of EVENTS) assert.equal(loadPage('').use(type, cta), cta, `${type} ${ref}`);
+    }
   });
   test('the Solo button keeps plan=solo (a console intent, not a campaign tag)', () => {
     const out = new URL(loadPage(POST_SEARCH).use('click', SOLO_CTA));
