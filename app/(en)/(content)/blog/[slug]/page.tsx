@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (post.lang !== 'en') permanentRedirect(blogPath(post));
   const twin = await findBlogTwin(post);
   return pageMeta({
-    title: `${post.title} — White Ghost`,
+    title: post.seoTitle ?? `${post.title} — White Ghost`,
     description: post.description,
     path: `/blog/${post.slug}`,
     locale: 'en',

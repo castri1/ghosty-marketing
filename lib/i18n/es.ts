@@ -16,9 +16,9 @@ export const es: Dictionary = {
         "Publica la app que hiciste con Claude Code o Codex: dirección web, base de datos y reglas de acceso. Y un solo lugar seguro para todo lo que tu empresa crea con IA.",
     },
     about: {
-      title: "White Ghost — quiénes somos",
+      title: "Quiénes somos: White Ghost, para publicar apps hechas con IA",
       description:
-        "White Ghost nació dentro de Melonn, una empresa de logística de Latinoamérica donde toda la compañía empezó a construir con IA. La historia, y en qué creemos.",
+        "White Ghost nació en Melonn, donde corren 99 apps internas, casi todas hechas por gente que no programa. Publica lo que creas con Claude Code o Codex.",
     },
     compareStack: {
       title: "White Ghost vs. armar tu propio stack (Vercel + Supabase + Railway)",
@@ -26,9 +26,9 @@ export const es: Dictionary = {
         "Para publicar lo que tu equipo crea con IA puedes armar tú mismo un stack técnico (Vercel + Supabase + Railway + accesos + permisos) o usar White Ghost: un solo lugar seguro y bajo control, sin necesidad de ser técnico.",
     },
     story: {
-      title: "White Ghost — la historia",
+      title: "De Claude Code a la app publicada de tu equipo — White Ghost",
       description:
-        "Una historia en scroll: de un simple mortal con Claude en su computador a aplicaciones desplegadas de forma segura con White Ghost.",
+        "Cómo alguien que no es técnico crea una app con Claude Code y la publica de forma segura para su equipo con White Ghost: base de datos, integraciones y accesos.",
     },
     compareHub: {
       title: "White Ghost vs. las alternativas — comparativas",
@@ -41,14 +41,14 @@ export const es: Dictionary = {
         "Vercel publica apps para desarrolladores. White Ghost es donde toda tu empresa lanza, ve y controla lo que crea con la IA que ya tiene. Comparación lado a lado.",
     },
     pricing: {
-      title: "White Ghost — precios",
+      title: "Precios: publica apps hechas con Claude Code — White Ghost",
       description:
-        "Construye apps y agentes sin límite en todos los planes; el plan define cuántas quedan despiertas. Free, Solo US$19, Team US$299, Scale US$699, Enterprise desde US$2.000 al mes. Usuarios ilimitados en los planes de equipo.",
+        "Publica apps hechas con Claude Code o Codex. Apps sin límite en todos los planes: Free, Solo US$19, Team US$299, Scale US$699, Enterprise desde US$2.000/mes.",
     },
     security: {
-      title: "White Ghost — seguridad y tus datos",
+      title: "Seguridad para apps internas hechas con IA — White Ghost",
       description:
-        "Tu información es de tu empresa: aislada, nunca usada para entrenar nada, y tuya para llevártela. Así cuida White Ghost tus datos.",
+        "Las apps que tu equipo crea con IA son privadas por defecto: aisladas por empresa, código en tu GitHub, nunca usadas para entrenar y tuyas para llevártelas.",
     },
     privacy: {
       title: "White Ghost — privacidad",

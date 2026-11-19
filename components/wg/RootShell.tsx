@@ -12,10 +12,10 @@ import '@/styles/preflight.css';
 import '@/styles/marketing.css';
 import '@/styles/wg.css';
 
-/** The official White Ghost mark, as a data-URI favicon. */
-const FAVICON =
-  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 60 70'%3E%3Cpath d='M28 0C12.536 0 0 12.536 0 28v30a7 7 0 0 0 14 0 7 7 0 0 0 14 0 7 7 0 0 0 14 0 7 7 0 0 0 14 0V28C56 12.536 43.464 0 28 0Z' fill='%23ffffff' stroke='%2310251C' stroke-width='2.5'/%3E%3Crect x='17.5' y='24' width='7' height='15' rx='2' fill='%2310251C'/%3E%3Crect x='31.5' y='24' width='7' height='15' rx='2' fill='%2310251C'/%3E%3C/svg%3E";
-
+// Favicons are file conventions, linked from every page as crawlable URLs (a
+// data-URI icon is invisible to search engines): app/favicon.ico (48×48, from
+// public/logo-mark-512.png) and app/icon.svg (the official mark on a square
+// canvas).
 export const ROOT_METADATA: Metadata = {
   // metadataBase resolves relative OG/Twitter image paths (/og.png) to
   // absolute URLs; per-page tags come from pageMeta() in lib/site.ts.
@@ -23,7 +23,6 @@ export const ROOT_METADATA: Metadata = {
   title: 'White Ghost — Build software around your work',
   description:
     'Describe the software your work needs, shape it with the AI assistant you already like, and put it to work with White Ghost.',
-  icons: { icon: FAVICON },
 };
 
 export const ROOT_VIEWPORT: Viewport = {

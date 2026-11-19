@@ -50,6 +50,13 @@ const blogSchema = base.extend({
   date: calendarDate,
   /** Meta description + list blurb (agent-visible; keep it under ~160 chars). */
   description: z.string().min(1),
+  /**
+   * Optional search-result title, used verbatim as the page's <title> and
+   * OpenGraph/Twitter title (no " — White Ghost" suffix added) when `title`
+   * is too long for search results (aim for <= 60 chars). Metadata only: the
+   * on-page heading, JSON-LD headline, lists and feeds keep `title`.
+   */
+  seoTitle: z.string().min(1).optional(),
   tags: z.array(z.string()).default([]),
   faq: z.array(blogFaqItem).default([]),
   /** Language of the post: English posts live at /blog, Spanish ones at /es/blog. */
