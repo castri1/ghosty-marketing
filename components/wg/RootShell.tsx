@@ -5,7 +5,7 @@ import { Chrome, type ChromeDict } from '@/components/wg/Chrome';
 import { AnalyticsPageView } from '@/components/wg/AnalyticsPageView';
 import { en } from '@/lib/i18n/en';
 import { es } from '@/lib/i18n/es';
-import { CONSENT_STORAGE_KEY, GTM_ID } from '@/lib/gtm';
+import { CONSENT_DENIED_REGIONS, CONSENT_STORAGE_KEY, GTM_ID } from '@/lib/gtm';
 import { firstTouchScriptProps } from '@/lib/first-touch';
 import { SITE_URL } from '@/lib/site';
 import '@/styles/preflight.css';
@@ -33,24 +33,43 @@ export const ROOT_VIEWPORT: Viewport = {
 /**
  * Consent Mode v2 defaults + the GTM loader, as one inline script so the
  * consent default is ALWAYS set before GTM boots (Google's required order).
- * Everything starts denied; on repeat visits the stored choice from the
- * consent banner (localStorage) seeds the default so returning visitors who
- * accepted are measured from the first pageview. url_passthrough keeps ad
- * click ids across pages while consent is denied.
+ * A stored choice from the consent banner (localStorage, 'granted' or
+ * 'denied') wins everywhere: one global default with that value, so returning
+ * visitors who accepted are measured from the first pageview. With no stored
+ * choice the default is region-scoped: denied in CONSENT_DENIED_REGIONS
+ * (EU/EEA, UK, Switzerland; emitted first, and a region-specific default
+ * outranks the global one), granted everywhere else. url_passthrough keeps ad
+ * click ids across pages while consent is denied. The emitted JS stays ES5.
  */
 const CONSENT_AND_GTM = `
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 var wgc = null;
 try { wgc = localStorage.getItem('${CONSENT_STORAGE_KEY}'); } catch (e) {}
-var g = wgc === 'granted' ? 'granted' : 'denied';
-gtag('consent', 'default', {
-  ad_storage: g,
-  ad_user_data: g,
-  ad_personalization: g,
-  analytics_storage: g,
-  wait_for_update: 500
-});
+if (wgc === 'granted' || wgc === 'denied') {
+  gtag('consent', 'default', {
+    ad_storage: wgc,
+    ad_user_data: wgc,
+    ad_personalization: wgc,
+    analytics_storage: wgc,
+    wait_for_update: 500
+  });
+} else {
+  gtag('consent', 'default', {
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    analytics_storage: 'denied',
+    region: ${JSON.stringify(CONSENT_DENIED_REGIONS)},
+    wait_for_update: 500
+  });
+  gtag('consent', 'default', {
+    ad_storage: 'granted',
+    ad_user_data: 'granted',
+    ad_personalization: 'granted',
+    analytics_storage: 'granted'
+  });
+}
 gtag('set', 'url_passthrough', true);
 (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
 var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
