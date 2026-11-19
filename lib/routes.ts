@@ -30,6 +30,8 @@ export const ROUTES: SiteRoute[] = [
   { path: '/compare', llms: 'Comparisons hub', es: true, llmsEs: 'Comparativas' },
   { path: '/compare/stack', llms: 'White Ghost vs. piecing together your own stack', es: true, llmsEs: 'White Ghost vs. armar tu propio stack' },
   { path: '/compare/vercel', llms: 'White Ghost vs. Vercel', es: true, llmsEs: 'White Ghost vs. Vercel' },
+  { path: '/compare/lovable', llms: 'White Ghost vs. Lovable: an alternative for teams', es: true, llmsEs: 'White Ghost vs. Lovable: una alternativa para equipos' },
+  { path: '/compare/replit', llms: 'White Ghost vs. Replit: an alternative for teams', es: true, llmsEs: 'White Ghost vs. Replit: una alternativa para equipos' },
   { path: '/localhost', llms: 'You cannot send a localhost link: how to share an app that only opens on your computer', es: true, llmsEs: 'Por qué tu equipo no puede abrir tu link de localhost (y cómo compartirlo de verdad)' },
   { path: '/share/claude-code', llms: 'How to share what you built with Claude Code with your team', es: '/es/compartir/claude-code', llmsEs: 'Cómo compartir lo que hiciste en Claude Code con tu equipo' },
   { path: '/deploy', llms: 'Deploy guides hub (by AI coding assistant)' },
