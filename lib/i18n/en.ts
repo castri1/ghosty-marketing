@@ -44,6 +44,16 @@ export const en = {
       description:
         "Vercel ships apps for developers. White Ghost is where your whole company launches, sees, and controls everything it builds with the AI it already has. Side by side.",
     },
+    compareLovable: {
+      title: "Lovable alternative for teams — White Ghost vs. Lovable",
+      description:
+        "Lovable generates web apps from a chat. White Ghost is where your team publishes what it builds with Claude Code or Codex: a web address, a database and access rules. Side by side.",
+    },
+    compareReplit: {
+      title: "Replit alternative for teams — White Ghost vs. Replit",
+      description:
+        "Replit writes and publishes apps from plain language. White Ghost is where your team publishes what it builds with Claude Code or Codex: a web address, a database and access rules. Side by side.",
+    },
     pricing: {
       title: "White Ghost — pricing",
       description:
@@ -577,6 +587,18 @@ export const en = {
         href: "/compare/vercel",
         cta: "See comparison →",
       },
+      {
+        title: "White Ghost vs. Lovable",
+        body: "Lovable generates the app from a chat; White Ghost is the home for everything your company builds.",
+        href: "/compare/lovable",
+        cta: "See comparison →",
+      },
+      {
+        title: "White Ghost vs. Replit",
+        body: "Replit writes the app from what you describe; White Ghost is the home for everything your company builds.",
+        href: "/compare/replit",
+        cta: "See comparison →",
+      },
     ],
   },
 
@@ -647,6 +669,225 @@ export const en = {
         {
           q: "Can I use White Ghost and Vercel together?",
           a: "Yes. They solve different things. Vercel is great for a developer to ship apps; White Ghost is where a whole company launches, sees, and controls what it builds with AI. Many teams will use both.",
+        },
+        {
+          q: "Does White Ghost replace my AI tools?",
+          a: "No. It runs on the AI your company already pays for — Claude, Codex, Gemini. You don't buy another AI: White Ghost is the home and control center for what your team builds with the one you already have.",
+        },
+        {
+          q: "Is my code locked in?",
+          a: "No. Your code lives in your own GitHub organization and your data is isolated per company. If you leave, you export the database and the code is already yours.",
+        },
+        {
+          q: "Do I need to be technical?",
+          a: "No. A plain-language wizard turns what you describe in business terms into a deployed app or agent.",
+        },
+      ],
+    },
+    cta: {
+      titleLead: "Already building with AI?",
+      titleEm: "Bring it into one place.",
+      cta: "Get started →",
+      note: "No new AI to buy ▪ up and running in days, not months",
+    },
+  },
+
+  // "White Ghost vs. <tool>" pages rendered by CompareToolView: compareLovable
+  // and compareReplit share one shape. What each row says about the other
+  // tool comes from that tool's own public docs and pricing pages; keep it
+  // neutral and re-check those pages before editing a claim.
+  compareLovable: {
+    name: "White Ghost vs. Lovable",
+    hero: {
+      eyebrow: "Compare — White Ghost vs. Lovable",
+      titleLead: "Lovable generates the app.",
+      titleEm: "White Ghost is the home for everything your team builds.",
+      body: "Lovable is a platform for building, iterating on, and deploying web applications using natural language: you describe what you want, and Lovable generates it. White Ghost runs on the AI your company already pays for: your assistant writes the app, and White Ghost gives it a web address, a database, and access rules — then one safe place to launch, share, and manage everything your team builds. Here's how to choose.",
+      ctaPrimary: "Get started →",
+      ctaSecondary: "See the comparison",
+    },
+    table: {
+      eyebrow: "01 — Side by side",
+      titleLead: "Lovable",
+      titleEm: "vs. White Ghost.",
+      colTool: "Lovable",
+      colGhosty: "White Ghost",
+      rows: [
+        {
+          capability: "What it's for",
+          tool: "Building, iterating on, and deploying web applications using natural language.",
+          ghosty: "A safe, shared home for everything your team builds with AI — apps and agents.",
+        },
+        {
+          capability: "Brings its own AI?",
+          tool: "Yes — you describe what you want and Lovable generates the app.",
+          ghosty: "No — it runs on the AI you already pay for (Claude, Codex, Gemini). You don't buy another AI.",
+        },
+        {
+          capability: "How you build",
+          tool: "By chatting in Lovable.",
+          ghosty: "Your assistant does the technical part; you paste the instructions the console gives you.",
+        },
+        {
+          capability: "Publishing",
+          tool: "Publishing deploys a copy of your project to a URL you can share. Custom domains are available on paid plans.",
+          ghosty: "A permanent URL that does not depend on your computer. Every push goes live; one click puts the previous version back.",
+        },
+        {
+          capability: "Database",
+          tool: "A built-in backend with database, authentication, and storage.",
+          ghosty: "A managed PostgreSQL database, and file storage when your code needs it.",
+        },
+        {
+          capability: "Who can open a published app",
+          tool: "Public by default. It can be limited to people you invite or to your workspace, who log in to Lovable; the options depend on the plan.",
+          ghosty: "Public, a shared invite code, or a sign-in you build into the app.",
+        },
+        {
+          capability: "Visibility & control",
+          tool: "Workspace and project roles: Viewer, Editor, Admin, and Owner.",
+          ghosty: "A control tower: see every app and agent, what it touches, who uses it, what it costs. Switch anything off.",
+        },
+        {
+          capability: "Your code & data",
+          tool: "You own your code, and it can sync two-way with a GitHub repository.",
+          ghosty: "Your code in your own GitHub, data isolated per company, and you can leave clean whenever you want.",
+        },
+        {
+          capability: "What a plan sizes",
+          tool: "Credits: plans are priced by credits, not by projects or seats.",
+          ghosty: "How many apps stay awake: build unlimited apps and agents on every plan, with unlimited seats on team plans.",
+        },
+      ],
+    },
+    choice: {
+      eyebrow: "02 — When to choose each",
+      titleLead: "Each tool is right",
+      titleEm: "for a different job.",
+      toolLabel: "Choose Lovable when",
+      toolBody:
+        "You want to describe a web app in a chat and have one product generate it, host it, and give it a built-in backend.",
+      ghostyLabel: "Choose White Ghost when",
+      ghostyBody:
+        "Your team already builds with Claude Code or Codex and you need one safe place to launch it, see it, and control it, without buying another AI.",
+    },
+    faq: {
+      eyebrow: "03 — Questions",
+      titleLead: "Common",
+      titleEm: "questions.",
+      items: [
+        {
+          q: "Is White Ghost a Lovable alternative for teams?",
+          a: "It depends on what your team is missing. Lovable generates the app for you from a chat. White Ghost doesn't replace that step: it runs on the AI your company already pays for, and it is the home and control center for what your team builds with it. If your people already build with Claude Code or Codex and need a place to publish, share, and control those apps, that is what White Ghost is for.",
+        },
+        {
+          q: "Do I have to choose between White Ghost and Lovable?",
+          a: "No. They solve different things. Lovable is where an app gets generated from a chat; White Ghost is where a whole company launches, sees, and controls what it builds with AI.",
+        },
+        {
+          q: "Does White Ghost replace my AI tools?",
+          a: "No. It runs on the AI your company already pays for — Claude, Codex, Gemini. You don't buy another AI: White Ghost is the home and control center for what your team builds with the one you already have.",
+        },
+        {
+          q: "Is my code locked in?",
+          a: "No. Your code lives in your own GitHub organization and your data is isolated per company. If you leave, you export the database and the code is already yours.",
+        },
+        {
+          q: "Do I need to be technical?",
+          a: "No. A plain-language wizard turns what you describe in business terms into a deployed app or agent.",
+        },
+      ],
+    },
+    cta: {
+      titleLead: "Already building with AI?",
+      titleEm: "Bring it into one place.",
+      cta: "Get started →",
+      note: "No new AI to buy ▪ up and running in days, not months",
+    },
+  },
+
+  compareReplit: {
+    name: "White Ghost vs. Replit",
+    hero: {
+      eyebrow: "Compare — White Ghost vs. Replit",
+      titleLead: "Replit writes the app.",
+      titleEm: "White Ghost is the home for everything your team builds.",
+      body: "Replit is a platform where you describe what you want in natural language, then create and launch apps in one place: Replit writes the code. White Ghost runs on the AI your company already pays for: your assistant writes the app, and White Ghost gives it a web address, a database, and access rules — then one safe place to launch, share, and manage everything your team builds. Here's how to choose.",
+      ctaPrimary: "Get started →",
+      ctaSecondary: "See the comparison",
+    },
+    table: {
+      eyebrow: "01 — Side by side",
+      titleLead: "Replit",
+      titleEm: "vs. White Ghost.",
+      colTool: "Replit",
+      colGhosty: "White Ghost",
+      rows: [
+        {
+          capability: "What it's for",
+          tool: "Describing what you want in natural language, then creating and launching apps, sites, and tools in one place.",
+          ghosty: "A safe, shared home for everything your team builds with AI — apps and agents.",
+        },
+        {
+          capability: "Brings its own AI?",
+          tool: "Yes — you describe your project and Replit writes the code.",
+          ghosty: "No — it runs on the AI you already pay for (Claude, Codex, Gemini). You don't buy another AI.",
+        },
+        {
+          capability: "How you build",
+          tool: "By chatting in Replit, on the web or in its desktop and mobile apps.",
+          ghosty: "Your assistant does the technical part; you paste the instructions the console gives you.",
+        },
+        {
+          capability: "Publishing",
+          tool: "Four deployment types: Autoscale, Static, Reserved VM, and Scheduled. Custom domains are supported.",
+          ghosty: "A permanent URL that does not depend on your computer. Every push goes live; one click puts the previous version back.",
+        },
+        {
+          capability: "Database",
+          tool: "A fully-managed SQL database you add to your app from the editor.",
+          ghosty: "A managed PostgreSQL database, and file storage when your code needs it.",
+        },
+        {
+          capability: "Who can open a published app",
+          tool: "Public, password protected, workspace only, or invite only. Access controls are available on the Pro and Enterprise plans.",
+          ghosty: "Public, a shared invite code, or a sign-in you build into the app.",
+        },
+        {
+          capability: "Visibility & control",
+          tool: "Workspace admins, members, and viewers. SSO, SCIM, and audit logs on the Enterprise plan.",
+          ghosty: "A control tower: see every app and agent, what it touches, who uses it, what it costs. Switch anything off.",
+        },
+        {
+          capability: "Your code & data",
+          tool: "You can connect your GitHub or GitLab account and import a repository to work on it in Replit.",
+          ghosty: "Your code in your own GitHub, data isolated per company, and you can leave clean whenever you want.",
+        },
+      ],
+    },
+    choice: {
+      eyebrow: "02 — When to choose each",
+      titleLead: "Each tool is right",
+      titleEm: "for a different job.",
+      toolLabel: "Choose Replit when",
+      toolBody:
+        "You want to describe an app in plain language and have one product write the code, host it, and give it a database.",
+      ghostyLabel: "Choose White Ghost when",
+      ghostyBody:
+        "Your team already builds with Claude Code or Codex and you need one safe place to launch it, see it, and control it, without buying another AI.",
+    },
+    faq: {
+      eyebrow: "03 — Questions",
+      titleLead: "Common",
+      titleEm: "questions.",
+      items: [
+        {
+          q: "Is White Ghost a Replit alternative for teams?",
+          a: "It depends on what your team is missing. Replit writes the app for you from what you describe. White Ghost doesn't replace that step: it runs on the AI your company already pays for, and it is the home and control center for what your team builds with it. If your people already build with Claude Code or Codex and need a place to publish, share, and control those apps, that is what White Ghost is for.",
+        },
+        {
+          q: "Do I have to choose between White Ghost and Replit?",
+          a: "No. They solve different things. Replit is where an app gets written from a description; White Ghost is where a whole company launches, sees, and controls what it builds with AI.",
         },
         {
           q: "Does White Ghost replace my AI tools?",
