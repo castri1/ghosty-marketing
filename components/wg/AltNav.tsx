@@ -3,10 +3,10 @@
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/cn";
-import { CTA_REF, signupUrl } from "@/lib/console-url";
 import type { Locale } from "@/lib/wg-copy";
 import type { Dictionary } from "@/lib/wg-copy";
 import { localizeHref } from "@/lib/wg-copy";
+import { CTA_REF, signupUrl } from "@/lib/console-url";
 import { LocaleSwitcher } from "@/components/wg/LocaleSwitcher";
 import { NavMenu } from "@/components/wg/NavMenu";
 
