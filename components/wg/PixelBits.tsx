@@ -1,9 +1,15 @@
+import { pixelPaths } from "@/lib/pixel-path";
+
 /**
  * Shared retro building blocks for the alt design: pixel-art icons drawn
  * from character matrices ('#' = solid, 'o' = 40% tint, '.' = empty),
  * a checkered dither edge for section transitions, and the ghost sprite.
  */
 
+/**
+ * One path per tone instead of one <rect> per cell (lib/pixel-path.ts): the
+ * same cells, painted the same way, at a fraction of the HTML/RSC bytes.
+ */
 export function PixelIcon({
   rows,
   className,
@@ -13,6 +19,7 @@ export function PixelIcon({
 }) {
   const h = rows.length;
   const w = rows[0].length;
+  const { solid, tint } = pixelPaths(rows);
   return (
     <svg
       viewBox={`0 0 ${w} ${h}`}
@@ -20,21 +27,8 @@ export function PixelIcon({
       shapeRendering="crispEdges"
       aria-hidden="true"
     >
-      {rows.flatMap((row, y) =>
-        [...row].map((ch, x) =>
-          ch === "." ? null : (
-            <rect
-              key={`${x}-${y}`}
-              x={x}
-              y={y}
-              width={1}
-              height={1}
-              className="fill-current"
-              opacity={ch === "o" ? 0.4 : 1}
-            />
-          )
-        )
-      )}
+      {solid ? <path d={solid} className="fill-current" /> : null}
+      {tint ? <path d={tint} className="fill-current" opacity={0.4} /> : null}
     </svg>
   );
 }

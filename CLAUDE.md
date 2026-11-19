@@ -31,6 +31,10 @@ sign-in/join CTA here links there absolutely.
   console's `apps/console/frontend/src/index.css`. `styles/preflight.css` is a vendored copy of
   Tailwind's preflight reset (the console compiled on top of it; without it the port isn't
   pixel-identical). Don't hand-edit ported rules.
+- `lib/fonts.ts` — DM Sans (variable, opsz axis) + IBM Plex Mono 400/500, self-hosted via
+  `next/font/google`: `next build` downloads the files from Google Fonts (needs network, like
+  `npm ci`) and serves them from `/_next/static/media`. next/font keeps the real family names, so
+  the CSS keeps referencing `'DM Sans'` / `'IBM Plex Mono'`; no third-party font request at runtime.
 - `public/videos/` — the home-page demo video.
 
 ## Content system (CAS-96)
