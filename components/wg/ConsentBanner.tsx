@@ -20,10 +20,13 @@ function gtag(..._args: unknown[]) {
 }
 
 /**
- * Analytics consent banner. The Consent Mode v2 *default* (denied, or the
- * stored choice on repeat visits) is set inline in app/layout.tsx before GTM
+ * Analytics consent banner. The Consent Mode v2 *default* (region-scoped:
+ * denied in EU/EEA/UK/CH and granted elsewhere, or the stored choice on
+ * repeat visits) is set inline in components/wg/RootShell.tsx before GTM
  * loads; this component only renders the first-visit choice and pushes the
- * consent *update*. Vendor-free copy per house rules — the provider detail
+ * consent *update*. It shows to every visitor who hasn't chosen, in every
+ * region: the site has no server-side geo signal, so it can't tell which
+ * visitors need it. Vendor-free copy per house rules — the provider detail
  * lives in /privacy.
  */
 export function ConsentBanner({ dict }: { dict: ConsentDict }) {
@@ -33,7 +36,8 @@ export function ConsentBanner({ dict }: { dict: ConsentDict }) {
     try {
       if (localStorage.getItem(CONSENT_STORAGE_KEY)) return;
     } catch {
-      // Storage unavailable (private mode): keep consent at the denied default.
+      // Storage unavailable (private mode): a choice couldn't persist, so keep
+      // the region-scoped default (denied in EU/EEA/UK/CH).
       return;
     }
     // The home intro (#wg-intro, z-9999) covers the whole viewport on the
