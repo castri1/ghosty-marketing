@@ -20,9 +20,9 @@ export const en = {
         "Publish the app you built with Claude Code or Codex: a web address, a database and access rules. Then one safe place for everything your company builds with AI.",
     },
     about: {
-      title: "White Ghost — about us",
+      title: "About White Ghost: where teams deploy apps built with AI",
       description:
-        "White Ghost was born inside Melonn, a logistics company in Latin America where a whole company started building with AI. The story, and what we believe.",
+        "White Ghost started inside Melonn, where 99 internal apps run, most built by people who do not program. Deploy what you build with Claude Code or Codex.",
     },
     compareStack: {
       title: "White Ghost vs. piecing together your own stack (Vercel + Supabase + Railway)",
@@ -30,9 +30,9 @@ export const en = {
         "To publish what your team builds with AI you can wire up a technical stack yourself (Vercel + Supabase + Railway + access + permissions) or use White Ghost: one safe, governed place — no engineering required.",
     },
     story: {
-      title: "White Ghost — the story",
+      title: "From Claude Code to a deployed team app — White Ghost",
       description:
-        "A scroll-told story: from an everyday person with Claude on their laptop to apps deployed safely with White Ghost.",
+        "How a non-technical person builds an app with Claude Code and deploys it safely for their team with White Ghost: database, integrations, and access control.",
     },
     compareHub: {
       title: "White Ghost vs. the alternatives — comparisons",
@@ -45,14 +45,14 @@ export const en = {
         "Vercel ships apps for developers. White Ghost is where your whole company launches, sees, and controls everything it builds with the AI it already has. Side by side.",
     },
     pricing: {
-      title: "White Ghost — pricing",
+      title: "Pricing: deploy apps built with Claude Code — White Ghost",
       description:
-        "Build unlimited apps and agents on every plan; the plan sizes how many stay awake. Free, Solo $19, Team $299, Scale $699, Enterprise from $2,000 a month. Unlimited seats on team plans.",
+        "Deploy apps built with Claude Code or Codex. Build unlimited apps on every plan: Free, Solo $19, Team $299, Scale $699/mo, Enterprise from $2,000/mo.",
     },
     security: {
-      title: "White Ghost — security & your data",
+      title: "Security for internal apps built with AI — White Ghost",
       description:
-        "Your information belongs to your company: isolated, never used to train anything, and yours to take. How White Ghost protects your data.",
+        "Internal apps your team builds with AI are private by default: isolated per company, code in your own GitHub, never used for training, and yours to export.",
     },
     privacy: {
       title: "White Ghost — privacy",

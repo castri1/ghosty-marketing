@@ -17,6 +17,17 @@ export function siteUrl(path: string): string {
 }
 
 /**
+ * The default share card (public/og.png, 1200×630 — the real pixel size; keep
+ * in sync if the file is regenerated). Alt text per page language; it is
+ * user-visible (screen readers on social cards), so vendor-free.
+ */
+const OG_IMAGE = { url: '/og.png', width: 1200, height: 630 } as const;
+const OG_IMAGE_ALT: Record<Locale, string> = {
+  en: 'White Ghost logo, a ghost mark and the White Ghost wordmark, with whiteghost.ai below',
+  es: 'Logo de White Ghost, un fantasma y el nombre White Ghost, con whiteghost.ai debajo',
+};
+
+/**
  * Per-page SEO metadata: title, description, canonical, OpenGraph + Twitter
  * card. Every page builds its `metadata` / `generateMetadata` through this so
  * the tags stay uniform (og.png is resolved against `metadataBase` set in the
@@ -54,6 +65,7 @@ export function pageMeta(opts: {
   } = opts;
   const url = siteUrl(path);
   const languages = hreflang(path, locale, alternates);
+  const image = { ...OG_IMAGE, alt: OG_IMAGE_ALT[locale] };
   const og =
     type === 'article'
       ? {
@@ -73,7 +85,7 @@ export function pageMeta(opts: {
       description,
       url,
       siteName: 'White Ghost',
-      images: ['/og.png'],
+      images: [image],
       locale: ogLocale[locale],
       ...og,
     },
@@ -81,7 +93,7 @@ export function pageMeta(opts: {
       card: 'summary_large_image',
       title,
       description,
-      images: ['/og.png'],
+      images: [image],
     },
   };
 }

@@ -151,6 +151,8 @@ export interface BlogPost {
   /** YYYY-MM-DD publish date. */
   date: string;
   title: string;
+  /** Optional search-result <title> (metadata only); pages fall back to `title`. */
+  seoTitle?: string;
   /** Meta description + list blurb. */
   description: string;
   tags: string[];
@@ -178,6 +180,7 @@ export async function getBlogPosts(lang?: 'en' | 'es'): Promise<BlogPost[]> {
     slug: e.slug,
     date: e.date,
     title: e.title,
+    ...(e.seoTitle ? { seoTitle: e.seoTitle } : {}),
     description: e.description,
     tags: e.tags,
     faq: e.faq,

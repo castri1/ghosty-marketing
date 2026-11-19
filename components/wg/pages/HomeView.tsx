@@ -13,6 +13,10 @@ import { AltCTA } from '@/components/wg/AltCTA';
 import type { Dictionary, Locale } from '@/lib/i18n';
 import { SITE_URL, siteUrl } from '@/lib/site';
 
+/** Stable JSON-LD node ids, so entities on any page can reference each other. */
+const ORGANIZATION_ID = `${SITE_URL}/#organization`;
+const WEBSITE_ID = `${SITE_URL}/#website`;
+
 /** Other products share the name; say plainly which one this is, per language. */
 const DISAMBIGUATION: Record<Locale, { org: string; app: string }> = {
   en: {
@@ -29,15 +33,29 @@ const DISAMBIGUATION: Record<Locale, { org: string; app: string }> = {
  * hero with the particle field, and the full section run. Nav and footer live
  * in the root layout. Bilingual via {dict, locale}. */
 export function HomeView({ dict, locale }: { dict: Dictionary; locale: Locale }) {
+  // Organization + WebSite, linked by @id (the WebSite's publisher is the
+  // Organization). One site in two languages, so both home pages emit the
+  // same WebSite entity. No sameAs: the repo has no official profile URLs yet.
   const organizationJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
+    '@id': ORGANIZATION_ID,
     name: 'White Ghost',
     alternateName: 'Ghosty',
     url: SITE_URL,
     logo: `${SITE_URL}/logo-mark-512.png`,
     email: 'hello@whiteghost.ai',
     disambiguatingDescription: DISAMBIGUATION[locale].org,
+  };
+  const webSiteJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': WEBSITE_ID,
+    name: 'White Ghost',
+    alternateName: 'Ghosty',
+    url: `${SITE_URL}/`,
+    inLanguage: ['en', 'es'],
+    publisher: { '@id': ORGANIZATION_ID },
   };
   const softwareApplicationJsonLd = {
     '@context': 'https://schema.org',
@@ -56,6 +74,10 @@ export function HomeView({ dict, locale }: { dict: Dictionary; locale: Locale })
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteJsonLd) }}
       />
       <script
         type="application/ld+json"
