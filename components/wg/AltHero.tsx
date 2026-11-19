@@ -3,14 +3,30 @@ import { Rise } from "./Rise";
 import type { Locale } from "@/lib/wg-copy";
 import type { Dictionary } from "@/lib/wg-copy";
 import { localizeHref } from "@/lib/wg-copy";
+import { signupUrl } from "@/lib/console-url";
+
+/**
+ * Hero copy override for the /lp/* landing-page variants (A/B test): the
+ * strings that differ, plus the sign-up `ref` of the primary CTA (also its
+ * campaign tag, signupUrl's default). Anything not given falls back to the
+ * home hero; with no override the home renders exactly as before.
+ */
+export type HeroOverride = Partial<
+  Pick<Dictionary["home"]["hero"], "titleLead" | "titleEm" | "body" | "ctaPrimary">
+> & { signupRef?: string };
 
 export function AltHero({
-  dict,
+  dict: baseDict,
   locale,
+  override,
 }: {
   dict: Dictionary["home"]["hero"];
   locale: Locale;
+  override?: HeroOverride;
 }) {
+  const { signupRef, ...copyOverride } = override ?? {};
+  const dict = { ...baseDict, ...copyOverride };
+  const ctaHref = signupRef ? signupUrl(signupRef) : localizeHref("/waitlist", locale);
   return (
     <section
       id="top"
@@ -51,7 +67,7 @@ export function AltHero({
           <Rise delay={0.3}>
             <div className="pointer-events-auto mt-10 flex flex-col gap-3 sm:flex-row">
               <a
-                href={localizeHref("/waitlist", locale)}
+                href={ctaHref}
                 className="px-label inline-flex items-center justify-center gap-2 bg-emerald px-8 py-4 text-white shadow-[6px_6px_0_0_rgba(5,150,105,0.25)] transition-all duration-200 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[9px_9px_0_0_rgba(5,150,105,0.3)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald"
               >
                 {dict.ctaPrimary}

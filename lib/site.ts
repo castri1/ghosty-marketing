@@ -40,6 +40,14 @@ export function pageMeta(opts: {
    * pages get them derived from the routes registry automatically.
    */
   alternates?: Partial<Record<Locale, string>>;
+  /**
+   * Canonical path when it is not `path` (e.g. the /lp/* A/B landing pages,
+   * which canonicalize to `/`). og:url stays on `path`, so a share lands on
+   * the page that was shared.
+   */
+  canonical?: string;
+  /** Robots directives for this page (e.g. `{ index: false, follow: true }`). */
+  robots?: Metadata['robots'];
 }): Metadata {
   const {
     title,
@@ -51,6 +59,8 @@ export function pageMeta(opts: {
     tags,
     locale = 'en',
     alternates,
+    canonical,
+    robots,
   } = opts;
   const url = siteUrl(path);
   const languages = hreflang(path, locale, alternates);
@@ -67,7 +77,8 @@ export function pageMeta(opts: {
   return {
     title,
     description,
-    alternates: { canonical: url, ...(languages ? { languages } : {}) },
+    alternates: { canonical: canonical ? siteUrl(canonical) : url, ...(languages ? { languages } : {}) },
+    ...(robots ? { robots } : {}),
     openGraph: {
       title,
       description,
