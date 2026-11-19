@@ -1,5 +1,5 @@
 import { IntroLoader } from '@/components/wg/IntroLoader';
-import { AltHero } from '@/components/wg/AltHero';
+import { AltHero, type HeroOverride } from '@/components/wg/AltHero';
 import { AltCreator } from '@/components/wg/AltCreator';
 import { AltMarquee } from '@/components/wg/AltMarquee';
 import { AltProblem } from '@/components/wg/AltProblem';
@@ -27,8 +27,18 @@ const DISAMBIGUATION: Record<Locale, { org: string; app: string }> = {
 
 /** The White Ghost home, ported from the design lab (GhostyHome): intro loader,
  * hero with the particle field, and the full section run. Nav and footer live
- * in the root layout. Bilingual via {dict, locale}. */
-export function HomeView({ dict, locale }: { dict: Dictionary; locale: Locale }) {
+ * in the root layout. Bilingual via {dict, locale}. `heroOverride` swaps the
+ * hero copy and CTA ref for the /lp/* A/B landing pages; every section below
+ * the hero stays the home's. */
+export function HomeView({
+  dict,
+  locale,
+  heroOverride,
+}: {
+  dict: Dictionary;
+  locale: Locale;
+  heroOverride?: HeroOverride;
+}) {
   const organizationJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
@@ -63,7 +73,7 @@ export function HomeView({ dict, locale }: { dict: Dictionary; locale: Locale })
       />
       <IntroLoader dict={dict.intro} />
       <main>
-        <AltHero dict={dict.home.hero} locale={locale} />
+        <AltHero dict={dict.home.hero} locale={locale} override={heroOverride} />
         <AltCreator dict={dict.home.creator} locale={locale} />
         <AltMarquee dict={dict.home.marquee} />
         <AltProblem dict={dict.home.problem} />
