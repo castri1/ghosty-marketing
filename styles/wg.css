@@ -4,8 +4,9 @@
  * system). Tailwind v4 is imported WITHOUT its preflight: styles/preflight.css
  * (vendored, global) already provides the same reset, and utilities are
  * imported unlayered on purpose so they win over it by normal specificity.
- * Fonts come from the Google Fonts <link> in app/layout.tsx, hence the family
- * names here instead of next/font variables.
+ * Fonts are self-hosted by next/font (lib/fonts.ts), which keeps the real
+ * family names on its @font-face rules, hence the family names here instead
+ * of next/font variables.
  */
 @import "tailwindcss/theme.css";
 @import "tailwindcss/utilities.css";

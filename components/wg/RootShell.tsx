@@ -7,6 +7,7 @@ import { en } from '@/lib/i18n/en';
 import { es } from '@/lib/i18n/es';
 import { CONSENT_STORAGE_KEY, GTM_ID } from '@/lib/gtm';
 import { firstTouchScriptProps } from '@/lib/first-touch';
+import { FONT_CLASSES } from '@/lib/fonts';
 import { SITE_URL } from '@/lib/site';
 import '@/styles/preflight.css';
 import '@/styles/marketing.css';
@@ -87,16 +88,9 @@ function chromeDict(d: typeof en): ChromeDict {
  */
 export function RootShell({ lang, children }: { lang: Locale; children: ReactNode }) {
   return (
-    <html lang={lang}>
+    <html lang={lang} className={FONT_CLASSES}>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        {/* DM Sans is the shared White Ghost face; Plex Mono is reserved for
-            compact labels and code — same loads as the console today. */}
-        <link
-          href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=IBM+Plex+Mono:wght@400;500&display=swap"
-          rel="stylesheet"
-        />
+        {/* Fonts are self-hosted through next/font (lib/fonts.ts). */}
         <script {...FIRST_TOUCH} />
         {GTM_ID ? <script dangerouslySetInnerHTML={{ __html: CONSENT_AND_GTM }} /> : null}
       </head>
