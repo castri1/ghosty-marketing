@@ -13,8 +13,22 @@ export function consoleUrl(path: string): string {
 }
 
 /**
+ * Placements that are a button rather than a page: the nav button (on every
+ * page), the home page's hero and closing buttons, and `chrome` for every
+ * other generic "/waitlist" link (lib/i18n/href.ts). One distinct value each,
+ * the same in every locale, so the console can tell which button converted.
+ * The creator section's `home-creator` lives in components/wg/AltCreator.tsx.
+ */
+export const CTA_REF = {
+  nav: 'nav',
+  homeHero: 'home-hero',
+  homeCta: 'home-cta',
+  generic: 'chrome',
+} as const;
+
+/**
  * The sign-up CTA link. `ref` names the placement (the page's canonical path
- * without the leading slash, or `chrome` for nav/footer) so the console can
+ * without the leading slash, or a `CTA_REF` for a button) so the console can
  * record where a sign-up came from and GA4 can attribute it across domains.
  * GTM's `cta_signup_click` trigger matches on `console.whiteghost.ai/signup`,
  * which the query string does not disturb. When the visitor arrived with

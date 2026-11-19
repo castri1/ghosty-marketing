@@ -5,7 +5,7 @@ import { describe, test } from 'node:test';
 import vm from 'node:vm';
 import nextConfig from '../next.config.mjs';
 import { FIRST_TOUCH_SRC, firstTouchScriptProps } from './first-touch.ts';
-import { consoleUrl, signupUrl } from './console-url.ts';
+import { consoleUrl, CTA_REF, signupUrl } from './console-url.ts';
 import { TAG_MAX, UTM_KEYS } from './utm.ts';
 
 /** The exact file the site serves and the browser runs. */
@@ -238,6 +238,27 @@ describe('pass-through', () => {
     assert.equal(out.searchParams.get('_gl'), '1*abc*_ga*xyz');
     assert.equal(out.hash, '#top');
     assert.equal(out.searchParams.get('utm_source'), 'x');
+  });
+  test('the nav and home buttons keep their own ref; only their utm_* give way to the first touch', () => {
+    const page = loadPage(POST_SEARCH);
+    for (const ref of [CTA_REF.nav, CTA_REF.homeHero, CTA_REF.homeCta, CTA_REF.generic]) {
+      for (const type of EVENTS) {
+        assert.deepEqual([...new URL(page.use(type, signupUrl(ref))).searchParams], [
+          ['ref', ref],
+          ['utm_source', 'x'],
+          ['utm_medium', 'social'],
+          ['utm_campaign', 'ship-it'],
+          ['utm_content', 'x-001'],
+        ]);
+      }
+    }
+  });
+  test('no first touch → the nav and home buttons stay byte-identical, each with its own campaign', () => {
+    const page = loadPage('');
+    for (const ref of [CTA_REF.nav, CTA_REF.homeHero, CTA_REF.homeCta, CTA_REF.generic]) {
+      for (const type of EVENTS) assert.equal(page.use(type, signupUrl(ref)), signupUrl(ref));
+      assert.equal(new URL(signupUrl(ref)).searchParams.get('utm_campaign'), ref);
+    }
   });
   test('rewriting is idempotent (a second use changes nothing)', () => {
     const page = loadPage(POST_SEARCH);
