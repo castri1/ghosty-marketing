@@ -1,18 +1,19 @@
 import Link from "next/link";
-import { localizeHref, type Dictionary, type Locale } from "@/lib/wg-copy";
 import { PixelEdge } from "./PixelBits";
 import { Rise } from "./Rise";
+import { localizeHref, type Dictionary, type Locale } from "@/lib/i18n";
 
-/** Index of the About chapter that carries the proof paragraph ("Today 99
- * applications run there … A lawyer built it."). */
+/** The About chapter that carries the proof ("Today 99 applications run
+ * there … A lawyer built it."). Same index in en.ts and es.ts. */
 const PROOF_CHAPTER = 3;
 
 /**
  * Customer proof, right after the home hero. It has no copy of its own: every
  * string is the About page's approved text, read from the same `about` keys
- * (heading, intro, the "in numbers" figures, the chapter above), so the two
- * pages cannot drift apart. Server component; the only client code is the
- * `Rise` reveal the other home sections already load.
+ * (story label, title, intro, the "in numbers" figures, the chapter above, and
+ * the eyebrow as the link label), so the two pages cannot drift apart. Server
+ * component; the only client code is the `Rise` reveal the other home sections
+ * already load.
  */
 export function AltProof({ dict, locale }: { dict: Dictionary["about"]; locale: Locale }) {
   const chapter = dict.chapters[PROOF_CHAPTER];
@@ -31,7 +32,9 @@ export function AltProof({ dict, locale }: { dict: Dictionary["about"]; locale: 
           </p>
         </Rise>
 
-        <p className="px-label mt-16 text-muted">{dict.proofLabel}</p>
+        <Rise delay={0.1}>
+          <p className="px-label mt-16 text-muted">{dict.proofLabel}</p>
+        </Rise>
         <div className="mt-8 grid grid-cols-2 gap-5 md:grid-cols-4">
           {dict.proof.map((item, i) => (
             <Rise key={item.label} delay={i * 0.08}>
