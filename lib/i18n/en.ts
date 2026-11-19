@@ -864,6 +864,36 @@ export const en = {
       { title: "Or it never leaves your walls", body: "Bigger companies can run White Ghost inside their own cloud, so information stays where their policies say it should." },
       { title: "You decide who gets in", body: "Every app and agent is private by default. You approve who uses it and what information it can touch." },
     ],
+    // Only the service providers the Privacy Policy (app/(en)/(content)/privacy)
+    // names, with its purpose for each. The hosting provider is described, not
+    // named (vendor-free house rule); /privacy carries the name.
+    providers: {
+      eyebrow: "Service providers",
+      title: "Who processes data for us",
+      intro: "The third parties we use to run White Ghost, as listed in our Privacy Policy.",
+      items: [
+        { name: "Cloud infrastructure provider", purpose: "We run on it; data is processed and stored there." },
+        { name: "GitHub", purpose: "To create and manage application repositories in your company's organization." },
+        { name: "npm", purpose: "To distribute our CLI." },
+        { name: "PostHog", purpose: "Product analytics and session replay." },
+        { name: "Google Analytics with Google Tag Manager", purpose: "Website analytics on whiteghost.ai, subject to your consent." },
+      ],
+      policyLead: "The full detail lives in our",
+      policyLabel: "Privacy Policy",
+    },
+    // Items are verbatim pricing.tiers[enterprise].features (lib/i18n/security-copy.test.ts).
+    enterprise: {
+      eyebrow: "Enterprise",
+      title: "On the Enterprise plan",
+      items: ["SSO & security review", "Region choice / data residency"],
+      pricingLabel: "See pricing →",
+    },
+    disclosure: {
+      eyebrow: "Responsible disclosure",
+      title: "Found a security issue?",
+      body: "Report vulnerabilities and send security questions to",
+      note: "Please give us a chance to fix it before you share it publicly.",
+    },
     ctaTitle: "Want to see it in your company?",
     cta: "Get started →",
   },
