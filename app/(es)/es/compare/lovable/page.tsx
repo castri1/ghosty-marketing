@@ -3,12 +3,13 @@ import { CompareToolView } from '@/components/wg/pages/CompareToolView';
 import { es as dict } from '@/lib/i18n/es';
 import { pageMeta } from '@/lib/site';
 
-const PATH = '/es/compare/lovable';
+/** Canonical (English) path; the view localizes it for the breadcrumb. */
+const PATH = '/compare/lovable';
 
 export const metadata: Metadata = pageMeta({
   title: dict.meta.compareLovable.title,
   description: dict.meta.compareLovable.description,
-  path: PATH,
+  path: '/es/compare/lovable',
   locale: 'es',
 });
 

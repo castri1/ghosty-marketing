@@ -3,14 +3,15 @@ import { PixelEdge, PixelIcon, PX } from "@/components/wg/PixelBits";
 import { localizeHref, type Dictionary, type Locale } from '@/lib/i18n';
 import { siteUrl } from '@/lib/site';
 
-/** The dictionary sections this view renders: one per compared tool, same shape. */
+/** The dictionary sections this view renders: one per compared tool, all the same shape. */
 export type CompareToolKey = 'compareLovable' | 'compareReplit';
 
 /**
- * "White Ghost vs. <tool>" page, shared by /compare/lovable and
- * /compare/replit (and their /es twins). Same layout as CompareVercelView,
- * fed by the tool's dictionary section; `path` is the page's own canonical
- * path (for the breadcrumb).
+ * "White Ghost vs. <tool>" page shared by /compare/lovable and /compare/replit
+ * (and their /es twins). Same layout and FAQ JSON-LD as CompareVercelView, fed
+ * by the tool's dictionary section, plus a BreadcrumbList (Home > Compare >
+ * this page). `path` is the canonical English path; the Spanish one comes
+ * from lib/routes.ts via localizeHref.
  */
 export function CompareToolView({
   dict,
@@ -42,7 +43,7 @@ export function CompareToolView({
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "White Ghost", item: siteUrl(localizeHref("/", locale)) },
       { "@type": "ListItem", position: 2, name: dict.compareHub.eyebrow, item: siteUrl(localizeHref("/compare", locale)) },
-      { "@type": "ListItem", position: 3, name: t.name, item: siteUrl(path) },
+      { "@type": "ListItem", position: 3, name: t.name, item: siteUrl(localizeHref(path, locale)) },
     ],
   };
 

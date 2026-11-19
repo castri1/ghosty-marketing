@@ -3,12 +3,13 @@ import { CompareToolView } from '@/components/wg/pages/CompareToolView';
 import { es as dict } from '@/lib/i18n/es';
 import { pageMeta } from '@/lib/site';
 
-const PATH = '/es/compare/replit';
+/** Canonical (English) path; the view localizes it for the breadcrumb. */
+const PATH = '/compare/replit';
 
 export const metadata: Metadata = pageMeta({
   title: dict.meta.compareReplit.title,
   description: dict.meta.compareReplit.description,
-  path: PATH,
+  path: '/es/compare/replit',
   locale: 'es',
 });
 

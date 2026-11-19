@@ -41,14 +41,14 @@ export const es: Dictionary = {
         "Vercel publica apps para desarrolladores. White Ghost es donde toda tu empresa lanza, ve y controla lo que crea con la IA que ya tiene. Comparación lado a lado.",
     },
     compareLovable: {
-      title: "Alternativa a Lovable para equipos — White Ghost vs. Lovable",
+      title: "White Ghost vs. Lovable — una alternativa a Lovable para equipos",
       description:
-        "Lovable genera apps web desde un chat. White Ghost es donde tu equipo publica lo que crea con Claude Code o Codex: una dirección web, una base de datos y reglas de acceso. Comparación lado a lado.",
+        "Lovable crea apps web desde un chat, con su propia IA. White Ghost es donde tu equipo publica, comparte y controla lo que crea con la IA que ya tiene. Comparación lado a lado.",
     },
     compareReplit: {
-      title: "Alternativa a Replit para equipos — White Ghost vs. Replit",
+      title: "White Ghost vs. Replit — una alternativa a Replit para equipos",
       description:
-        "Replit escribe y publica apps a partir de lenguaje natural. White Ghost es donde tu equipo publica lo que crea con Claude Code o Codex: una dirección web, una base de datos y reglas de acceso. Comparación lado a lado.",
+        "El Agent de Replit crea apps desde lenguaje simple, dentro de Replit. White Ghost es donde tu equipo publica, comparte y controla lo que crea con la IA que ya tiene. Comparación lado a lado.",
     },
     pricing: {
       title: "White Ghost — precios",
@@ -582,13 +582,13 @@ export const es: Dictionary = {
       },
       {
         title: "White Ghost vs. Lovable",
-        body: "Lovable genera la app desde un chat; White Ghost es el hogar de todo lo que crea tu empresa.",
+        body: "Lovable crea una app con su propia IA; White Ghost es el hogar de lo que tu equipo crea con la IA que ya tiene.",
         href: "/compare/lovable",
         cta: "Ver comparación →",
       },
       {
         title: "White Ghost vs. Replit",
-        body: "Replit escribe la app a partir de lo que describes; White Ghost es el hogar de todo lo que crea tu empresa.",
+        body: "El Agent de Replit crea y publica apps dentro de Replit; White Ghost es el hogar de lo que tu equipo crea con la IA que ya tiene.",
         href: "/compare/replit",
         cta: "Ver comparación →",
       },
@@ -685,16 +685,13 @@ export const es: Dictionary = {
     },
   },
 
-  // Páginas "White Ghost vs. <herramienta>" (CompareToolView). Lo que se dice
-  // de la otra herramienta sale de su documentación y su página de precios
-  // públicas; tono neutral, y se revisa la fuente antes de cambiar un dato.
   compareLovable: {
     name: "White Ghost vs. Lovable",
     hero: {
       eyebrow: "Comparar — White Ghost vs. Lovable",
-      titleLead: "Lovable genera la app.",
-      titleEm: "White Ghost es el hogar de todo lo que crea tu equipo.",
-      body: "Lovable es una plataforma para crear, iterar y publicar aplicaciones web con lenguaje natural: describes lo que quieres y Lovable lo genera. White Ghost corre sobre la IA que tu empresa ya paga: tu asistente escribe la app, y White Ghost le da una dirección web, una base de datos y reglas de acceso; después, un solo lugar seguro para lanzar, compartir y controlar todo lo que crea tu equipo. Así eliges.",
+      titleLead: "Lovable crea apps con su propia IA.",
+      titleEm: "White Ghost es el hogar de lo que tu equipo crea con la tuya.",
+      body: "Lovable es una plataforma de desarrollo con IA: describes una app web en un chat, Lovable la genera y la publicas desde ahí. White Ghost es el lugar seguro donde toda tu empresa — técnica o no — lanza, ve y controla lo que crea con la IA que ya tiene, como Claude Code o Codex. Así eliges.",
       ctaPrimary: "Empezar →",
       ctaSecondary: "Ver la comparación",
     },
@@ -707,48 +704,33 @@ export const es: Dictionary = {
       rows: [
         {
           capability: "Para qué sirve",
-          tool: "Crear, iterar y publicar aplicaciones web con lenguaje natural.",
+          tool: "Crear, iterar y publicar apps web describiéndolas en lenguaje simple.",
           ghosty: "Un hogar seguro y compartido para todo lo que tu equipo crea con IA: apps y agentes.",
         },
         {
+          capability: "Para quién es",
+          tool: "Personas y equipos que quieren crear para la web, técnicos o no.",
+          ghosty: "Cualquiera en la empresa, técnico o no.",
+        },
+        {
           capability: "¿Trae su propia IA?",
-          tool: "Sí: describes lo que quieres y Lovable genera la app.",
+          tool: "Sí: describes la app y la IA de Lovable la genera. Los planes se cobran por los créditos que incluyen.",
           ghosty: "No: corre sobre la IA que ya pagas (Claude, Codex, Gemini). No compras otra IA.",
         },
         {
-          capability: "Cómo construyes",
-          tool: "Chateando en Lovable.",
-          ghosty: "Tu asistente hace la parte técnica; tú pegas las instrucciones que te da la consola.",
-        },
-        {
-          capability: "Publicación",
-          tool: "Publicar despliega una copia de tu proyecto en una URL que puedes compartir. Los dominios propios están en los planes pagos.",
-          ghosty: "Una URL permanente que no depende de tu computador. Cada push sale en vivo; con un clic vuelves a la versión anterior.",
-        },
-        {
-          capability: "Base de datos",
-          tool: "Un backend integrado con base de datos, autenticación y almacenamiento.",
-          ghosty: "Una base de datos PostgreSQL administrada, y archivos cuando tu código los necesita.",
-        },
-        {
-          capability: "Quién puede abrir una app publicada",
-          tool: "Pública por defecto. Se puede limitar a las personas que invites o a tu workspace, que entran con su cuenta de Lovable; las opciones dependen del plan.",
-          ghosty: "Pública, con un código de invitación compartido o con el inicio de sesión que tú programes.",
+          capability: "Compartir con tu equipo",
+          tool: "Publicas en una dirección lovable.app, o en tu propio dominio en los planes pagos. Pública o solo por invitación; solo para miembros del workspace en Business y Enterprise.",
+          ghosty: "Una URL permanente que no depende de tu computador. Pública, con un código de invitación compartido o con el inicio de sesión que tú programes.",
         },
         {
           capability: "Visibilidad y control",
-          tool: "Roles por workspace y por proyecto: Viewer, Editor, Admin y Owner.",
+          tool: "Roles y permisos de workspace, inicio de sesión único (SSO), aprovisionamiento de usuarios con SCIM y registros de auditoría.",
           ghosty: "Una torre de control: ve cada app y agente, qué toca, quién lo usa y cuánto cuesta. Apaga lo que sea.",
         },
         {
           capability: "Tu código y tus datos",
-          tool: "El código es tuyo y se puede sincronizar en ambos sentidos con un repositorio de GitHub.",
+          tool: "El código es tuyo y se puede sincronizar con GitHub, GitLab o Bitbucket.",
           ghosty: "Tu código en tu propio GitHub, datos aislados por empresa, y puedes salir limpio cuando quieras.",
-        },
-        {
-          capability: "Qué dimensiona el plan",
-          tool: "Créditos: los planes se cobran por créditos, no por proyectos ni por usuarios.",
-          ghosty: "Cuántas apps quedan despiertas: construyes apps y agentes sin límite en todos los planes, con usuarios ilimitados en los planes de equipo.",
         },
       ],
     },
@@ -758,10 +740,10 @@ export const es: Dictionary = {
       titleEm: "para algo distinto.",
       toolLabel: "Elige Lovable cuando",
       toolBody:
-        "Quieres describir una app web en un chat y que un solo producto la genere, la aloje y le dé un backend integrado.",
+        "Quieres pasar de una idea a una app web funcionando conversando con una IA que escribe el código por ti, y te sirve construir con la IA y los créditos de Lovable.",
       ghostyLabel: "Elige White Ghost cuando",
       ghostyBody:
-        "Tu equipo ya crea con Claude Code o Codex y necesitas un solo lugar seguro para lanzarlo, verlo y controlarlo, sin comprar otra IA.",
+        "Toda tu empresa ya está creando con IA y necesitas un solo lugar seguro para lanzarlo, verlo y controlarlo, sin comprar otra IA y sin que todos tengan que ser técnicos.",
     },
     faq: {
       eyebrow: "03 — Preguntas",
@@ -770,11 +752,11 @@ export const es: Dictionary = {
       items: [
         {
           q: "¿White Ghost es una alternativa a Lovable para equipos?",
-          a: "Depende de qué le falta a tu equipo. Lovable genera la app por ti desde un chat. White Ghost no reemplaza ese paso: corre sobre la IA que tu empresa ya paga, y es el hogar y el centro de control de lo que tu equipo crea con ella. Si tu gente ya crea con Claude Code o Codex y necesita un lugar para publicar, compartir y controlar esas apps, para eso es White Ghost.",
+          a: "Depende de lo que necesite tu equipo. Lovable es donde creas una app conversando con su IA. White Ghost es para equipos que ya están creando con la IA que tienen, como Claude Code o Codex: le da a cada app una dirección web, una base de datos y reglas de acceso, y le da a la empresa un solo lugar para ver y controlar todo lo que crea.",
         },
         {
           q: "¿Tengo que elegir entre White Ghost y Lovable?",
-          a: "No. Resuelven cosas distintas. Lovable es donde una app se genera desde un chat; White Ghost es donde toda una empresa lanza, ve y controla lo que crea con IA.",
+          a: "No necesariamente. Resuelven cosas distintas: Lovable sirve para crear una app desde un chat; White Ghost es donde toda una empresa lanza, ve y controla lo que crea con IA.",
         },
         {
           q: "¿White Ghost reemplaza mis herramientas de IA?",
@@ -802,9 +784,9 @@ export const es: Dictionary = {
     name: "White Ghost vs. Replit",
     hero: {
       eyebrow: "Comparar — White Ghost vs. Replit",
-      titleLead: "Replit escribe la app.",
-      titleEm: "White Ghost es el hogar de todo lo que crea tu equipo.",
-      body: "Replit es una plataforma donde describes lo que quieres en lenguaje natural y luego creas y lanzas apps en un solo lugar: Replit escribe el código. White Ghost corre sobre la IA que tu empresa ya paga: tu asistente escribe la app, y White Ghost le da una dirección web, una base de datos y reglas de acceso; después, un solo lugar seguro para lanzar, compartir y controlar todo lo que crea tu equipo. Así eliges.",
+      titleLead: "Replit crea apps con su propio Agent.",
+      titleEm: "White Ghost es el hogar de lo que tu equipo crea con tu IA.",
+      body: "Replit es una plataforma de IA: describes una app en lenguaje simple, el Agent de Replit la construye y la publicas desde Replit. White Ghost es el lugar seguro donde toda tu empresa — técnica o no — lanza, ve y controla lo que crea con la IA que ya tiene, como Claude Code o Codex. Así eliges.",
       ctaPrimary: "Empezar →",
       ctaSecondary: "Ver la comparación",
     },
@@ -817,42 +799,32 @@ export const es: Dictionary = {
       rows: [
         {
           capability: "Para qué sirve",
-          tool: "Describir lo que quieres en lenguaje natural y luego crear y lanzar apps, sitios y herramientas en un solo lugar.",
+          tool: "Convertir ideas en apps — y en diseños, presentaciones y más — desde lenguaje simple, y publicarlas.",
           ghosty: "Un hogar seguro y compartido para todo lo que tu equipo crea con IA: apps y agentes.",
         },
         {
+          capability: "Para quién es",
+          tool: "Desde proyectos personales y apps simples hasta desarrollos comerciales y profesionales.",
+          ghosty: "Cualquiera en la empresa, técnico o no.",
+        },
+        {
           capability: "¿Trae su propia IA?",
-          tool: "Sí: describes tu proyecto y Replit escribe el código.",
+          tool: "Sí: describes la app en lenguaje simple y el Agent de Replit la construye.",
           ghosty: "No: corre sobre la IA que ya pagas (Claude, Codex, Gemini). No compras otra IA.",
         },
         {
-          capability: "Cómo construyes",
-          tool: "Chateando en Replit, en la web o en sus apps de escritorio y móvil.",
-          ghosty: "Tu asistente hace la parte técnica; tú pegas las instrucciones que te da la consola.",
-        },
-        {
-          capability: "Publicación",
-          tool: "Cuatro tipos de despliegue: Autoscale, Static, Reserved VM y Scheduled. Admite dominios propios.",
-          ghosty: "Una URL permanente que no depende de tu computador. Cada push sale en vivo; con un clic vuelves a la versión anterior.",
-        },
-        {
-          capability: "Base de datos",
-          tool: "Una base de datos SQL totalmente administrada que agregas a tu app desde el editor.",
-          ghosty: "Una base de datos PostgreSQL administrada, y archivos cuando tu código los necesita.",
-        },
-        {
-          capability: "Quién puede abrir una app publicada",
-          tool: "Pública, protegida con contraseña, solo el workspace o solo invitados. Los controles de acceso están en los planes Pro y Enterprise.",
-          ghosty: "Pública, con un código de invitación compartido o con el inicio de sesión que tú programes.",
+          capability: "Compartir con tu equipo",
+          tool: "Publicas en la nube, con dominios propios. Los controles de acceso para decidir quién ve una app están en Pro y Enterprise.",
+          ghosty: "Una URL permanente que no depende de tu computador. Pública, con un código de invitación compartido o con el inicio de sesión que tú programes.",
         },
         {
           capability: "Visibilidad y control",
-          tool: "Administradores, miembros y lectores por workspace. SSO, SCIM y registros de auditoría en el plan Enterprise.",
+          tool: "Controles de administración, SSO y registros de auditoría en Enterprise.",
           ghosty: "Una torre de control: ve cada app y agente, qué toca, quién lo usa y cuánto cuesta. Apaga lo que sea.",
         },
         {
           capability: "Tu código y tus datos",
-          tool: "Puedes conectar tu cuenta de GitHub o GitLab e importar un repositorio para trabajarlo en Replit.",
+          tool: "Las apps se construyen y se alojan en Replit; puedes importar un repositorio desde GitHub.",
           ghosty: "Tu código en tu propio GitHub, datos aislados por empresa, y puedes salir limpio cuando quieras.",
         },
       ],
@@ -863,10 +835,10 @@ export const es: Dictionary = {
       titleEm: "para algo distinto.",
       toolLabel: "Elige Replit cuando",
       toolBody:
-        "Quieres describir una app en lenguaje natural y que un solo producto escriba el código, la aloje y le dé una base de datos.",
+        "Quieres que un agente de IA te construya una app a partir de una descripción, y construirla y publicarla en un solo lugar, y te sirve trabajar con el Agent de Replit.",
       ghostyLabel: "Elige White Ghost cuando",
       ghostyBody:
-        "Tu equipo ya crea con Claude Code o Codex y necesitas un solo lugar seguro para lanzarlo, verlo y controlarlo, sin comprar otra IA.",
+        "Toda tu empresa ya está creando con IA y necesitas un solo lugar seguro para lanzarlo, verlo y controlarlo, sin comprar otra IA y sin que todos tengan que ser técnicos.",
     },
     faq: {
       eyebrow: "03 — Preguntas",
@@ -875,11 +847,11 @@ export const es: Dictionary = {
       items: [
         {
           q: "¿White Ghost es una alternativa a Replit para equipos?",
-          a: "Depende de qué le falta a tu equipo. Replit escribe la app por ti a partir de lo que describes. White Ghost no reemplaza ese paso: corre sobre la IA que tu empresa ya paga, y es el hogar y el centro de control de lo que tu equipo crea con ella. Si tu gente ya crea con Claude Code o Codex y necesita un lugar para publicar, compartir y controlar esas apps, para eso es White Ghost.",
+          a: "Depende de lo que necesite tu equipo. Replit es donde su Agent te construye una app a partir de una descripción. White Ghost es para equipos que ya están creando con la IA que tienen, como Claude Code o Codex: le da a cada app una dirección web, una base de datos y reglas de acceso, y le da a la empresa un solo lugar para ver y controlar todo lo que crea.",
         },
         {
           q: "¿Tengo que elegir entre White Ghost y Replit?",
-          a: "No. Resuelven cosas distintas. Replit es donde una app se escribe a partir de una descripción; White Ghost es donde toda una empresa lanza, ve y controla lo que crea con IA.",
+          a: "No necesariamente. Resuelven cosas distintas: Replit sirve para que un agente te construya una app a partir de una descripción; White Ghost es donde toda una empresa lanza, ve y controla lo que crea con IA.",
         },
         {
           q: "¿White Ghost reemplaza mis herramientas de IA?",
